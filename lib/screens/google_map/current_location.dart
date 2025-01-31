@@ -1,0 +1,167 @@
+import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart' as google_maps;
+import 'package:lottie/lottie.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
+
+import '../../constants/colors.dart';
+import '../../widgets/custom_text.dart';
+import '../../widgets/round_button.dart';
+import 'add_location.dart';
+import 'fetched_location_screen.dart';
+
+class GoogleMapScreen extends StatefulWidget {
+  const GoogleMapScreen({
+    super.key,
+  });
+
+  @override
+  State<GoogleMapScreen> createState() => _GoogleMapScreenState();
+}
+
+class _GoogleMapScreenState extends State<GoogleMapScreen> {
+  google_maps.GoogleMapController? mapController;
+  google_maps.LatLng? selectedLocation;
+  google_maps.LatLng? currentLocation;
+
+  @override
+  void initState() {
+    super.initState();
+    _getCurrentLocation();
+  }
+
+  Future<void> _getCurrentLocation() async {
+    Position position = await Geolocator.getCurrentPosition(
+      desiredAccuracy: LocationAccuracy.high,
+    );
+    setState(() {
+      currentLocation = google_maps.LatLng(position.latitude, position.longitude);
+      selectedLocation = currentLocation;
+    });
+    mapController?.animateCamera(google_maps.CameraUpdate.newLatLng(currentLocation!));
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
+    return Scaffold(
+      backgroundColor: AppColors.whiteTheme,
+      body: currentLocation == null
+          ? Center(
+              child: Stack(
+                children: [
+                  Lottie.asset('assets/images/location.json'),
+                  Positioned(
+                      top: 80.px,
+                      left: 135.px,
+                      child: Column(
+                        children: [
+                          Container(
+                              height: 34.px,
+                              width: 34.px,
+                              decoration: const BoxDecoration(shape: BoxShape.circle, color: AppColors.lowPurple)),
+                          Container(
+                            height: 36.px,
+                            width: 2.px,
+                            color: AppColors.lowPurple,
+                          )
+                        ],
+                      )),
+                  Positioned(
+                      top: 250.px,
+                      left: 50.px,
+                      child: appText('Fetching your location...', fontSize: 16.px, fontWeight: FontWeight.bold))
+                ],
+              ),
+            )
+          : Column(
+              children: [
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.7,
+                  child: google_maps.GoogleMap(
+                    onMapCreated: (google_maps.GoogleMapController controller) {
+                      mapController = controller;
+                    },
+                    initialCameraPosition: google_maps.CameraPosition(
+                      target: google_maps.LatLng(
+                        currentLocation!.latitude,
+                        currentLocation!.longitude,
+                      ),
+                      zoom: 15,
+                    ),
+                    markers: {
+                      if (currentLocation != null)
+                        google_maps.Marker(
+                          markerId: const google_maps.MarkerId('currentLocation'),
+                          position: currentLocation!,
+                          icon: google_maps.BitmapDescriptor.defaultMarkerWithHue(
+                            google_maps.BitmapDescriptor.hueBlue,
+                          ),
+                        ),
+                    },
+                  ),
+                ),
+                Container(
+                  height: MediaQuery.of(context).size.height * 0.3,
+                  width: width,
+                  decoration: const BoxDecoration(
+                    borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(20),
+                      bottomRight: Radius.circular(20),
+                    ),
+                    color: AppColors.whiteTheme,
+                  ),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const SizedBox(height: 30.0),
+                      appText('Where did you want service?', fontWeight: FontWeight.bold, fontSize: 18.px),
+                      SizedBox(height: height * 0.010),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 16.px),
+                        child: roundButton(
+                          color: AppColors.darkBlueShade,
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => FetchedLocationScreen(
+                                        latitude: currentLocation?.latitude,
+                                        longitude: currentLocation?.longitude,
+                                      )),
+                            );
+                            // Navigator.push(context, MaterialPageRoute(builder: (context) => const LanguageScreen()));
+                          },
+                          title: 'At my current location',
+                        ),
+                      ),
+                      SizedBox(height: height * 0.010),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 16.px),
+                        child: roundButton(
+                          color: AppColors.grey300,
+                          textColor: AppColors.blackColor,
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => AddLocationScreen(
+                                  latitude: currentLocation!.latitude,
+                                  longitude: currentLocation!.longitude,
+                                ),
+                              ),
+                            );
+                          },
+                          title: 'I shall enter my location manually',
+                        ),
+                      ),
+                      SizedBox(height: 50.px),
+                    ],
+                  ),
+                )
+              ],
+            ),
+    );
+  }
+}
