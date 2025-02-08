@@ -1,11 +1,15 @@
+import 'package:doorstep_company_app/components/custom_snackbar.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:get/get.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart' as google_maps;
 import 'package:responsive_sizer/responsive_sizer.dart';
 
-// Replace with your custom imports
+import '../../app_controllers/create_account_controller.dart';
+import '../../components/custom_text.dart';
+import '../../components/round_button.dart';
 import '../../constants/colors.dart';
 import '../../utils/bottom_navigation_screen.dart';
-import '../../widgets/custom_text.dart';
-import '../../widgets/round_button.dart';
 import '../account_screen/terms_and_conditions_screen.dart';
 import 'app_textfield.dart';
 
@@ -17,24 +21,48 @@ class CreateAccountScreen extends StatefulWidget {
 }
 
 class _CreateAccountScreenState extends State<CreateAccountScreen> {
+  google_maps.GoogleMapController? mapController;
+  google_maps.LatLng? selectedLocation;
+  google_maps.LatLng? currentLocation;
+
+  @override
+  void initState() {
+    super.initState();
+    _getCurrentLocation();
+  }
+
+  final CreateAccountController createAccountController = Get.put(CreateAccountController());
+
+  Future<void> _getCurrentLocation() async {
+    try {
+      Position position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high,
+      );
+      setState(() {
+        currentLocation = google_maps.LatLng(position.latitude, position.longitude);
+        selectedLocation = currentLocation;
+      });
+
+      if (mapController != null) {
+        mapController!.animateCamera(google_maps.CameraUpdate.newLatLng(currentLocation!));
+      }
+    } catch (e) {
+      // Handle location errors gracefully
+      debugPrint('Error getting location: $e');
+    }
+  }
+
   // Controllers
   final TextEditingController nameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
-  final TextEditingController cityController = TextEditingController();
-  final TextEditingController areaController = TextEditingController();
-  final TextEditingController streetController = TextEditingController();
   final TextEditingController genderController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController houseController = TextEditingController();
-  final TextEditingController buildingController = TextEditingController();
   final TextEditingController confirmPasswordController = TextEditingController();
   final TextEditingController dobController = TextEditingController();
 
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  bool isHidden = false;
-  bool isHidden1 = false;
-  bool isSelected = false;
 
   void pickDate() async {
     DateTime? pickedDate = await showDatePicker(
@@ -58,9 +86,38 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
     );
     if (pickedDate != null) {
       setState(() {
-        dobController.text = '${pickedDate.day}/${pickedDate.month}/${pickedDate.year}'; // Format as needed
+        dobController.text = '${pickedDate.day}/${pickedDate.month}/${pickedDate.year}';
       });
     }
+  }
+
+  String? validateEmail(String? value) {
+    if (value != null && value.isNotEmpty) {
+      if (!GetUtils.isEmail(value)) {
+        return 'Please enter a valid email address';
+      }
+    }
+    return null;
+  }
+
+  String? validatePhone(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Phone number is required';
+    }
+    if (!GetUtils.isPhoneNumber(value)) {
+      return 'Please enter a valid phone number';
+    }
+    return null;
+  }
+
+  String? validatePassword(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Password is required';
+    }
+    if (value.length < 6) {
+      return 'Password must be at least 6 characters long';
+    }
+    return null;
   }
 
   @override
@@ -84,7 +141,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                     controller: nameController,
                     prefixIcon: Icons.person_2,
                     validator: (value) {
-                      if (value!.isEmpty) return 'Name is required';
+                      if (value == null || value.isEmpty) return 'Name is required';
                       return null;
                     },
                     keyboardType: TextInputType.name,
@@ -113,30 +170,25 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                     hint: 'Select Gender',
                     controller: genderController,
                     validator: (value) {
-                      if (value!.isEmpty) return 'Gender is required';
+                      if (value == null || value.isEmpty) return 'Gender is required';
                       return null;
                     },
                     prefixIcon: Icons.face,
-                    keyboardType: TextInputType.name,
                   ),
                   SizedBox(height: 10.px),
                   appText('Date of Birth:', fontWeight: FontWeight.bold),
                   appTextField(
-                    onTap: () {
-                      pickDate();
-                    },
+                    onTap: pickDate,
                     hint: 'Date of Birth',
                     readOnly: true,
                     controller: dobController,
                     prefixIcon: Icons.person,
                     suffixIcon: IconButton(
                       icon: const Icon(Icons.calendar_today, color: AppColors.blueColor),
-                      onPressed: () async {
-                        pickDate();
-                      },
+                      onPressed: pickDate,
                     ),
                     validator: (value) {
-                      if (value!.isEmpty) {
+                      if (value == null || value.isEmpty) {
                         return 'Date of Birth is required';
                       }
                       return null;
@@ -149,7 +201,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                     controller: houseController,
                     prefixIcon: Icons.home_filled,
                     validator: (value) {
-                      if (value!.isEmpty) return 'House number is required';
+                      if (value == null || value.isEmpty) return 'Address is required';
                       return null;
                     },
                   ),
@@ -159,6 +211,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                     hint: 'Email (Optional)',
                     controller: emailController,
                     prefixIcon: Icons.email,
+                    validator: validateEmail,
                     keyboardType: TextInputType.emailAddress,
                   ),
                   SizedBox(height: 10.px),
@@ -167,86 +220,67 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                     hint: 'Mobile Number',
                     controller: phoneController,
                     prefixIcon: Icons.phone,
-                    validator: (value) {
-                      if (value!.isEmpty) return 'Phone number is required';
-                      return null;
-                    },
+                    validator: validatePhone,
                     keyboardType: TextInputType.phone,
                   ),
                   SizedBox(height: 10.px),
                   appText('Password:', fontWeight: FontWeight.bold),
-                  appTextField(
-                    obsecure: isHidden,
-                    hint: 'Set Password',
-                    controller: passwordController,
-                    validator: (value) {
-                      if (value!.isEmpty) return 'Password is required';
-                      return null;
-                    },
-                    prefixIcon: Icons.lock_outline_rounded,
-                    suffixIcon: IconButton(
-                      onPressed: () {
-                        setState(() {
-                          isHidden = !isHidden;
-                        });
-                      },
-                      icon: Icon(
-                        isHidden ? Icons.visibility_off : Icons.visibility,
-                        color: AppColors.blueColor,
-                      ),
-                    ),
-                    keyboardType: TextInputType.visiblePassword,
-                  ),
+                  Obx(() => appTextField(
+                        obsecure: createAccountController.isHidden.value,
+                        hint: 'Set Password',
+                        maxLength: 1,
+                        controller: passwordController,
+                        validator: validatePassword,
+                        prefixIcon: Icons.lock_outline_rounded,
+                        suffixIcon: IconButton(
+                          onPressed: () => createAccountController.showPassword(),
+                          icon: Icon(createAccountController.isHidden.value ? Icons.visibility_off : Icons.visibility,
+                              color: AppColors.blueColor),
+                        ),
+                        keyboardType: TextInputType.visiblePassword,
+                      )),
                   SizedBox(height: 10.px),
                   appText('Confirm Password:', fontWeight: FontWeight.bold),
-                  appTextField(
-                    obsecure: isHidden1,
-                    hint: 'Confirm Password',
-                    controller: confirmPasswordController,
-                    validator: (value) {
-                      if (value!.isEmpty) return 'Password is required';
-                      if (value != passwordController.text) return 'Passwords do not match';
-                      return null;
-                    },
-                    prefixIcon: Icons.lock_outline_rounded,
-                    suffixIcon: IconButton(
-                      onPressed: () {
-                        setState(() {
-                          isHidden1 = !isHidden1;
-                        });
-                      },
-                      icon: Icon(
-                        isHidden1 ? Icons.visibility_off : Icons.visibility,
-                        color: AppColors.blueColor,
-                      ),
-                    ),
-                    keyboardType: TextInputType.visiblePassword,
-                  ),
+                  Obx(() => appTextField(
+                        maxLength: 1,
+                        obsecure: createAccountController.isHidden1.value,
+                        hint: 'Confirm Password',
+                        controller: confirmPasswordController,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) return 'Password is required';
+                          if (value != passwordController.text) return 'Passwords do not match';
+                          return null;
+                        },
+                        prefixIcon: Icons.lock_outline_rounded,
+                        suffixIcon: IconButton(
+                          onPressed: () => createAccountController.showConfirmPassword(),
+                          icon: Icon(createAccountController.isHidden1.value ? Icons.visibility_off : Icons.visibility,
+                              color: AppColors.blueColor),
+                        ),
+                        keyboardType: TextInputType.visiblePassword,
+                      )),
                   SizedBox(height: 4.px),
                   Row(
                     children: [
-                      Checkbox(
-                        activeColor: AppColors.blueColor,
-                        value: isSelected,
-                        onChanged: (value) {
-                          setState(() {
-                            isSelected = value ?? false;
-                          });
-                        },
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                              context, MaterialPageRoute(builder: (context) => const TermsAndConditionsScreen()));
-                        },
-                        child: Row(
-                          children: [
-                            appText('I agree with the '),
-                            appText(' terms and conditions.',
-                                decoration: TextDecoration.underline,
-                                color: AppColors.blueColor,
-                                fontWeight: FontWeight.bold),
-                          ],
+                      Obx(() => Checkbox(
+                            activeColor: AppColors.blueColor,
+                            value: createAccountController.isSelected.value,
+                            onChanged: (value) => createAccountController.selectToggle(),
+                          )),
+                      Expanded(
+                        child: GestureDetector(
+                          onTap: () {
+                            Get.to(() => const TermsAndConditionsScreen());
+                          },
+                          child: Row(
+                            children: [
+                              appText('I agree with the '),
+                              appText('terms and conditions.',
+                                  decoration: TextDecoration.underline,
+                                  color: AppColors.blueColor,
+                                  fontWeight: FontWeight.bold),
+                            ],
+                          ),
                         ),
                       ),
                     ],
@@ -256,11 +290,15 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                       height: 40.px,
                       width: 200.px,
                       onTap: () {
+                        if (!createAccountController.isSelected.value) {
+                          showErrorSnackbar(context, 'Please accept terms and condition!');
+                          return;
+                        }
                         if (formKey.currentState!.validate()) {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => const BottomNavigationScreen()),
-                          );
+                          Get.off(() => BottomNavigationScreen(
+                                latitude: currentLocation?.latitude ?? 0,
+                                longitude: currentLocation?.longitude ?? 0,
+                              ));
                         }
                       },
                       title: 'Continue',
@@ -268,10 +306,9 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                   ),
                   const SizedBox(height: 10),
                   Row(
-                    spacing: 8,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      appText("Already have an account?"),
+                      appText("Already have an account? "),
                       GestureDetector(
                         onTap: () {},
                         child: appText("Login", color: AppColors.blueColor, fontSize: 16, fontWeight: FontWeight.bold),

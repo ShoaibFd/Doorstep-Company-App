@@ -1,6 +1,7 @@
+import 'package:doorstep_company_app/screens/subcategory_screens/Widgets/app_bar_search_button.dart';
+import 'package:doorstep_company_app/screens/subcategory_screens/Widgets/app_bar_share_button.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:share_plus/share_plus.dart';
 
 import '../../../constants/colors.dart';
 import '../carousel+widget.dart';
@@ -17,7 +18,7 @@ class TopBarwidget extends StatelessWidget {
   Widget build(BuildContext context) {
     double height = MediaQuery.sizeOf(context).height;
     double width = MediaQuery.sizeOf(context).width;
-    const String urlToShare = 'https://flutter.dev';
+
     return Stack(
       children: [
         Padding(
@@ -32,57 +33,27 @@ class TopBarwidget extends StatelessWidget {
                   Navigator.pop(context);
                 },
                 child: Container(
-                  height: 30.px,
-                  width: 30.px,
-                  decoration:
-                      BoxDecoration(shape: BoxShape.circle, border: Border.all(color: AppColors.grey300, width: 2)),
-                  child: Center(
-                      child: Image.asset(
-                    'assets/images/arrow_back.png',
-                    height: 18.px,
-                    color: AppColors.lightBlack,
-                  )),
+                  height: 40.px,
+                  width: 40.px,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: AppColors.whiteTheme,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.2),
+                        spreadRadius: 1,
+                        blurRadius: 1,
+                        offset: Offset(1, 1),
+                      ),
+                    ],
+                  ),
+                  child: Center(child: Icon(Icons.arrow_back)),
                 ),
               ),
               const Spacer(),
-              Container(
-                height: height * 0.04,
-                width: width * 0.1,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  shape: BoxShape.circle,
-                  border: Border.all(color: AppColors.grey300),
-                ),
-                child: Center(
-                  child: IconButton(
-                    onPressed: () {},
-                    icon: const Icon(Icons.search),
-                    iconSize: 20.0,
-                    padding: EdgeInsets.zero,
-                    constraints: const BoxConstraints(),
-                  ),
-                ),
-              ),
+              AppBarSearchButton(),
               SizedBox(width: 10.px),
-              Container(
-                height: height * 0.040,
-                width: width * 0.1,
-                decoration: BoxDecoration(
-                    color: Colors.white, shape: BoxShape.circle, border: Border.all(color: AppColors.grey300)),
-                child: Padding(
-                  padding: const EdgeInsets.only(right: 5.0),
-                  child: IconButton(
-                      padding: EdgeInsets.zero,
-                      constraints: const BoxConstraints(),
-                      onPressed: () {
-                        Share.share('Check out the Flutter website: $urlToShare');
-                      },
-                      icon: const Icon(
-                        Icons.share,
-                        size: 18,
-                      )),
-                ),
-              ),
+              AppBarShareButton()
             ],
           ),
         ),

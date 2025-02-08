@@ -1,101 +1,20 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:permission_handler/permission_handler.dart';
+import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
+import '../../app_controllers/edit_profile_controller.dart';
+import '../../components/custom_text.dart';
 import '../../constants/colors.dart';
-import '../../widgets/custom_text.dart';
 
-class EditProfileScreen extends StatefulWidget {
-  const EditProfileScreen({super.key});
+class EditProfileScreen extends StatelessWidget {
+  final EditProfileController controller = Get.put(EditProfileController());
 
-  @override
-  State<EditProfileScreen> createState() => _EditProfileScreenState();
-}
-
-class _EditProfileScreenState extends State<EditProfileScreen> {
-  String selectedCity = 'Multan';
-  final List<String> cities = ['Multan', 'Lahore', 'Karachi', 'Islamabad', 'Peshawar'];
-  File? _pickedImage;
-
-  @override
-  void initState() {
-    super.initState();
-    _checkPermissions();
-  }
-
-  Future<void> _checkPermissions() async {
-    if (Platform.isAndroid) {
-      if (await Permission.storage.status.isDenied || await Permission.photos.status.isDenied) {
-        await [
-          Permission.storage,
-          Permission.photos,
-        ].request();
-      }
-    }
-  }
-
-  Future<void> _pickImage() async {
-    try {
-      // Check permissions first
-      await _checkPermissions();
-
-      // Create picker instance
-      final picker = ImagePicker();
-      print('Opening gallery...');
-
-      // Pick image with timeout
-      final XFile? pickedFile = await picker
-          .pickImage(
-        source: ImageSource.gallery,
-        imageQuality: 80,
-        maxWidth: 800,
-      )
-          .timeout(
-        const Duration(seconds: 30),
-        onTimeout: () {
-          throw Exception('Picking image timed out');
-        },
-      );
-
-      if (pickedFile != null) {
-        setState(() {
-          _pickedImage = File(pickedFile.path);
-        });
-        print('Image selected successfully: ${pickedFile.path}');
-      } else {
-        print('No image selected');
-        if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('No image selected'),
-              duration: Duration(seconds: 2),
-            ),
-          );
-        }
-      }
-    } catch (e) {
-      print('Error picking image: $e');
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Error picking image: $e'),
-            duration: const Duration(seconds: 2),
-          ),
-        );
-      }
-    }
-  }
+  EditProfileScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: appText('Edit Profile', fontSize: 20, fontWeight: FontWeight.w400),
-      ),
+      appBar: AppBar(title: appText('Edit Profile', fontSize: 20, fontWeight: FontWeight.w400)),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
         child: SingleChildScrollView(
@@ -107,16 +26,21 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   alignment: Alignment.bottomRight,
                   children: [
                     GestureDetector(
-                      onTap: _pickImage,
-                      child: CircleAvatar(
-                        radius: 50.px,
-                        backgroundColor: AppColors.grey300,
-                        backgroundImage: _pickedImage != null ? FileImage(_pickedImage!) : null,
-                        child: _pickedImage == null ? Icon(Icons.person, size: 50.px, color: AppColors.hintGrey) : null,
+                      onTap: controller.pickImage,
+                      child: Obx(
+                        () => CircleAvatar(
+                          radius: 50.px,
+                          backgroundColor: AppColors.grey300,
+                          backgroundImage:
+                              controller.pickedImage.value != null ? FileImage(controller.pickedImage.value!) : null,
+                          child: controller.pickedImage.value == null
+                              ? Icon(Icons.person, size: 50.px, color: AppColors.hintGrey)
+                              : null,
+                        ),
                       ),
                     ),
                     GestureDetector(
-                      onTap: _pickImage,
+                      onTap: controller.pickImage,
                       child: CircleAvatar(
                         radius: 15.px,
                         backgroundColor: AppColors.lowPurple.withOpacity(0.5),
@@ -149,7 +73,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               const SizedBox(height: 10),
               commonTextField(
                 label: 'Email ID',
-                hintText: 'shoaibFD@gmail.com',
+                hintText: 'shoaib@gmail.com',
                 prefixIcon: Icons.email_outlined,
               ),
               const SizedBox(height: 10),
@@ -159,29 +83,32 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 prefixIcon: Icons.phone_android,
               ),
               const SizedBox(height: 10),
-              TextFormField(
-                decoration: InputDecoration(
-                  label: appText('City'),
-                  hintText: selectedCity,
-                  prefixIcon: const Icon(Icons.location_city_rounded),
-                  suffixIcon: DropdownButton<String>(
-                    value: selectedCity,
-                    onChanged: (String? newValue) {
-                      setState(() {
-                        selectedCity = newValue!;
-                      });
-                    },
-                    items: cities
-                        .map((city) => DropdownMenuItem<String>(
-                              value: city,
-                              child: Text(city),
-                            ))
-                        .toList(),
-                    underline: const SizedBox(),
-                    icon: const Icon(Icons.arrow_drop_down),
+              Obx(
+                () => TextFormField(
+                  decoration: InputDecoration(
+                    label: appText('City'),
+                    hintText: controller.selectedCity.value,
+                    prefixIcon: const Icon(Icons.location_city_rounded),
+                    suffixIcon: DropdownButton<String>(
+                      padding: const EdgeInsets.all(0),
+                      value: controller.selectedCity.value,
+                      onChanged: (String? newValue) {
+                        if (newValue != null) {
+                          controller.selectedCity.value = newValue;
+                        }
+                      },
+                      items: controller.cities
+                          .map((city) => DropdownMenuItem<String>(
+                                value: city,
+                                child: Text(city),
+                              ))
+                          .toList(),
+                      underline: const SizedBox(),
+                      icon: const Icon(Icons.arrow_drop_down),
+                    ),
                   ),
+                  readOnly: true,
                 ),
-                readOnly: true,
               ),
               const SizedBox(height: 10),
               Row(

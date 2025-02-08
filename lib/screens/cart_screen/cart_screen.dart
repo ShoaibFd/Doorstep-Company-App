@@ -2,12 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../constants/colors.dart';
-import '../../widgets/custom_container.dart';
-import '../../widgets/custom_text.dart';
-import '../../widgets/divider.dart';
-import '../../widgets/round_button.dart';
+import '../../components/custom_container.dart';
+import '../../components/custom_text.dart';
+import '../../components/divider.dart';
+import '../../components/round_button.dart';
 import '../ac_screens/ac_repair.dart';
-import '../ac_screens/ac_repair_return_screen.dart';
 import 'summary_screen.dart';
 
 class CartScreen extends StatefulWidget {
@@ -36,8 +35,6 @@ class _CartScreenState extends State<CartScreen> {
       isAddService1Selected = false;
     });
   }
-
-  
 
   @override
   Widget build(BuildContext context) {
@@ -125,8 +122,8 @@ class _CartScreenState extends State<CartScreen> {
                                       context, MaterialPageRoute(builder: (context) => const AcRepairScreen()));
                                 },
                                 height: 45.px,
-                                width: 190.px,
-                                borderRadius: 10.px,
+                                width: 180.px,
+                                borderRadius: 8.px,
                                 borderColor: AppColors.grey300,
                                 color: AppColors.transparentColor,
                                 child: Center(
@@ -143,7 +140,7 @@ class _CartScreenState extends State<CartScreen> {
                                               )));
                                 },
                                 height: 45.px,
-                                width: 190.px,
+                                width: 180.px,
                                 title: 'Checkout'),
                           ],
                         ),

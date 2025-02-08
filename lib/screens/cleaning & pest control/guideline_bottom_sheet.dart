@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../constants/colors.dart';
-import '../../widgets/custom_text.dart';
-import '../../widgets/round_button.dart';
+import '../../components/custom_text.dart';
+import '../../components/round_button.dart';
 import '../cart_screen/summary_screen.dart';
 
 class GuidelinesBottomSheet extends StatefulWidget {

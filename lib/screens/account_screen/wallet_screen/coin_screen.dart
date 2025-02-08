@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 import '../../../constants/colors.dart';
-import '../../../widgets/custom_container.dart';
-import '../../../widgets/custom_text.dart';
+import '../../../components/custom_container.dart';
+import '../../../components/custom_text.dart';
 import 'coins_to_rupees_screen.dart';
 import 'history_section.dart';
 import 'reward_section.dart';

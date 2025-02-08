@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../constants/colors.dart';
-import '../../widgets/custom_text.dart';
+import '../../components/custom_text.dart';
 import 'bookings_detail_screen.dart';
 
 class QuotationDetailScreen extends StatelessWidget {

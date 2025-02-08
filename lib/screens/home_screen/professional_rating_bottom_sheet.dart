@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
+import '../../components/custom_container.dart';
+import '../../components/custom_snackbar.dart';
+import '../../components/custom_text.dart';
+import '../../components/round_button.dart';
 import '../../constants/colors.dart';
-import '../../widgets/custom_container.dart';
-import '../../widgets/custom_snackbar.dart';
-import '../../widgets/custom_text.dart';
-import '../../widgets/round_button.dart';
 
 class ProfessionalRatingBottomSheet extends StatefulWidget {
   const ProfessionalRatingBottomSheet({super.key});
@@ -60,9 +60,8 @@ class _ProfessionalRatingBottomSheetState extends State<ProfessionalRatingBottom
         });
       }
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Failed to pick images: $e")),
-      );
+      showErrorSnackbar(context, 'Failed to pick image');
+      print('Error: $e');
     }
   }
 
@@ -289,18 +288,24 @@ class _ProfessionalRatingBottomSheetState extends State<ProfessionalRatingBottom
                         ),
                       )),
                   SizedBox(height: 20.px),
-                  roundButton(
-                    onTap: () {
-                      if (userRating > 0) {
-                        Navigator.pop(context);
-                        showSuccessSnackbar(context, 'Review submitted successfully, thanks for your time!');
-                      } else {
-                        showErrorSnackbar(context, 'Please select a rating.');
-                      }
-                    },
-                    title: 'Submit',
-                  )
                 ],
+              ),
+            ),
+          ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: roundButton(
+                onTap: () {
+                  if (userRating > 0) {
+                    Navigator.pop(context);
+                    showSuccessSnackbar(context, 'Review submitted successfully, thanks for your time!');
+                  } else {
+                    showErrorSnackbar(context, 'Please select a rating.');
+                  }
+                },
+                title: 'Submit',
               ),
             ),
           ),

@@ -1,10 +1,10 @@
+import 'package:doorstep_company_app/screens/bookings/cancel_booking/refund/refund_initiated_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../../../constants/colors.dart';
-import '../../../../widgets/custom_container.dart';
-import '../../../../widgets/custom_text.dart';
-import '../cancel_booking_screen.dart';
+import '../../../../components/custom_container.dart';
+import '../../../../components/custom_text.dart';
 import 'refund_history_screen.dart';
 import 'refund_status_summary_screen.dart';
 
@@ -22,7 +22,7 @@ class _RefundStatusScreenState extends State<RefundStatusScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: appText('Refund Status', fontSize: 20.px, fontWeight: FontWeight.bold)),
+      appBar: AppBar(title: appText('Refund', fontSize: 20.px, fontWeight: FontWeight.bold)),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -75,15 +75,16 @@ class _RefundStatusScreenState extends State<RefundStatusScreen> {
                   color: isHistory ? AppColors.blueColor : AppColors.transparentColor,
                   borderRadius: 10.px,
                   child: Center(
-                      child: appText('History',
+                      child: appText('Transaction\nDetails',
                           color: isHistory ? AppColors.whiteTheme : AppColors.blackColor,
-                          fontWeight: FontWeight.bold))),
+                          fontWeight: FontWeight.bold,
+                          textAlign: TextAlign.center))),
             ],
           ),
           SizedBox(height: 10.px),
           Expanded(
             child: isRefund
-                ? const CancelBookingScreen()
+                ? const RefundInitiatedScreen()
                 : isStatus
                     ? const RefundStatusSummaryScreen()
                     : const RefundHistoryScreen(),

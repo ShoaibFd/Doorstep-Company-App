@@ -3,8 +3,8 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../constants/colors.dart';
 import '../../utils/bottom_navigation_screen.dart';
-import '../../widgets/custom_container.dart';
-import '../../widgets/custom_text.dart';
+import '../../components/custom_container.dart';
+import '../../components/custom_text.dart';
 
 class OrderPlacedScreen extends StatelessWidget {
   const OrderPlacedScreen({super.key});
@@ -26,7 +26,7 @@ class OrderPlacedScreen extends StatelessWidget {
             Center(
               child: appText("'Booking' section.", fontWeight: FontWeight.bold, fontSize: 16),
             ),
-            const SizedBox(height: 0),
+            const SizedBox(height: 30),
             Center(
                 child: CustomContainer(
                     onTap: () {

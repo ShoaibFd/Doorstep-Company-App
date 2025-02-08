@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
+import '../../components/custom_container.dart';
+import '../../components/custom_text.dart';
 import '../../constants/colors.dart';
-import '../../widgets/custom_container.dart';
-import '../../widgets/custom_text.dart';
-import '../ac_screens/ac_appliance_subcategory_bottom_sheet.dart';
+import '../ac_screens/components/ac_appliance_bottom_sheet.dart';
 
 class ServiceCategoryScreen extends StatelessWidget {
   const ServiceCategoryScreen({super.key});
@@ -37,18 +37,7 @@ class ServiceCategoryScreen extends StatelessWidget {
                     itemBuilder: (context, index) {
                       return CustomContainer(
                           onTap: () {
-                            showModalBottomSheet(
-                              context: context,
-                              isScrollControlled: true,
-                              backgroundColor: Colors.black54,
-                              clipBehavior: Clip.antiAlias,
-                              builder: (BuildContext context) {
-                                return AcApplianceSubcategoryBottomSheet(
-                                  height: MediaQuery.of(context).size.height * 0.2,
-                                  width: MediaQuery.of(context).size.width,
-                                );
-                              },
-                            );
+                            acAppliancesBottomSheet(context);
                           },
                           margin: EdgeInsets.only(bottom: 10.px),
                           color: AppColors.grey300.withOpacity(0.3),

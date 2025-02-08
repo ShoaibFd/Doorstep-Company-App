@@ -8,12 +8,12 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../../constants/colors.dart';
-import '../../../widgets/bottom_sheet/review_bottom_sheet.dart';
-import '../../../widgets/custom_container.dart';
-import '../../../widgets/custom_text.dart';
-import '../../../widgets/divider.dart';
-import '../../../widgets/round_button.dart';
-import '../../ac_screens/view_detail_sheet.dart';
+import '../../../components/bottom_sheet/review_bottom_sheet.dart';
+import '../../../components/custom_container.dart';
+import '../../../components/custom_text.dart';
+import '../../../components/divider.dart';
+import '../../../components/round_button.dart';
+import '../../ac_screens/components/ac_view_detail_sheet.dart';
 import '../../painting_wall_screen/rooms_wall_painting.dart';
 import '../../subcategory_screens/Widgets/offers_container_widget.dart';
 import '../../subcategory_screens/Widgets/topbar_widget.dart';
@@ -341,7 +341,7 @@ class _ProjectsDetailScreenState extends State<ProjectsDetailScreen> {
                                                   context: context,
                                                   isScrollControlled: true,
                                                   builder: (BuildContext context) {
-                                                    return const ViewDetailBottomSheetScreen();
+                                                    return const ACViewDetailBottomSheet();
                                                   },
                                                 );
                                               },
@@ -425,7 +425,7 @@ class _ProjectsDetailScreenState extends State<ProjectsDetailScreen> {
                                                 context: context,
                                                 isScrollControlled: true,
                                                 builder: (BuildContext context) {
-                                                  return const ViewDetailBottomSheetScreen();
+                                                  return const ACViewDetailBottomSheet();
                                                 },
                                               );
                                             },
@@ -519,7 +519,7 @@ class _ProjectsDetailScreenState extends State<ProjectsDetailScreen> {
                                                   context: context,
                                                   isScrollControlled: true,
                                                   builder: (BuildContext context) {
-                                                    return const ViewDetailBottomSheetScreen();
+                                                    return const ACViewDetailBottomSheet();
                                                   },
                                                 );
                                               },
@@ -603,7 +603,7 @@ class _ProjectsDetailScreenState extends State<ProjectsDetailScreen> {
                                                 context: context,
                                                 isScrollControlled: true,
                                                 builder: (BuildContext context) {
-                                                  return const ViewDetailBottomSheetScreen();
+                                                  return const ACViewDetailBottomSheet();
                                                 },
                                               );
                                             },
@@ -695,7 +695,7 @@ class _ProjectsDetailScreenState extends State<ProjectsDetailScreen> {
                                                   context: context,
                                                   isScrollControlled: true,
                                                   builder: (BuildContext context) {
-                                                    return const ViewDetailBottomSheetScreen();
+                                                    return const ACViewDetailBottomSheet();
                                                   },
                                                 );
                                               },
@@ -779,7 +779,7 @@ class _ProjectsDetailScreenState extends State<ProjectsDetailScreen> {
                                                 context: context,
                                                 isScrollControlled: true,
                                                 builder: (BuildContext context) {
-                                                  return const ViewDetailBottomSheetScreen();
+                                                  return const ACViewDetailBottomSheet();
                                                 },
                                               );
                                             },
@@ -868,7 +868,7 @@ class _ProjectsDetailScreenState extends State<ProjectsDetailScreen> {
                                                   context: context,
                                                   isScrollControlled: true,
                                                   builder: (BuildContext context) {
-                                                    return const ViewDetailBottomSheetScreen();
+                                                    return const ACViewDetailBottomSheet();
                                                   },
                                                 );
                                               },
@@ -953,7 +953,7 @@ class _ProjectsDetailScreenState extends State<ProjectsDetailScreen> {
                                                 context: context,
                                                 isScrollControlled: true,
                                                 builder: (BuildContext context) {
-                                                  return const ViewDetailBottomSheetScreen();
+                                                  return const ACViewDetailBottomSheet();
                                                 },
                                               );
                                             },

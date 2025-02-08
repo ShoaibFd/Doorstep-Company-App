@@ -1,18 +1,35 @@
-import 'package:dotted_line/dotted_line.dart';
+import 'dart:math';
+
+import 'package:confetti/confetti.dart';
+import 'package:doorstep_company_app/app_controllers/ac_repair_scroll_controller.dart';
+import 'package:doorstep_company_app/components/dotted_line_widget.dart';
+import 'package:doorstep_company_app/components/edit_package/edit_your_package.dart';
+import 'package:doorstep_company_app/components/edit_package_button.dart';
+import 'package:doorstep_company_app/components/view_detail_button.dart';
+import 'package:doorstep_company_app/screens/ac_screens/components/ac_view_detail_sheet.dart';
+import 'package:doorstep_company_app/screens/ac_screens/components/add_item_button.dart';
+import 'package:doorstep_company_app/screens/ac_screens/components/price_bottom_sheet.dart';
+import 'package:doorstep_company_app/screens/ac_screens/components/product_description_detail_widget.dart';
+import 'package:doorstep_company_app/screens/ac_screens/components/rating_row_section.dart';
+import 'package:doorstep_company_app/screens/ac_screens/components/services.dart';
+import 'package:doorstep_company_app/screens/cart_screen/summary_screen.dart';
+import 'package:doorstep_company_app/screens/painting_wall_screen/components/add_button.dart';
+import 'package:doorstep_company_app/screens/painting_wall_screen/components/painting_view_detail_sheet.dart';
+import 'package:doorstep_company_app/screens/salon_for_women/components/offers_section.dart';
+import 'package:doorstep_company_app/screens/subcategory_screens/Widgets/topbar_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
-import '../../constants/colors.dart';
-import '../../widgets/custom_container.dart';
-import '../../widgets/custom_text.dart';
-import '../ac_screens/view_detail_sheet.dart';
-import '../home_screen/widgets/carousel_slider.dart';
-import '../subcategory_screens/Widgets/offers_container_widget.dart';
-import '../subcategory_screens/Widgets/service_container_widget.dart';
-import 'Widgets/app_bar.dart';
-import 'Widgets/painting_view_detail_sheet.dart';
-import 'Widgets/rating_button.dart';
-import 'Widgets/view_cart_button.dart';
+import '../../../components/custom_text.dart';
+import '../../../components/dc_cover_button.dart';
+import '../../../components/divider.dart';
+import '../../../constants/colors.dart';
+import '../../app_controllers/price_controller.dart';
+import '../subcategory_screens/Widgets/app_bar_search_button.dart';
+import '../subcategory_screens/Widgets/app_bar_share_button.dart';
+import 'components/floating_action_button.dart';
+import 'controller/painting_controller.dart';
 
 class RoomsWallPaintingScreen extends StatefulWidget {
   const RoomsWallPaintingScreen({super.key});
@@ -22,25 +39,30 @@ class RoomsWallPaintingScreen extends StatefulWidget {
 }
 
 class _RoomsWallPaintingScreenState extends State<RoomsWallPaintingScreen> {
-  final ScrollController _scrollController = ScrollController();
-
-  // GlobalKeys for scrolling to sections
-  final GlobalKey _superSaverKey = GlobalKey();
-  final GlobalKey _repairGasKey = GlobalKey();
-  final GlobalKey _installationKey = GlobalKey();
-
-  List<String> carouselImages = [
-    'assets/images/women.png',
-    'assets/images/men.png',
-    'assets/images/air-conditioner.png',
+  late ConfettiController _confettiController;
+  // Global Keys
+  final GlobalKey packagesKey = GlobalKey();
+  final GlobalKey fewWallsKey = GlobalKey();
+  final GlobalKey bedroomKey = GlobalKey();
+  final GlobalKey livingAndDiningKey = GlobalKey();
+  List services = [
+    'Packages',
+    'Few walls',
+    'Bedroom',
+    'Living & dining',
   ];
-
-  List<int> itemCounts = List.filled(4, 0);
-  final List itemPrice = [300.0, 200.0, 400.0, 600.0];
-
-  void _scrollToSection(GlobalKey key) {
+  // Scroll To Section Function
+  void scrollToSection(GlobalKey key) {
     final context = key.currentContext;
     if (context != null) {
+      Scrollable.ensureVisible(context, duration: const Duration(milliseconds: 300), curve: Curves.bounceIn);
+    }
+  }
+
+  void scrollSection(GlobalKey key) {
+    final context = key.currentContext;
+    if (context != null) {
+      Navigator.pop(context);
       Scrollable.ensureVisible(
         context,
         duration: const Duration(milliseconds: 500),
@@ -49,713 +71,568 @@ class _RoomsWallPaintingScreenState extends State<RoomsWallPaintingScreen> {
     }
   }
 
-  void _showMenuDialog() {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          contentPadding: EdgeInsets.zero,
-          backgroundColor: Colors.white,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-          content: SizedBox(
-              width: 400.px,
-              height: 200.px,
-              child: Padding(
-                padding: EdgeInsets.all(10.px),
-                child: Stack(
-                  clipBehavior: Clip.none,
-                  children: [
-                    appText('Select Services', fontSize: 20.px, fontWeight: FontWeight.bold),
-                    Align(
-                        alignment: Alignment.center,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            ServiceContainerWidget(
-                                onTap: () => _scrollToSection(_superSaverKey), image: 'assets/images/service.png'),
-                            ServiceContainerWidget(
-                                onTap: () => _scrollToSection(_repairGasKey), image: 'assets/images/service.png'),
-                            ServiceContainerWidget(
-                                onTap: () => _scrollToSection(_installationKey), image: 'assets/images/service.png'),
-                          ],
-                        )),
-                    Align(
-                        alignment: Alignment.bottomCenter,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Text('Service', style: TextStyle(fontSize: 12.px)),
-                            Text('Repair &\ngas refill', style: TextStyle(fontSize: 12.px)),
-                            Text('Installation &\nUninstallation', style: TextStyle(fontSize: 12.px)),
-                          ],
-                        )),
-                    SizedBox(height: 10.px),
-                    Positioned(
-                        top: 220.px,
-                        right: 140.px,
-                        child: GestureDetector(
-                          onTap: () {
-                            Navigator.pop(context);
-                          },
-                          child: const CircleAvatar(
-                            backgroundColor: AppColors.whiteTheme,
-                            child: Icon(Icons.close),
-                          ),
-                        )),
-                  ],
-                ),
-              )),
-        );
-      },
-    );
-  }
+  late ScrollController _scrollController;
+  List<String> carouselImages = [
+    'assets/images/women.png',
+    'assets/images/men.png',
+    'assets/images/air-conditioner.png',
+  ];
 
   @override
-  Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
-    return Scaffold(
-      appBar: appBar(),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: Padding(
-        padding: EdgeInsets.only(bottom: 50.px),
-        child: SizedBox(
-          width: 100.px,
-          height: 36.px,
-          child: FloatingActionButton(
-            onPressed: () {
-              _showMenuDialog();
-            },
-            backgroundColor: AppColors.blackColor,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Icon(Icons.menu, size: 20.px, color: AppColors.whiteTheme),
-                appText('Menu', color: AppColors.whiteTheme, fontWeight: FontWeight.bold),
-              ],
-            ),
-          ),
-        ),
-      ),
-      backgroundColor: AppColors.whiteTheme,
-      body: SingleChildScrollView(
-          controller: _scrollController,
-          child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.px),
-              child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                const CarouselSliderWidget(
-                  images: [
-                    'assets/images/cs.jpeg',
-                    'assets/images/cs2.jpeg',
-                    'assets/images/a.jpeg',
-                    'assets/images/aa.jpeg',
-                    'assets/images/aaa.jpeg',
-                    'assets/images/aaaa.jpeg',
-                    'assets/images/aaaaa.jpeg',
-                    'assets/images/aaaaaa.jpeg',
-                  ],
-                ),
-                SizedBox(height: 30.px),
-                appText("Rooms/walls painting", fontSize: 28.px, fontWeight: FontWeight.bold),
-                SizedBox(height: 12.px),
-                Row(
-                  children: [
-                    ratingButton(context),
-                    SizedBox(width: 10.px),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        appText("1.4M Bookings", color: AppColors.lightBlack),
-                        SizedBox(width: width * 0.27, child: DottedLine(dashColor: AppColors.grey300)),
-                      ],
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 20),
-                const SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                      children: [
-                        OffersContainers(title: 'Amazon cashback upto Rs. 50', subtitle: 'Get cashback via Amazon pay'),
-                        OffersContainers(title: 'Amazon cashback upto Rs. 50', subtitle: 'Get cashback via Amazon pay'),
-                      ],
-                    )),
-                const SizedBox(height: 10),
-
-                // Services Section
-                servicesContainerWidget(),
-                const SizedBox(height: 10),
-                // Super Saver Section
-                Container(
-                    key: _superSaverKey,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        appText('Few walls', fontSize: 20, fontWeight: FontWeight.bold),
-                        ListView.builder(
-                          itemCount: itemCounts.length,
-                          shrinkWrap: true,
-                          physics: const BouncingScrollPhysics(),
-                          itemBuilder: (context, index) {
-                            return Column(
-                              children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                  children: [
-                                    Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        const SizedBox(height: 10),
-                                        appText('Walls painting', fontSize: 18, fontWeight: FontWeight.bold),
-                                        Row(
-                                          children: [
-                                            Icon(Icons.star, color: AppColors.hintGrey, size: 16),
-                                            const SizedBox(width: 4),
-                                            appText('4.85', fontSize: 12, color: AppColors.hintGrey),
-                                            const SizedBox(width: 4),
-                                            appText('(621K reviews)', fontSize: 12, color: AppColors.hintGrey),
-                                          ],
-                                        ),
-                                        const SizedBox(height: 6),
-                                        appText('Next at Rs. 300 - 1hr 30 mins',
-                                            color: AppColors.hintGrey, fontWeight: FontWeight.w600),
-                                        const SizedBox(height: 6),
-                                        appText('Rs. ${itemPrice[index]}', color: AppColors.greenColor),
-                                        const SizedBox(height: 6),
-                                        Row(
-                                          children: [
-                                            const Icon(Icons.local_offer, color: AppColors.greenColor, size: 16),
-                                            const SizedBox(width: 4),
-                                            appText('Rs. 120 off  2nd items onward', color: AppColors.greenColor),
-                                          ],
-                                        ),
-                                        const SizedBox(height: 30),
-                                        serviceRow(serviceName: 'Pedicure', serviceDesc: 'Pedicure description'),
-                                        const SizedBox(height: 6),
-                                        serviceRow(serviceName: 'Manicure', serviceDesc: 'Manicure description'),
-                                        const SizedBox(height: 6),
-                                        serviceRow(serviceName: 'Pedicure', serviceDesc: 'Pedicure description'),
-                                        const SizedBox(height: 8),
-                                        const Text('Through cleaning of indoor \nunit with foam & jet spray',
-                                            style: TextStyle(color: AppColors.lightBlack)),
-                                        const SizedBox(height: 10),
-                                        TextButton(
-                                            onPressed: () {
-                                              showModalBottomSheet(
-                                                context: context,
-                                                isScrollControlled: true,
-                                                builder: (BuildContext context) {
-                                                  return const PaintingViewDetailBottomSheetScreen();
-                                                },
-                                              );
-                                            },
-                                            child: appText('View Details',
-                                                color: AppColors.lowPurple, fontWeight: FontWeight.bold)),
-                                        const Divider(),
-                                      ],
-                                    ),
-                                    Stack(
-                                      children: [
-                                        CustomContainer(
-                                            height: 100,
-                                            color: AppColors.grey300,
-                                            width: 110,
-                                            borderRadius: 10,
-                                            image: const DecorationImage(
-                                                image: AssetImage('assets/images/air-conditioner.png'),
-                                                fit: BoxFit.contain),
-                                            child: const SizedBox()),
-                                        GestureDetector(
-                                            onTap: () {
-                                              setState(() {
-                                                if (itemCounts[index] == 0) {
-                                                  itemCounts[index] = 1; // Set count to 1 when adding
-                                                }
-                                              });
-                                            },
-                                            child: itemCounts[index] > 0
-                                                ? Container(
-                                                    margin: const EdgeInsets.only(top: 80, left: 10),
-                                                    height: 34,
-                                                    width: 90,
-                                                    decoration: BoxDecoration(
-                                                        color: AppColors.whiteTheme,
-                                                        borderRadius: BorderRadius.circular(8),
-                                                        border: Border.all(color: AppColors.lightGrey)),
-                                                    child: Row(
-                                                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                                      children: [
-                                                        InkWell(
-                                                            onTap: () {
-                                                              setState(() {
-                                                                itemCounts[index]--;
-                                                                if (itemCounts[index] < 0) {
-                                                                  itemCounts[index] = 0;
-                                                                }
-                                                              });
-                                                            },
-                                                            child: const Icon(Icons.remove,
-                                                                size: 16, color: AppColors.lowPurple)),
-                                                        appText(itemCounts[index].toString(),
-                                                            color: AppColors.lowPurple,
-                                                            fontSize: 16,
-                                                            fontWeight: FontWeight.bold),
-                                                        InkWell(
-                                                            onTap: () {
-                                                              setState(() {
-                                                                itemCounts[index]++;
-                                                              });
-                                                            },
-                                                            child: const Icon(Icons.add,
-                                                                size: 16, color: AppColors.lowPurple)),
-                                                      ],
-                                                    ))
-                                                : Container(
-                                                    margin: const EdgeInsets.only(top: 80, left: 10),
-                                                    height: 34,
-                                                    width: 90,
-                                                    decoration: BoxDecoration(
-                                                        color: AppColors.whiteTheme,
-                                                        borderRadius: BorderRadius.circular(8),
-                                                        border: Border.all(color: AppColors.lightGrey)),
-                                                    child: Center(
-                                                        child: appText('Add',
-                                                            fontWeight: FontWeight.bold, color: AppColors.lowPurple)))),
-                                        GestureDetector(
-                                          onTap: () {
-                                            showModalBottomSheet(
-                                              context: context,
-                                              isScrollControlled: true,
-                                              builder: (BuildContext context) {
-                                                return const ViewDetailBottomSheetScreen();
-                                              },
-                                            );
-                                          },
-                                          child: Container(
-                                              margin: const EdgeInsets.only(top: 120, left: 24),
-                                              child: appText('2 Options')),
-                                        )
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                                const Divider(),
-                              ],
-                            );
-                          },
-                        ),
-                        Divider(thickness: 8, color: AppColors.grey300),
-                      ],
-                    )),
-                const SizedBox(height: 10),
-                // Repair & Gas Refill Section
-                Container(
-                    key: _repairGasKey,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        appText('Bedroom painting', fontSize: 20, fontWeight: FontWeight.bold),
-                        ListView.builder(
-                          itemCount: itemCounts.length,
-                          shrinkWrap: true,
-                          physics: const BouncingScrollPhysics(),
-                          itemBuilder: (context, index) {
-                            return Column(
-                              children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                  children: [
-                                    Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        appText('Rs. ${itemPrice[index]}', color: AppColors.greenColor),
-                                        const SizedBox(height: 10),
-                                        appText('Wall painting', fontSize: 18, fontWeight: FontWeight.bold),
-                                        Row(
-                                          children: [
-                                            Icon(Icons.star, color: AppColors.hintGrey, size: 16),
-                                            const SizedBox(width: 4),
-                                            appText('4.85', fontSize: 12, color: AppColors.hintGrey),
-                                            const SizedBox(width: 4),
-                                            appText('(621K reviews)', fontSize: 12, color: AppColors.hintGrey),
-                                          ],
-                                        ),
-                                        const SizedBox(height: 6),
-                                        appText('Next at Rs. 300 - 1hr 30 mins',
-                                            color: AppColors.hintGrey, fontWeight: FontWeight.w600),
-                                        const SizedBox(height: 6),
-                                        Row(
-                                          children: [
-                                            const Icon(Icons.local_offer, color: AppColors.greenColor, size: 16),
-                                            const SizedBox(width: 4),
-                                            appText('Rs. 120 off  2nd items onward', color: AppColors.greenColor),
-                                          ],
-                                        ),
-                                        const SizedBox(height: 30),
-                                        serviceRow(serviceName: 'Pedicure', serviceDesc: 'Pedicure description'),
-                                        const SizedBox(height: 6),
-                                        serviceRow(serviceName: 'Manicure', serviceDesc: 'Manicure description'),
-                                        const SizedBox(height: 6),
-                                        serviceRow(serviceName: 'Pedicure', serviceDesc: 'Pedicure description'),
-                                        const SizedBox(height: 8),
-                                        appText('Through cleaning of indoor \nunit with foam & jet spray'),
-                                        const SizedBox(height: 10),
-                                        TextButton(
-                                            onPressed: () {
-                                              showModalBottomSheet(
-                                                context: context,
-                                                isScrollControlled: true,
-                                                builder: (BuildContext context) {
-                                                  return const ViewDetailBottomSheetScreen();
-                                                },
-                                              );
-                                            },
-                                            child: appText('View Details',
-                                                color: AppColors.lowPurple, fontWeight: FontWeight.bold)),
-                                        const Divider(),
-                                      ],
-                                    ),
-                                    Stack(
-                                      children: [
-                                        CustomContainer(
-                                            height: 100,
-                                            color: AppColors.grey300,
-                                            width: 110,
-                                            borderRadius: 10,
-                                            image: const DecorationImage(
-                                                image: AssetImage('assets/images/air-conditioner.png'),
-                                                fit: BoxFit.contain),
-                                            child: const SizedBox()),
-                                        GestureDetector(
-                                            onTap: () {
-                                              setState(() {
-                                                if (itemCounts[index] == 0) {
-                                                  itemCounts[index] = 1; // Set count to 1 when adding
-                                                }
-                                              });
-                                            },
-                                            child: itemCounts[index] > 0
-                                                ? Container(
-                                                    margin: const EdgeInsets.only(top: 80, left: 10),
-                                                    height: 34,
-                                                    width: 90,
-                                                    decoration: BoxDecoration(
-                                                        color: AppColors.whiteTheme,
-                                                        borderRadius: BorderRadius.circular(8),
-                                                        border: Border.all(color: AppColors.lightGrey)),
-                                                    child: Row(
-                                                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                                      children: [
-                                                        InkWell(
-                                                            onTap: () {
-                                                              setState(() {
-                                                                itemCounts[index]--;
-                                                                if (itemCounts[index] < 0) {
-                                                                  itemCounts[index] = 0;
-                                                                }
-                                                              });
-                                                            },
-                                                            child: const Icon(Icons.remove,
-                                                                size: 16, color: AppColors.lowPurple)),
-                                                        appText(itemCounts[index].toString(),
-                                                            color: AppColors.lowPurple,
-                                                            fontSize: 16,
-                                                            fontWeight: FontWeight.bold),
-                                                        InkWell(
-                                                            onTap: () {
-                                                              setState(() {
-                                                                itemCounts[index]++;
-                                                              });
-                                                            },
-                                                            child: const Icon(Icons.add,
-                                                                size: 16, color: AppColors.lowPurple)),
-                                                      ],
-                                                    ))
-                                                : Container(
-                                                    margin: const EdgeInsets.only(top: 80, left: 10),
-                                                    height: 34,
-                                                    width: 90,
-                                                    decoration: BoxDecoration(
-                                                        color: AppColors.whiteTheme,
-                                                        borderRadius: BorderRadius.circular(8),
-                                                        border: Border.all(color: AppColors.lightGrey)),
-                                                    child: Center(
-                                                        child: appText('Add',
-                                                            fontWeight: FontWeight.bold, color: AppColors.lowPurple)))),
-                                        GestureDetector(
-                                          onTap: () {
-                                            showModalBottomSheet(
-                                              context: context,
-                                              isScrollControlled: true,
-                                              builder: (BuildContext context) {
-                                                return const ViewDetailBottomSheetScreen();
-                                              },
-                                            );
-                                          },
-                                          child: Container(
-                                              margin: const EdgeInsets.only(top: 120, left: 24),
-                                              child: appText('2 Options')),
-                                        )
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                                const Divider(),
-                              ],
-                            );
-                          },
-                        ),
-                        Divider(thickness: 8, color: AppColors.grey300),
-                      ],
-                    )),
-                const SizedBox(height: 10),
-                Container(
-                    key: _installationKey,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        appText('Living & dining room', fontSize: 20, fontWeight: FontWeight.bold),
-                        ListView.builder(
-                          itemCount: itemCounts.length,
-                          shrinkWrap: true,
-                          physics: const BouncingScrollPhysics(),
-                          itemBuilder: (context, index) {
-                            return Column(
-                              children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                  children: [
-                                    Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        appText('Rs. ${itemPrice[index]}', color: AppColors.greenColor),
-                                        const SizedBox(height: 10),
-                                        appText('Living room painting', fontSize: 18, fontWeight: FontWeight.bold),
-                                        Row(
-                                          children: [
-                                            Icon(Icons.star, color: AppColors.hintGrey, size: 16),
-                                            const SizedBox(width: 4),
-                                            appText('4.85', fontSize: 12, color: AppColors.hintGrey),
-                                            const SizedBox(width: 4),
-                                            appText('(621K reviews)', fontSize: 12, color: AppColors.hintGrey),
-                                          ],
-                                        ),
-                                        const SizedBox(height: 6),
-                                        appText('Next at Rs. 300 - 1hr 30 mins',
-                                            color: AppColors.hintGrey, fontWeight: FontWeight.w600),
-                                        const SizedBox(height: 6),
-                                        Row(
-                                          children: [
-                                            const Icon(Icons.local_offer, color: AppColors.greenColor, size: 16),
-                                            const SizedBox(width: 4),
-                                            appText('Rs. 120 off  2nd items onward', color: AppColors.greenColor),
-                                          ],
-                                        ),
-                                        const SizedBox(height: 30),
-                                        serviceRow(serviceName: 'Pedicure', serviceDesc: 'Pedicure description'),
-                                        const SizedBox(height: 6),
-                                        serviceRow(serviceName: 'Manicure', serviceDesc: 'Manicure description'),
-                                        const SizedBox(height: 6),
-                                        serviceRow(serviceName: 'Pedicure', serviceDesc: 'Pedicure description'),
-                                        const SizedBox(height: 8),
-                                        appText('Through cleaning of indoor \nunit with foam & jet spray'),
-                                        const SizedBox(height: 10),
-                                        TextButton(
-                                            onPressed: () {
-                                              showModalBottomSheet(
-                                                context: context,
-                                                isScrollControlled: true,
-                                                builder: (BuildContext context) {
-                                                  return const ViewDetailBottomSheetScreen();
-                                                },
-                                              );
-                                            },
-                                            child: appText('View Details',
-                                                color: AppColors.lowPurple, fontWeight: FontWeight.bold)),
-                                        const Divider(),
-                                      ],
-                                    ),
-                                    Stack(
-                                      children: [
-                                        CustomContainer(
-                                            height: 100,
-                                            color: AppColors.grey300,
-                                            width: 110,
-                                            borderRadius: 10,
-                                            image: const DecorationImage(
-                                                image: AssetImage('assets/images/air-conditioner.png'),
-                                                fit: BoxFit.contain),
-                                            child: const SizedBox()),
-                                        GestureDetector(
-                                            onTap: () {
-                                              setState(() {
-                                                if (itemCounts[index] == 0) {
-                                                  itemCounts[index] = 1; // Set count to 1 when adding
-                                                }
-                                              });
-                                            },
-                                            child: itemCounts[index] > 0
-                                                ? Container(
-                                                    margin: const EdgeInsets.only(top: 80, left: 10),
-                                                    height: 34,
-                                                    width: 90,
-                                                    decoration: BoxDecoration(
-                                                        color: AppColors.whiteTheme,
-                                                        borderRadius: BorderRadius.circular(8),
-                                                        border: Border.all(color: AppColors.lightGrey)),
-                                                    child: Row(
-                                                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                                      children: [
-                                                        InkWell(
-                                                            onTap: () {
-                                                              setState(() {
-                                                                itemCounts[index]--;
-                                                                if (itemCounts[index] < 0) {
-                                                                  itemCounts[index] = 0;
-                                                                }
-                                                              });
-                                                            },
-                                                            child: const Icon(Icons.remove,
-                                                                size: 16, color: AppColors.lowPurple)),
-                                                        appText(itemCounts[index].toString(),
-                                                            color: AppColors.lowPurple,
-                                                            fontSize: 16,
-                                                            fontWeight: FontWeight.bold),
-                                                        InkWell(
-                                                            onTap: () {
-                                                              setState(() {
-                                                                itemCounts[index]++;
-                                                              });
-                                                            },
-                                                            child: const Icon(Icons.add,
-                                                                size: 16, color: AppColors.lowPurple)),
-                                                      ],
-                                                    ))
-                                                : Container(
-                                                    margin: const EdgeInsets.only(top: 80, left: 10),
-                                                    height: 34,
-                                                    width: 90,
-                                                    decoration: BoxDecoration(
-                                                        color: AppColors.whiteTheme,
-                                                        borderRadius: BorderRadius.circular(8),
-                                                        border: Border.all(color: AppColors.lightGrey)),
-                                                    child: Center(
-                                                        child: appText('Add',
-                                                            fontWeight: FontWeight.bold, color: AppColors.lowPurple)))),
-                                        GestureDetector(
-                                          onTap: () {
-                                            showModalBottomSheet(
-                                              context: context,
-                                              isScrollControlled: true,
-                                              builder: (BuildContext context) {
-                                                return const ViewDetailBottomSheetScreen();
-                                              },
-                                            );
-                                          },
-                                          child: Container(
-                                              margin: EdgeInsets.only(top: 120.px, left: 24.px),
-                                              child: appText('2 Options')),
-                                        )
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                                const Divider(),
-                              ],
-                            );
-                          },
-                        ),
-                        Divider(thickness: 8, color: AppColors.grey300),
-                      ],
-                    )),
-              ]))),
-      bottomSheet: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [congratulationMessage(message: 'Congratulation, Rs.200 saved so far'), priceSheet(context)],
-      ),
-    );
-  }
-
-  Widget servicesContainerWidget() {
-    return Column(
-      children: [
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const SizedBox(height: 10),
-            appText('Select Services', fontSize: 20, fontWeight: FontWeight.bold),
-            const SizedBox(height: 10),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                ServiceContainerWidget(
-                    onTap: () => _scrollToSection(_superSaverKey), image: 'assets/images/service.png'),
-                ServiceContainerWidget(
-                    onTap: () => _scrollToSection(_repairGasKey), image: 'assets/images/service.png'),
-                ServiceContainerWidget(
-                    onTap: () => _scrollToSection(_installationKey), image: 'assets/images/service.png'),
-              ],
-            ),
-            const SizedBox(height: 4),
-            const Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Text('Packages', style: TextStyle(fontSize: 12)),
-                Text('Make your Package', style: TextStyle(fontSize: 12)),
-                Text('Few Walls', style: TextStyle(fontSize: 12)),
-              ],
-            ),
-            const SizedBox(height: 10),
-          ],
-        ),
-        const SizedBox(height: 10),
-        Column(
-          children: [
-            const SizedBox(height: 10),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                ServiceContainerWidget(
-                    onTap: () => _scrollToSection(_superSaverKey), image: 'assets/images/service.png'),
-                ServiceContainerWidget(
-                    onTap: () => _scrollToSection(_repairGasKey), image: 'assets/images/service.png'),
-                ServiceContainerWidget(
-                    onTap: () => _scrollToSection(_installationKey), image: 'assets/images/service.png'),
-              ],
-            ),
-            const SizedBox(height: 4),
-            const Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Text('Bedroom', style: TextStyle(fontSize: 12)),
-                Text('Living & Dining rooms', style: TextStyle(fontSize: 12)),
-                Text('Few rooms', style: TextStyle(fontSize: 12)),
-              ],
-            ),
-            const SizedBox(height: 10),
-            Divider(thickness: 8, color: AppColors.lightGrey),
-          ],
-        ),
-        const SizedBox(height: 10)
-      ],
-    );
-  }
-
-  void _showBottomSheet(Widget sheet) {
-    showModalBottomSheet(
-      isScrollControlled: true,
-      context: context,
-      builder: (context) => sheet,
-    );
+  void initState() {
+    super.initState();
+    _scrollController = ScrollController();
+    _confettiController = ConfettiController(duration: const Duration(seconds: 2));
+    _scrollController.addListener(onScroll);
   }
 
   @override
   void dispose() {
     _scrollController.dispose();
+    _confettiController.dispose();
     super.dispose();
+  }
+
+  final ScrollControllerX scrollController = Get.put((ScrollControllerX()));
+  final PriceController priceController = Get.put(PriceController());
+  final PaintingPackagesController paintingPackagesController = Get.put(PaintingPackagesController());
+  final PaintingWallController paintingWallController = Get.put(PaintingWallController());
+  final PaintingBedroomController paintingBedroomController = Get.put(PaintingBedroomController());
+  final PaintingDiningController paintingDiningController = Get.put(PaintingDiningController());
+
+// OnScroll Function
+  void onScroll() {
+    final scrollPosition = _scrollController.offset;
+    final headerHeight = MediaQuery.of(context).padding.top + 60;
+    const categoryHeight = 40.0;
+    double offset = scrollPosition + headerHeight + categoryHeight;
+
+    // To Calculate position section
+    final fewWallsPosition = getPosition(fewWallsKey);
+    final bedroomPosition = getPosition(bedroomKey);
+    final livingAndDiningPosition = getPosition(livingAndDiningKey);
+    final packagesPosition = getPosition(packagesKey);
+
+    // To Show Current Section
+    String currentCategory = '';
+    bool shouldShowHeader = false;
+
+    if (packagesPosition != null && offset >= packagesPosition) {
+      currentCategory = 'Packages';
+      shouldShowHeader = true;
+    } else if (livingAndDiningPosition != null && offset >= livingAndDiningPosition) {
+      currentCategory = 'Living & dining';
+      shouldShowHeader = true;
+    } else if (bedroomPosition != null && offset >= bedroomPosition) {
+      currentCategory = 'Bedroom painting';
+      shouldShowHeader = true;
+    } else if (fewWallsPosition != null && offset >= fewWallsPosition) {
+      currentCategory = 'Few walls';
+      shouldShowHeader = true;
+    }
+
+    // To Update Header and Category
+    if (shouldShowHeader) {
+      scrollController.updateHeaderVisibility(true);
+      scrollController.updateCategory(currentCategory);
+    } else {
+      scrollController.updateHeaderVisibility(false);
+      scrollController.updateCategory('');
+    }
+  }
+
+// To Get Position
+  double? getPosition(GlobalKey key) {
+    final RenderBox? box = key.currentContext?.findRenderObject() as RenderBox?;
+    if (box == null) return null;
+    final position = box.localToGlobal(Offset.zero);
+    return position.dy;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    List<GlobalKey> keys = [
+      fewWallsKey,
+      bedroomKey,
+      livingAndDiningKey,
+      packagesKey,
+    ];
+    return Scaffold(
+      floatingActionButton: PaintingFloatingActionButton(
+        keys: keys,
+        onTap: (index) {
+          scrollSection(keys[index]);
+        },
+      ),
+      body: Stack(
+        children: [
+          SingleChildScrollView(
+            controller: _scrollController,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(height: 10),
+                  TopBarwidget(carouselImages: carouselImages),
+                  const SizedBox(height: 20),
+                  appText("Rooms/walls painting", fontSize: 22.px, fontWeight: FontWeight.bold),
+                  SizedBox(height: 12.px),
+                  // Rating Section
+                  const RatingRowSection(ratingText: '4.82', bookings: '(1.4M Bookings)'),
+                  const SizedBox(height: 16),
+                  // DC Cover Button
+                  const DcCoverButton(),
+                  const SizedBox(height: 16),
+                  // Offers section
+                  offerSection(),
+                  const SizedBox(height: 16),
+                  div(),
+                  SizedBox(height: 10.px),
+                  appText('Select your service', fontSize: 18.px, fontWeight: FontWeight.bold),
+                  SizedBox(height: 10.px),
+                  SizedBox(
+                    height: 130.px,
+                    child: GridView.builder(
+                      physics: const NeverScrollableScrollPhysics(),
+                      padding: const EdgeInsets.all(0.0),
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 4,
+                        mainAxisExtent: 130.px,
+                      ),
+                      itemCount: keys.length,
+                      itemBuilder: (context, index) {
+                        return Services(
+                          onTap: () {
+                            scrollToSection(keys[index]);
+                          },
+                          serviceName: services[index],
+                          image:
+                              'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8cHJvZHVjdHxlbnwwfHwwfHx8MA%3D%3D',
+                        );
+                      },
+                    ),
+                  ),
+
+                  SizedBox(height: 10.px),
+                  div(),
+                  SizedBox(height: 20.px),
+                  appText('Few walls', fontWeight: FontWeight.bold, fontSize: 18.px),
+                  SizedBox(height: 20.px),
+                  SizedBox(
+                    key: fewWallsKey,
+                    child: ListView.builder(
+                      itemCount: 4,
+                      shrinkWrap: true,
+                      padding: const EdgeInsets.all(0.0),
+                      physics: const BouncingScrollPhysics(),
+                      itemBuilder: (context, index) {
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                const ProductDescriptionDetailWidget(
+                                  offer: 'PACKAGE',
+                                  serviceName: 'Walls painting',
+                                  rating: '4.55',
+                                  review: '(621k reviews)',
+                                  price: 'Rs. 400',
+                                  discountPrice: 'Rs. 100',
+                                  duration: '1 hr 30 mins',
+                                  offText: 'Rs. 120 OFF onward this offer',
+                                ),
+                                AddItemButton(
+                                  margin: const EdgeInsets.only(top: 20, left: 3),
+                                  image:
+                                      'https://nadeemacservice.pk/wp-content/uploads/2022/11/Air-Conditioning-lahore-1024x818.jpg',
+                                  addButton: AddButton(
+                                    color: AppColors.whiteTheme,
+                                    onIncrement: () => paintingWallController.increment(),
+                                    onDecrement: () => paintingWallController.decrement(),
+                                    count: paintingWallController.count.value.toString(),
+                                  ),
+                                )
+                              ],
+                            ),
+                            const SizedBox(height: 10),
+                            dottedLine(width: double.maxFinite, color: AppColors.grey300),
+                            const SizedBox(height: 10),
+                            ListView.builder(
+                              itemCount: 2,
+                              shrinkWrap: true,
+                              physics: const BouncingScrollPhysics(),
+                              itemBuilder: (context, index) {
+                                return Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    const Padding(
+                                      padding: EdgeInsets.only(top: 7),
+                                      child: Icon(Icons.circle, size: 6),
+                                    ),
+                                    const SizedBox(width: 6),
+                                    Flexible(
+                                      child: Text(
+                                        'Through cleaning of indoor unit with foan jet-spray',
+                                        softWrap: true,
+                                        style: TextStyle(color: AppColors.hintGrey),
+                                      ),
+                                    ),
+                                  ],
+                                );
+                              },
+                            ),
+                            const SizedBox(height: 10),
+                            ViewDetailButton(onTap: () {
+                              showModalBottomSheet(
+                                  isScrollControlled: true,
+                                  constraints: const BoxConstraints(),
+                                  context: context,
+                                  builder: (context) {
+                                    return const PaintingViewDetailBottomSheetScreen();
+                                  });
+                            }),
+                            const SizedBox(height: 20),
+                            index == 3 ? div() : Divider(color: Colors.grey.shade200),
+                          ],
+                        );
+                      },
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  appText('Bedroom painting', fontWeight: FontWeight.bold, fontSize: 18.px),
+                  const SizedBox(height: 20),
+
+                  SizedBox(
+                    key: bedroomKey,
+                    child: ListView.builder(
+                      itemCount: 4,
+                      shrinkWrap: true,
+                      padding: const EdgeInsets.all(0.0),
+                      physics: const BouncingScrollPhysics(),
+                      itemBuilder: (context, index) {
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                const ProductDescriptionDetailWidget(
+                                  offer: 'Rs. 120 PER AC',
+                                  serviceName: 'Wall painting',
+                                  rating: '4.55',
+                                  review: '(621k reviews)',
+                                  price: 'Rs. 400',
+                                  discountPrice: 'Rs. 100',
+                                  duration: '1 hr 30 mins',
+                                  offText: 'Rs. 120 OFF onward this offer',
+                                ),
+                                AddItemButton(
+                                  margin: const EdgeInsets.only(top: 30, left: 3),
+                                  image:
+                                      'https://nadeemacservice.pk/wp-content/uploads/2022/11/Air-Conditioning-lahore-1024x818.jpg',
+                                  addButton: AddButton(
+                                    color: AppColors.whiteTheme,
+                                    onIncrement: () => paintingBedroomController.increment(),
+                                    onDecrement: () => paintingBedroomController.decrement(),
+                                    count: paintingBedroomController.count.value.toString(),
+                                  ),
+                                  optionWidget: GestureDetector(
+                                    onTap: () {},
+                                    child: appText('2 Options'),
+                                  ),
+                                )
+                              ],
+                            ),
+                            const SizedBox(height: 10),
+                            dottedLine(width: double.maxFinite, color: AppColors.grey300),
+                            const SizedBox(height: 10),
+                            const SizedBox(width: 6),
+                            Text('Through cleaning of indoor unit with foan jet-spray',
+                                style: TextStyle(color: AppColors.hintGrey)),
+                            const SizedBox(height: 10),
+                            ViewDetailButton(onTap: () {
+                              showModalBottomSheet(
+                                isScrollControlled: true,
+                                constraints: const BoxConstraints(),
+                                context: context,
+                                builder: (context) => const ACViewDetailBottomSheet(),
+                              );
+                            }),
+                            const SizedBox(height: 20),
+                            const Divider(),
+                          ],
+                        );
+                      },
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  appText('Living & dining room', fontSize: 18.px, fontWeight: FontWeight.bold),
+                  const SizedBox(height: 20),
+                  SizedBox(
+                    key: livingAndDiningKey,
+                    child: ListView.builder(
+                      itemCount: 2,
+                      shrinkWrap: true,
+                      padding: const EdgeInsets.all(0.0),
+                      physics: const BouncingScrollPhysics(),
+                      itemBuilder: (context, index) {
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                const ProductDescriptionDetailWidget(
+                                  offer: 'Rs. 120 PER AC',
+                                  serviceName: 'Living room painting',
+                                  rating: '4.55',
+                                  review: '(621k reviews)',
+                                  price: 'Rs. 400',
+                                  discountPrice: 'Rs. 100',
+                                  duration: '1 hr 30 mins',
+                                  offText: 'Rs. 120 OFF onward this offer',
+                                ),
+                                AddItemButton(
+                                  margin: const EdgeInsets.only(top: 20, left: 3),
+                                  addButton: AddButton(
+                                    color: AppColors.whiteTheme,
+                                    onIncrement: () => paintingDiningController.increment(),
+                                    onDecrement: () => paintingDiningController.decrement(),
+                                    count: paintingDiningController.count.value.toString(),
+                                  ),
+                                )
+                              ],
+                            ),
+                            const SizedBox(height: 10),
+                            dottedLine(width: double.maxFinite, color: AppColors.grey300),
+                            const SizedBox(height: 10),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 4),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      const Icon(Icons.circle, size: 6),
+                                      SizedBox(width: 4.px),
+                                      appText('Cut & Clear : ', fontWeight: FontWeight.bold, fontSize: 13),
+                                    ],
+                                  ),
+                                  appText(
+                                    'This is the description of product and detail is given in the next page.',
+                                  ),
+                                ],
+                              ),
+                            ),
+                            const SizedBox(height: 10),
+                            EditPackageButton(onTap: () {
+                              showEditPackageBottomSheet(context);
+                            }),
+                            const SizedBox(height: 20),
+                            const Divider(),
+                          ],
+                        );
+                      },
+                    ),
+                  ),
+                  SizedBox(height: 20.px),
+                  appText('Installation/Uninstallation', fontWeight: FontWeight.bold, fontSize: 18.px),
+                  SizedBox(height: 20.px),
+                  SizedBox(
+                    key: packagesKey,
+                    child: ListView.builder(
+                      itemCount: 4,
+                      shrinkWrap: true,
+                      padding: const EdgeInsets.all(0.0),
+                      physics: const BouncingScrollPhysics(),
+                      itemBuilder: (context, index) {
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SizedBox(height: 20.px),
+                            Container(
+                              height: 200.px,
+                              decoration: BoxDecoration(
+                                  color: AppColors.grey300,
+                                  borderRadius: BorderRadius.circular(10.px),
+                                  image: const DecorationImage(
+                                      image: NetworkImage(
+                                          'https://nadeemacservice.pk/wp-content/uploads/2022/11/Air-Conditioning-lahore-1024x818.jpg'),
+                                      fit: BoxFit.cover)),
+                            ),
+                            SizedBox(height: 20.px),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                const ProductDescriptionDetailWidget(
+                                  offer: 'Rs. 120 PER AC',
+                                  serviceName: 'Split Ac Installation',
+                                  rating: '4.55',
+                                  review: '(621k reviews)',
+                                  price: 'Rs. 400',
+                                  discountPrice: 'Rs. 100',
+                                  duration: '1 hr 30 mins',
+                                  offText: 'Rs. 120 OFF onward this offer',
+                                ),
+                                AddItemButton(
+                                  margin: const EdgeInsets.only(top: 20, left: 3),
+                                  addButton: AddButton(
+                                    color: AppColors.whiteTheme,
+                                    onIncrement: () => paintingBedroomController.increment(),
+                                    onDecrement: () => paintingBedroomController.decrement(),
+                                    count: paintingBedroomController.count.value.toString(),
+                                  ),
+                                )
+                              ],
+                            ),
+                            const SizedBox(height: 10),
+                            dottedLine(width: double.maxFinite, color: AppColors.grey300),
+                            const SizedBox(height: 10),
+                            ListView.builder(
+                              itemCount: 1,
+                              shrinkWrap: true,
+                              physics: const BouncingScrollPhysics(),
+                              itemBuilder: (context, index) {
+                                return Row(
+                                  children: [
+                                    Flexible(
+                                      child: Text(
+                                        'Through cleaning of indoor unit with foan jet-spray',
+                                        softWrap: true,
+                                        style: TextStyle(color: AppColors.hintGrey),
+                                      ),
+                                    ),
+                                  ],
+                                );
+                              },
+                            ),
+                            const SizedBox(height: 10),
+                            ViewDetailButton(onTap: () {
+                              showModalBottomSheet(
+                                isScrollControlled: true,
+                                constraints: const BoxConstraints(),
+                                context: context,
+                                builder: (context) => const ACViewDetailBottomSheet(),
+                              );
+                            }),
+                            const SizedBox(height: 20),
+                            index == 3 ? div() : Divider(color: Colors.grey.shade200),
+                          ],
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Obx(() {
+            return AnimatedPositioned(
+              duration: const Duration(milliseconds: 300),
+              top: scrollController.showHeader.value ? 0 : -60,
+              left: 0,
+              right: 0,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Container(
+                    padding: EdgeInsets.only(
+                      top: MediaQuery.of(context).padding.top,
+                      left: 0,
+                      right: 10,
+                      bottom: 8,
+                    ),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.06),
+                          blurRadius: 1,
+                          offset: const Offset(0, 1),
+                        ),
+                      ],
+                    ),
+                    child: Row(
+                      children: [
+                        IconButton(icon: const Icon(Icons.arrow_back), onPressed: () => Navigator.pop(context)),
+                        appText('Bathroom cleaning', fontWeight: FontWeight.bold, fontSize: 18),
+                        const Spacer(),
+                        AppBarShareButton(),
+                        const SizedBox(width: 10),
+                        const AppBarSearchButton()
+                      ],
+                    ),
+                  ),
+                  // Category indicator
+                  if (scrollController.currentCategory.value.isNotEmpty)
+                    Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                      decoration: BoxDecoration(
+                          color: Colors.white, border: Border(top: BorderSide(color: Colors.grey.shade200))),
+                      child:
+                          appText(scrollController.currentCategory.value, fontWeight: FontWeight.bold, fontSize: 16.px),
+                    ),
+                ],
+              ),
+            );
+          }),
+        ],
+      ),
+      bottomNavigationBar: Obx(() {
+        bool shouldShowBottomBar = paintingBedroomController.count.value > 0 ||
+            paintingDiningController.count.value > 0 ||
+            paintingPackagesController.count.value > 0 ||
+            paintingWallController.count.value > 0;
+
+        double totalPrice = shouldShowBottomBar ? priceController.totalPrice.value : 0;
+        double discount = shouldShowBottomBar ? priceController.savings.value : 0;
+
+        return shouldShowBottomBar
+            ? Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Stack(
+                    children: [
+                      PriceBottomSheet(
+                        savingText: 'Congratulation! You saved Rs.${discount.toString()} on this',
+                        onViewCartTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const SummaryScreen(onChecked: false),
+                            ),
+                          );
+                        },
+                        price: 'Rs. ${totalPrice.toStringAsFixed(0)}',
+                        discount: 'Rs.${discount.toStringAsFixed(0)}',
+                      ),
+                      if (priceController.showConfetti.value)
+                        Align(
+                          alignment: Alignment.center,
+                          child: ConfettiWidget(
+                            confettiController: priceController.confettiController,
+                            blastDirection: -pi / 2,
+                            maxBlastForce: 5,
+                            minBlastForce: 1,
+                            emissionFrequency: 0.06,
+                            numberOfParticles: 20,
+                            gravity: 0.2,
+                          ),
+                        ),
+                    ],
+                  ),
+                ],
+              )
+            : const SizedBox.shrink();
+      }),
+    );
   }
 }
 
-// Services Row Widget
 Widget serviceRow({
   required String serviceName,
   required String serviceDesc,

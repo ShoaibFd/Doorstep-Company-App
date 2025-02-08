@@ -1,13 +1,14 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:otp_text_field/otp_field.dart';
 import 'package:otp_text_field/style.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
+import '../../components/custom_text.dart';
+import '../../components/round_button.dart';
 import '../../constants/colors.dart';
-import '../../widgets/custom_text.dart';
-import '../../widgets/round_button.dart';
 import 'create_account_screen.dart';
 
 class CodeSentScreen extends StatefulWidget {
@@ -64,7 +65,7 @@ class _CodeSentScreenState extends State<CodeSentScreen> {
                 SizedBox(height: 30.px),
                 roundButton(
                     onTap: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => const CreateAccountScreen()));
+                      Get.to(const CreateAccountScreen());
                     },
                     title: 'Proceed'),
               ],

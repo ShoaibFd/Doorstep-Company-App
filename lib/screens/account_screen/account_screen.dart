@@ -1,8 +1,10 @@
+import 'package:doorstep_company_app/screens/language/language_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../../Constants/colors.dart';
-import '../../widgets/custom_snackbar.dart';
-import '../../widgets/custom_text.dart';
+import '../../components/custom_snackbar.dart';
+import '../../components/custom_text.dart';
 import '../bookings/cancel_booking/refund/refund_status_screen.dart';
 import '../cart_screen/benefits_screen.dart';
 import '../notification_screen/notification_screen.dart';
@@ -41,7 +43,7 @@ class AccountScreen extends StatelessWidget {
               const SizedBox(height: 12),
               GestureDetector(
                 onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => const EditProfileScreen()));
+                  Get.to(EditProfileScreen());
                 },
                 child: Container(
                   height: 70,
@@ -95,7 +97,7 @@ class AccountScreen extends StatelessWidget {
                         children: [
                           listTile(
                               onTap: () {
-                                Navigator.push(context, MaterialPageRoute(builder: (context) => const WalletScreen()));
+                                Get.to(const WalletScreen());
                               },
                               title: 'Wallet',
                               icon: Icons.account_balance_wallet_outlined,
@@ -103,16 +105,23 @@ class AccountScreen extends StatelessWidget {
                           Divider(color: AppColors.grey300),
                           listTile(
                             onTap: () {
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => const BenefitsScreen()));
+                              Get.to(BenefitsScreen(isPlus: true));
                             },
-                            title: 'Membership',
+                            title: 'Plus membership',
                             icon: Icons.card_membership_outlined,
                           ),
                           Divider(color: AppColors.grey300),
                           listTile(
                             onTap: () {
-                              Navigator.push(
-                                  context, MaterialPageRoute(builder: (context) => const RefundStatusScreen()));
+                              //  Get.to(const WalletScreen());
+                            },
+                            title: 'Subscription packages',
+                            icon: Icons.card_membership_outlined,
+                          ),
+                          Divider(color: AppColors.grey300),
+                          listTile(
+                            onTap: () {
+                              Get.to(const RefundStatusScreen());
                             },
                             title: 'Refund',
                             icon: Icons.account_balance_wallet_outlined,
@@ -120,23 +129,21 @@ class AccountScreen extends StatelessWidget {
                           Divider(color: AppColors.grey300),
                           listTile(
                               onTap: () {
-                                Navigator.push(
-                                    context, MaterialPageRoute(builder: (context) => const SavedLocationScreen()));
+                                Get.to(const SavedLocationScreen());
                               },
                               title: 'Save locations',
                               icon: Icons.place_outlined),
                           Divider(color: AppColors.grey300),
                           listTile(
                               onTap: () {
-                                Navigator.push(
-                                    context, MaterialPageRoute(builder: (context) => const NotificationScreen()));
+                                Get.to(const NotificationScreen());
                               },
                               title: 'Notifications',
                               icon: Icons.notifications),
                           Divider(color: AppColors.grey300),
                           listTile(
                               onTap: () {
-                                Navigator.push(context, MaterialPageRoute(builder: (context) => const RewardScreen()));
+                                Get.to(const RewardScreen());
                               },
                               title: 'Invite a friend',
                               icon: Icons.share_rounded,
@@ -144,17 +151,25 @@ class AccountScreen extends StatelessWidget {
                           Divider(color: AppColors.grey300),
                           listTile(
                               onTap: () {
-                                Navigator.push(context, MaterialPageRoute(builder: (context) => const CoinScreen()));
+                                Get.to(const CoinScreen());
                               },
+                              optionalText: '100 coins available',
                               title: 'Reward',
                               icon: Icons.card_giftcard),
                           Divider(color: AppColors.grey300),
                           listTile(
                               onTap: () {
-                                // Navigator.push(context, MaterialPageRoute(builder: (context) => const CoinScreen()));
+                                //  Get.to(const WalletScreen());
                               },
                               title: 'Track location of professional',
                               icon: Icons.place_outlined),
+                          Divider(color: AppColors.grey300),
+                          listTile(
+                              onTap: () {
+                                Get.to(LanguageScreen(onChecked: true));
+                              },
+                              title: 'Languages',
+                              icon: Icons.language),
                         ],
                       ))),
               const SizedBox(height: 20),
@@ -172,15 +187,14 @@ class AccountScreen extends StatelessWidget {
                     children: [
                       listTile(
                           onTap: () {
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => const AboutUsScreen()));
+                            Get.to(const AboutUsScreen());
                           },
                           title: 'About Us',
                           icon: Icons.info_outline),
                       Divider(color: AppColors.grey300),
                       listTile(
                         onTap: () {
-                          Navigator.push(
-                              context, MaterialPageRoute(builder: (context) => const TermsAndConditionsScreen()));
+                          Get.to(const TermsAndConditionsScreen());
                         },
                         title: 'Terms & conditions',
                         icon: Icons.description,
@@ -190,8 +204,7 @@ class AccountScreen extends StatelessWidget {
                       Divider(color: AppColors.grey300),
                       listTile(
                           onTap: () {
-                            Navigator.push(
-                                context, MaterialPageRoute(builder: (context) => const PrivacyPolicyScreen()));
+                            Get.to(const PrivacyPolicyScreen());
                           },
                           title: 'Privacy Policy',
                           icon: Icons.security_rounded),
@@ -227,11 +240,11 @@ class AccountScreen extends StatelessWidget {
                                   return CustomAlertDialog(
                                     title: 'Sign out',
                                     onConfirm: () {
-                                      Navigator.pop(context);
+                                      Get.back();
                                       showSuccessSnackbar(context, 'Sign out successfully!');
                                     },
                                     onCancel: () {
-                                      Navigator.pop(context);
+                                      Get.back();
                                     },
                                     cancelText: 'Cancle',
                                     confirmText: 'YES',

@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 import '../../constants/colors.dart';
-import '../../widgets/custom_container.dart';
-import '../../widgets/custom_text.dart';
-import '../../widgets/round_button.dart';
+import '../../components/custom_container.dart';
+import '../../components/custom_text.dart';
+import '../../components/round_button.dart';
 import '../cart_screen/summary_screen.dart';
-import '../cleaning & pest control/bath_cleaning_bottom_sheet.dart';
-import '../home_screen/widgets/carousel_slider.dart';
-import '../painting_wall_screen/Widgets/frequently_asked_questions_widget.dart';
-import '../painting_wall_screen/Widgets/reviews_widget.dart';
+import '../cleaning & pest control/bathroom_cleaning/bath_cleaning_bottom_sheet.dart';
+import '../home_screen/components/carousel_slider.dart';
+import '../painting_wall_screen/components/frequently_asked_questions_widget.dart';
+import '../painting_wall_screen/components/reviews_widget.dart';
 import 'bedroom_screen.dart';
 
 class WallPanelScreen extends StatefulWidget {

@@ -1,19 +1,18 @@
-import 'package:doorstep_company_app/widgets/dotted_line_widget.dart';
+import 'package:doorstep_company_app/components/dotted_line_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
+import '../../components/custom_container.dart';
+import '../../components/custom_text.dart';
+import '../../components/divider.dart';
+import '../../components/edit_package/edit_your_package.dart';
+import '../../components/round_button.dart';
 import '../../constants/colors.dart';
-import '../../widgets/custom_container.dart';
-import '../../widgets/custom_text.dart';
-import '../../widgets/divider.dart';
-import '../../widgets/edit_package/edit_your_package.dart';
-import '../../widgets/round_button.dart';
-import '../painting_wall_screen/Widgets/add_button.dart';
-import '../payment_method/payment_method_screen.dart';
+import '../painting_wall_screen/components/add_button.dart';
 import '../payment_process/saved_address_bottom_sheet.dart';
 import 'benefits_screen.dart';
-import 'policy_bottom_sheet.dart';
-import 'terms_and_conditions_sheet.dart';
+import 'components/policy_bottom_sheet.dart';
+import 'components/terms_and_conditions_sheet.dart';
 
 class SummaryScreen extends StatefulWidget {
   final bool onChecked;
@@ -70,7 +69,7 @@ class _SummaryScreenState extends State<SummaryScreen> {
                   children: [
                     CircleAvatar(
                         radius: 8.px,
-                        backgroundColor: AppColors.lowPurple,
+                        backgroundColor: AppColors.darkGreen,
                         child: Center(child: Icon(Icons.percent, color: AppColors.whiteTheme, size: 12.px))),
                     SizedBox(width: 10.px),
                     appText("You're saving Rs.150 on this order with plus"),
@@ -84,6 +83,7 @@ class _SummaryScreenState extends State<SummaryScreen> {
                 ListView.builder(
                   itemCount: 2,
                   shrinkWrap: true,
+                  padding: const EdgeInsets.all(0),
                   physics: const BouncingScrollPhysics(),
                   itemBuilder: (context, index) {
                     return Column(
@@ -103,8 +103,6 @@ class _SummaryScreenState extends State<SummaryScreen> {
                           ],
                         ),
                         SizedBox(height: 10.px),
-                        dottedLine(width: width * .7),
-                        SizedBox(height: 6.px),
                         Row(
                           spacing: 10.px,
                           children: [
@@ -112,7 +110,7 @@ class _SummaryScreenState extends State<SummaryScreen> {
                             appText('Kitchen + 3 Bathroom x 1', color: AppColors.hintGrey)
                           ],
                         ),
-                        SizedBox(height: 10.px),
+                        SizedBox(height: 15.px),
                         index == 0
                             ? CustomContainer(
                                 onTap: () {
@@ -128,7 +126,8 @@ class _SummaryScreenState extends State<SummaryScreen> {
                                     child: Center(
                                         child: appText('Edit package', fontWeight: FontWeight.bold, fontSize: 15))))
                             : const SizedBox(),
-                        SizedBox(height: 30.px),
+                        SizedBox(height: 10.px),
+                        index == 1 ? const SizedBox() : dottedLine(width: width, color: AppColors.grey300),
                       ],
                     );
                   },
@@ -136,6 +135,7 @@ class _SummaryScreenState extends State<SummaryScreen> {
               ],
             ),
           ),
+          SizedBox(height: 10.px),
           div(),
           SizedBox(height: 12.px),
           CustomContainer(
@@ -195,7 +195,7 @@ class _SummaryScreenState extends State<SummaryScreen> {
                     SizedBox(height: 20.px),
                     GestureDetector(
                         onTap: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => const BenefitsScreen()));
+                          Navigator.push(context, MaterialPageRoute(builder: (context) =>  BenefitsScreen(isPlus: false)));
                         },
                         child: appText('View all benefits',
                             fontSize: 16, fontWeight: FontWeight.bold, decoration: TextDecoration.underline)),
@@ -209,10 +209,11 @@ class _SummaryScreenState extends State<SummaryScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                appText('Frequently added together', fontSize: 22, fontWeight: FontWeight.bold),
                 SizedBox(height: 10.px),
+                appText('Frequently added together', fontSize: 18, fontWeight: FontWeight.bold),
+                SizedBox(height: 20.px),
                 SizedBox(
-                  height: 300.px,
+                  height: 260.px,
                   child: ListView.builder(
                     itemCount: 2,
                     shrinkWrap: true,
@@ -221,14 +222,14 @@ class _SummaryScreenState extends State<SummaryScreen> {
                     itemBuilder: (context, index) {
                       return Container(
                         margin: EdgeInsets.only(right: 10.px),
-                        width: 170.px,
+                        width: 150.px,
                         decoration: BoxDecoration(
                             border: Border.all(color: AppColors.grey300), borderRadius: BorderRadius.circular(8.px)),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Container(
-                              height: 170.px,
+                              height: 150.px,
                               width: double.maxFinite,
                               decoration: BoxDecoration(
                                   color: AppColors.blackColor,
@@ -252,6 +253,8 @@ class _SummaryScreenState extends State<SummaryScreen> {
                                     children: [
                                       appText('Rs. 169', fontWeight: FontWeight.bold),
                                       AddButton(
+                                          width: 60.px,
+                                          height: 30.px,
                                           count: add.toString(),
                                           onIncrement: () {
                                             add++;
@@ -556,53 +559,21 @@ class _SummaryScreenState extends State<SummaryScreen> {
                         margin: EdgeInsets.only(top: 100.px),
                         child: appText("100% of the tip goes to the professional",
                             fontSize: 16.px.px, color: AppColors.hintGrey),
-                      )
+                      ),
                     ],
                   ))),
-          const Divider(),
-          SizedBox(height: 40.px),
+          SizedBox(height: 10.px),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16.px),
+            child: roundButton(
+                onTap: () {
+                  savedAddressSheet(context);
+                },
+                title: 'Add address and slot'),
+          ),
+          SizedBox(height: 10.px)
         ],
       )),
-      bottomNavigationBar: widget.onChecked == true
-          ? Container(
-              height: 80.px,
-              width: double.maxFinite,
-              decoration: BoxDecoration(
-                color: AppColors.whiteTheme,
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.1),
-                    blurRadius: 6,
-                    spreadRadius: 2,
-                    offset: const Offset(0, -2),
-                  ),
-                ],
-              ),
-              child: Padding(
-                padding: EdgeInsets.all(10.px),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    roundButton(
-                        height: 50.px,
-                        width: double.maxFinite,
-                        title: 'Proceed',
-                        onTap: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => const PaymentMethodScreen()));
-                        }),
-                    SizedBox(height: 6.sp),
-                  ],
-                ),
-              ),
-            )
-          : Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: roundButton(
-                  onTap: () {
-                    savedAddressSheet(context);
-                  },
-                  title: 'Add address and slot'),
-            ),
     );
   }
 

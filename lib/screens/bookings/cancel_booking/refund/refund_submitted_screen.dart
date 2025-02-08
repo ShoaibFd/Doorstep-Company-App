@@ -3,8 +3,8 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../../../constants/colors.dart';
 import '../../../../utils/bottom_navigation_screen.dart';
-import '../../../../widgets/custom_container.dart';
-import '../../../../widgets/custom_text.dart';
+import '../../../../components/custom_container.dart';
+import '../../../../components/custom_text.dart';
 
 class RefundSubmittedScreen extends StatelessWidget {
   const RefundSubmittedScreen({super.key});

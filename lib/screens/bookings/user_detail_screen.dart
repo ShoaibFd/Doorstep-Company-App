@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../constants/colors.dart';
-import '../../widgets/custom_container.dart';
-import '../../widgets/custom_text.dart';
-import '../../widgets/divider.dart';
-import '../../widgets/round_button.dart';
+import '../../components/custom_container.dart';
+import '../../components/custom_text.dart';
+import '../../components/divider.dart';
+import '../../components/round_button.dart';
 
 class UserDetailScreen extends StatefulWidget {
   const UserDetailScreen({super.key});
@@ -21,9 +21,9 @@ class _UserDetailScreenState extends State<UserDetailScreen> {
   Widget build(BuildContext context) {
     double width = MediaQuery.sizeOf(context).width;
     return Scaffold(
-      body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 16.px),
-        child: SingleChildScrollView(
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 16.px),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -165,15 +165,13 @@ class _UserDetailScreenState extends State<UserDetailScreen> {
                           SizedBox(width: 8.px),
                           SizedBox(
                             width: width * .6,
-                            child: Expanded(
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(12.px),
-                                child: LinearProgressIndicator(
-                                  value: (index + 1) * 0.2,
-                                  backgroundColor: Colors.grey[300],
-                                  color: color,
-                                  minHeight: 10.px,
-                                ),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(12.px),
+                              child: LinearProgressIndicator(
+                                value: (index + 1) * 0.2,
+                                backgroundColor: Colors.grey[300],
+                                color: color,
+                                minHeight: 10.px,
                               ),
                             ),
                           ),
@@ -296,43 +294,3 @@ Widget bulletRow({required String text}) {
   );
 }
 
-//
-// Column(
-//   children: List.generate(
-//     5,
-//     (index) {
-//       // Define labels and corresponding ratings
-//       final labels = ['Excellent (96)', 'Good (13)', 'Average (1)', 'Bad (4)', 'Very Bad (3)'];
-//       final colors = [AppColors.greenColor, Colors.lightGreen, Colors.amber, Colors.orange, Colors.red];
-//       final label = labels[index];
-//       final color = colors[index]; // Get color dynamically based on the index
-
-//       return Padding(
-//         padding: EdgeInsets.symmetric(vertical: 4.px),
-//         child: Row(
-//           children: [
-//             // Add the label before the progress indicator
-//             customText(
-//               label,
-//               fontSize: 16.px,
-//               fontWeight: FontWeight.w500,
-//               color: AppColors.hintGrey,
-//             ),
-//             SizedBox(width: 8.px), // Spacing between text and progress bar
-//             Expanded(
-//               child: ClipRRect(
-//                 borderRadius: BorderRadius.circular(12.px),
-//                 child: LinearProgressIndicator(
-//                   value: (index + 1) * 0.2,
-//                   backgroundColor: Colors.grey[300],
-//                   color: color, // Dynamic color based on rating
-//                   minHeight: 10.px,
-//                 ),
-//               ),
-//             ),
-//           ],
-//         ),
-//       );
-//     },
-//   ),
-// ),

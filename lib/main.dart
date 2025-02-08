@@ -1,11 +1,11 @@
-import 'package:doorstep_company_app/screens/splash_screen/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import 'Constants/colors.dart';
-import 'screens/ac_screens/ac_repair_return_screen.dart';
+import 'screens/splash_screen/splash_screen.dart';
 import 'utils/dismiss_keyboard.dart';
 import 'utils/location_services.dart';
 
@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
     return ResponsiveSizer(
       builder: (context, orientation, screenType) {
         return DismissKeyboard(
-            child: MaterialApp(
+            child: GetMaterialApp(
                 debugShowCheckedModeBanner: false,
                 title: 'Door Step',
                 theme: ThemeData(

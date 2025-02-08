@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../constants/colors.dart';
-import '../../widgets/custom_container.dart';
-import '../../widgets/custom_text.dart';
-import '../../widgets/round_button.dart';
+import '../../components/custom_container.dart';
+import '../../components/custom_text.dart';
+import '../../components/round_button.dart';
 import '../auth/authentication_screen.dart';
 import 'wall_panel_screen.dart';
 
@@ -32,7 +32,7 @@ class BedroomDetailScreen extends StatelessWidget {
                   const Spacer(),
                   IconButton(
                       onPressed: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => const AuthenticationScreen()));
+                        Navigator.push(context, MaterialPageRoute(builder: (context) =>  AuthenticationScreen()));
                       },
                       icon: const Icon(Icons.person_2_outlined)),
                   IconButton(onPressed: () {}, icon: const Icon(Icons.search)),

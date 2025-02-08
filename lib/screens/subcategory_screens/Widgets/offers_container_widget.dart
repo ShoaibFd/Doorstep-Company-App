@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../constants/colors.dart';
-import '../../../widgets/custom_text.dart';
+import '../../../components/custom_text.dart';
 
 class OffersContainers extends StatelessWidget {
   final String? title;
@@ -20,7 +20,7 @@ class OffersContainers extends StatelessWidget {
           children: [
             Row(
               children: [
-                Icon(Icons.local_offer, color: AppColors.darkGreen, size: 14),
+                Icon(Icons.local_offer, color: AppColors.darkGreen, size: 18),
                 const SizedBox(width: 6),
                 appText(title ?? '', fontWeight: FontWeight.bold)
               ],

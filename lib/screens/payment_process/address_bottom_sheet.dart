@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../constants/colors.dart';
-import '../../widgets/custom_container.dart';
-import '../../widgets/custom_snackbar.dart';
-import '../../widgets/custom_text.dart';
-import '../../widgets/round_button.dart';
+import '../../components/custom_container.dart';
+import '../../components/custom_snackbar.dart';
+import '../../components/custom_text.dart';
+import '../../components/round_button.dart';
 import '../cart_screen/appointment_sheet.dart';
 // Import other screens here
 

@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../constants/colors.dart';
-import '../../widgets/custom_text.dart';
-import '../../widgets/divider.dart';
-import '../../widgets/round_button.dart';
+import '../../components/custom_text.dart';
+import '../../components/divider.dart';
+import '../../components/round_button.dart';
 import 'order_placed_screen.dart';
 
 class PaymentMethodScreen extends StatefulWidget {

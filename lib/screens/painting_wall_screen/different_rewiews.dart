@@ -126,6 +126,9 @@ class ReviewWidget extends StatelessWidget {
                       ),
                     ],
                   ),
+                  SizedBox(
+                    height: 10,
+                  ),
                   const SizedBox(height: 8),
                   Row(
                     children: List.generate(
@@ -137,7 +140,7 @@ class ReviewWidget extends StatelessWidget {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 8),
+                  const SizedBox(height: 20),
                   Text(
                     review.description,
                     style: const TextStyle(fontSize: 14),

@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import '../../constants/colors.dart';
-import '../../widgets/custom_snackbar.dart';
-import '../../widgets/custom_text.dart';
+import '../../components/custom_snackbar.dart';
+import '../../components/custom_text.dart';
 
 class VideoCallScreen extends StatefulWidget {
   final String channelName;

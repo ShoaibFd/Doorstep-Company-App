@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
+import '../../components/custom_container.dart';
+import '../../components/custom_text.dart';
 import '../../constants/colors.dart';
-import '../../widgets/custom_container.dart';
-import '../../widgets/custom_text.dart';
 import '../auth/app_textfield.dart';
 import 'shipping_address_screen.dart';
 
@@ -15,7 +16,7 @@ class OrderPage extends StatefulWidget {
 }
 
 class _OrderPageState extends State<OrderPage> {
-  int count = 0;
+  final ItemController itemController = Get.put(ItemController());
   final voucherController = TextEditingController();
   @override
   Widget build(BuildContext context) {
@@ -119,22 +120,14 @@ class _OrderPageState extends State<OrderPage> {
                                                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                                       children: [
                                                         IconButton(
-                                                            onPressed: () {
-                                                              setState(() {
-                                                                if (count > 0) {
-                                                                  count--;
-                                                                }
-                                                              });
-                                                            },
+                                                            onPressed: () => itemController.decrement(),
                                                             icon: const Icon(Icons.remove,
                                                                 color: AppColors.blueColor, size: 14)),
-                                                        appText(count.toString()),
+                                                        Obx(() {
+                                                          return appText(itemController.item.toString());
+                                                        }),
                                                         IconButton(
-                                                            onPressed: () {
-                                                              setState(() {
-                                                                count++;
-                                                              });
-                                                            },
+                                                            onPressed: () => itemController.increment(),
                                                             icon: const Icon(Icons.add,
                                                                 color: AppColors.blueColor, size: 14))
                                                       ],
@@ -290,4 +283,19 @@ Widget rowWidget({
       ),
     ],
   );
+}
+
+// Controller
+class ItemController extends GetxController {
+  var item = 0.obs;
+
+  void increment() {
+    item++;
+  }
+
+  void decrement() {
+    if (item > 0) {
+      item--;
+    }
+  }
 }

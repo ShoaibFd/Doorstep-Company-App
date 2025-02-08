@@ -1,28 +1,31 @@
+import 'package:doorstep_company_app/components/custom_container.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
+import '../../components/custom_text.dart';
+import '../../components/round_button.dart';
 import '../../constants/colors.dart';
-import '../../widgets/custom_text.dart';
-import '../../widgets/round_button.dart';
-import 'professional_section.dart';
-import 'summary_screen.dart';
+import '../payment_method/payment_method_screen.dart';
+import 'components/professional_section.dart';
 
 // Main Bottom Sheet Widget
-class WhenArrived extends StatefulWidget {
+class AppointmentScreen extends StatefulWidget {
   final double height;
   final double width;
   final void Function(bool) onCheckoutStatusChanged;
-  const WhenArrived({super.key, required this.height, required this.width, required this.onCheckoutStatusChanged});
+  const AppointmentScreen(
+      {super.key, required this.height, required this.width, required this.onCheckoutStatusChanged});
 
   @override
-  State<WhenArrived> createState() => _WhenArrivedState();
+  State<AppointmentScreen> createState() => _AppointmentScreenState();
 }
 
-class _WhenArrivedState extends State<WhenArrived> {
+class _AppointmentScreenState extends State<AppointmentScreen> {
   String? selectedDate;
   String? selectedTime;
   String? selectedProfessional;
   bool isCheckingOut = false;
+  int isSelected = 1;
 
   @override
   Widget build(BuildContext context) {
@@ -49,25 +52,75 @@ class _WhenArrivedState extends State<WhenArrived> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Row(
-                                children: [
-                                  SizedBox(width: 10.px),
-                                  Icon(Icons.home_filled, color: AppColors.lowPurple.withOpacity(0.5)),
-                                  const SizedBox(width: 6),
-                                  Row(
-                                    children: [
-                                      appText('Home', fontWeight: FontWeight.bold),
-                                      const SizedBox(width: 6),
-                                      appText('-H 14, Dubai, Dubai Mall - Dubai..'),
-                                    ],
-                                  ),
-                                  const Spacer(),
-                                  IconButton(onPressed: () {}, icon: const Icon(Icons.chevron_right, size: 20))
-                                ],
+                              professionalSection(
+                                context: context,
+                                selectedProfessional: selectedProfessional,
+                                onProfessionalSelected: (selected) {
+                                  setState(() {
+                                    selectedProfessional = selected;
+                                  });
+                                },
                               ),
-                              const Divider(),
-                              const SizedBox(height: 10),
-                              appText("Select service date", fontSize: 20.px, fontWeight: FontWeight.bold),
+                              const SizedBox(height: 20),
+                              CustomContainer(
+                                  color: AppColors.transparentColor,
+                                  borderColor: AppColors.grey300,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Row(
+                                      children: [
+                                        const Icon(Icons.access_alarm, size: 30, color: AppColors.deepOrangeColor),
+                                        SizedBox(width: 20.px),
+                                        Expanded(
+                                          child: Column(
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              appText('Get urgent service',
+                                                  color: AppColors.darkGreen,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 15),
+                                              const SizedBox(height: 5),
+                                              Row(
+                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                children: [
+                                                  appText('In 80-90 minuts', fontWeight: FontWeight.bold),
+                                                  SizedBox(
+                                                    height: 20.px,
+                                                    child: Radio(
+                                                        activeColor: AppColors.blackColor,
+                                                        value: 1,
+                                                        groupValue: isSelected,
+                                                        onChanged: (value) {
+                                                          setState(() {
+                                                            isSelected = value!;
+                                                          });
+                                                        }),
+                                                  )
+                                                ],
+                                              ),
+                                              Row(
+                                                spacing: 8,
+                                                children: [
+                                                  appText('Rs.30',
+                                                      decoration: TextDecoration.lineThrough,
+                                                      color: AppColors.hintGrey),
+                                                  appText('FREE',
+                                                      color: AppColors.darkGreen,
+                                                      fontWeight: FontWeight.bold,
+                                                      fontSize: 12)
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  )),
+                              const SizedBox(height: 26),
+                              appText("Select service date", fontSize: 18.px, fontWeight: FontWeight.bold),
+                              appText("that fits your schedule",
+                                  fontSize: 14.5.px, fontWeight: FontWeight.bold, color: AppColors.deepOrangeColor),
                               SizedBox(height: 10.px),
                               SingleChildScrollView(
                                 scrollDirection: Axis.horizontal,
@@ -113,7 +166,7 @@ class _WhenArrivedState extends State<WhenArrived> {
                                 ),
                               ),
                               SizedBox(height: 20.px),
-                              appText('Select start time of service', fontSize: 20, fontWeight: FontWeight.bold),
+                              appText('Select start time of service', fontSize: 18.px, fontWeight: FontWeight.bold),
                               SizedBox(height: 20.px),
                               SizedBox(
                                 height: 220,
@@ -177,20 +230,7 @@ class _WhenArrivedState extends State<WhenArrived> {
                                           "Free cancellation till 2 hrs before the booked slot, post that pkr 50 chargeable")),
                                 ],
                               ),
-                              SizedBox(height: 12.px),
-                              const Divider(),
-                              SizedBox(height: 12.px),
                               SizedBox(height: 20.px),
-                              professionalSection(
-                                context: context,
-                                selectedProfessional: selectedProfessional,
-                                onProfessionalSelected: (selected) {
-                                  setState(() {
-                                    selectedProfessional = selected;
-                                  });
-                                },
-                              ),
-                              SizedBox(height: 74.px),
                             ],
                           )))),
             ],
@@ -200,14 +240,9 @@ class _WhenArrivedState extends State<WhenArrived> {
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
           child: roundButton(
-              title: 'Proceed to checkout',
+              title: 'Proceed ',
               onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const SummaryScreen(
-                              onChecked: true,
-                            )));
+                Navigator.push(context, MaterialPageRoute(builder: (context) => const PaymentMethodScreen()));
               }),
         ),
       ),
@@ -338,7 +373,7 @@ void showAppointmentBottomSheet(BuildContext context) {
         initialChildSize: 0.9,
         minChildSize: 0.5,
         maxChildSize: 0.95,
-        builder: (_, controller) => WhenArrived(
+        builder: (_, controller) => AppointmentScreen(
               height: height * 0.9,
               width: width,
               onCheckoutStatusChanged: (bool status) {},

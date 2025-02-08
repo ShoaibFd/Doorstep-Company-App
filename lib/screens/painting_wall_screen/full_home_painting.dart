@@ -3,15 +3,15 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:video_player/video_player.dart';
 
 import '../../constants/colors.dart';
-import '../../widgets/custom_text.dart';
-import '../../widgets/divider.dart';
-import '../../widgets/round_button.dart';
+import '../../components/custom_text.dart';
+import '../../components/divider.dart';
+import '../../components/round_button.dart';
+import '../subcategory_screens/Widgets/topbar_widget.dart';
 import '../summary_screen/paint_summary_screen.dart';
-import 'Widgets/add_button.dart';
-import 'Widgets/how_it_works_widget.dart';
-import 'Widgets/painting_view_detail_sheet.dart';
-import 'Widgets/rating_button.dart';
-import 'Widgets/reviews_widget.dart';
+import 'components/add_button.dart';
+import 'components/how_it_works_widget.dart';
+import 'components/painting_view_detail_sheet.dart';
+import 'components/reviews_widget.dart';
 import 'explore_bottom_sheet.dart';
 import 'rewiew.dart';
 
@@ -24,6 +24,19 @@ class FullHomeScreen extends StatefulWidget {
 
 class _FullHomeScreenState extends State<FullHomeScreen> {
   //
+
+  List title = [
+    'End-to-end\nmanagement',
+    'Accurate quotations\nNo hidden charges',
+    'On-time\ncompletion',
+    '1-year-DC\nwarranty'
+  ];
+  List images = [
+    'assets/images/management.png',
+    'assets/images/quotation.png',
+    'assets/images/complete.png',
+    'assets/images/warranty.png'
+  ];
   void increment(int index) {
     setState(() {
       selectedCounts[index] = (selectedCounts[index] ?? 0) + 1;
@@ -113,6 +126,12 @@ class _FullHomeScreenState extends State<FullHomeScreen> {
     });
   }
 
+  List<String> carouselImages = [
+    'assets/images/women.png',
+    'assets/images/men.png',
+    'assets/images/air-conditioner.png',
+  ];
+
   bool isPressed = false;
   int count = 0;
   @override
@@ -132,7 +151,8 @@ class _FullHomeScreenState extends State<FullHomeScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                videoPlayerSection(height, width),
+                // videoPlayerSection(height, width),
+                TopBarwidget(carouselImages: carouselImages),
                 _buildServiceDetails(height, width),
                 howItWorks(context: context),
                 SizedBox(height: 10.px),
@@ -209,21 +229,16 @@ class _FullHomeScreenState extends State<FullHomeScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          appText("Full home painting &\nwaterproofing", fontSize: 20, fontWeight: FontWeight.bold),
-          SizedBox(height: 10.px),
+          SizedBox(height: 10),
+          appText('At-home consultation', fontSize: 20.px, fontWeight: FontWeight.bold),
           Row(
             children: [
-              ratingButton(context),
+              Icon(Icons.star, size: 18.px),
               SizedBox(width: 6.px),
-              appText("1.4M Bookings", color: Colors.black54),
-            ],
-          ),
-          SizedBox(height: 20.px),
-          const Divider(),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              appText('At-home consultation', fontSize: 20.px, fontWeight: FontWeight.bold),
+              appText('4.79', fontSize: 16.px, color: AppColors.hintGrey),
+              SizedBox(width: 6.px),
+              appText('30k reviews', fontSize: 16.px, color: AppColors.hintGrey),
+              Spacer(),
               AddButton(
                 count: count.toString(),
                 onDecrement: () {
@@ -239,22 +254,12 @@ class _FullHomeScreenState extends State<FullHomeScreen> {
                   });
                 },
               ),
-            ],
-          ),
-          Row(
-            children: [
-              Icon(Icons.star, size: 18.px),
-              SizedBox(width: 6.px),
-              appText('4.79', fontSize: 16.px, color: AppColors.hintGrey),
-              SizedBox(width: 6.px),
-              appText('30k reviews', fontSize: 16.px, color: AppColors.hintGrey),
+              SizedBox(width: 10.px)
             ],
           ),
           SizedBox(height: 10.px),
           appText('Rs. 49', fontWeight: FontWeight.bold),
           SizedBox(height: 20.px),
-          appText('Expert consultation, tailored\nquotes, and team trained to'),
-          SizedBox(height: 12.px),
           div(),
           SizedBox(height: 10.px),
           appText('Wall makeovers,\nmade simple', fontSize: 20, fontWeight: FontWeight.bold),
@@ -308,7 +313,7 @@ class _FullHomeScreenState extends State<FullHomeScreen> {
           SizedBox(height: 10.px),
           div(),
           SizedBox(height: 10.px),
-          appText("Everything's taken care of", fontSize: 22, fontWeight: FontWeight.bold),
+          appText("Please note", fontSize: 22, fontWeight: FontWeight.bold),
           SizedBox(height: height * 0.02),
           suggestinRow('1 year unconditional warranty'),
           SizedBox(height: height * 0.03),
@@ -316,12 +321,18 @@ class _FullHomeScreenState extends State<FullHomeScreen> {
           SizedBox(height: height * 0.03),
           suggestinRow('End to end project management'),
           SizedBox(height: height * 0.03),
-          suggestinRow('Pay after satisfaction'),
+          Row(
+            children: [
+              Icon(Icons.cancel, color: AppColors.hintGrey, size: 20.px),
+              SizedBox(width: 20.px),
+              appText('Pay after completion', fontSize: 16.px)
+            ],
+          ),
           SizedBox(height: 12.px),
           div(),
           SizedBox(height: 12.px),
           appText('Top-quality products,\n affordable prices', fontSize: 20.px, fontWeight: FontWeight.bold),
-          SizedBox(height: 10.px),
+          SizedBox(height: 30.px),
           ClipRRect(borderRadius: BorderRadius.circular(8), child: Image.asset('assets/images/cs2.jpeg')),
           SizedBox(height: 10.px),
           Row(
@@ -329,14 +340,14 @@ class _FullHomeScreenState extends State<FullHomeScreen> {
             children: [
               Container(
                   height: 200.px,
-                  width: 190.px,
+                  width: 180.px,
                   decoration: BoxDecoration(
                       color: AppColors.darkGreen,
                       image: const DecorationImage(image: AssetImage('assets/images/cs2.jpeg'), fit: BoxFit.cover),
                       borderRadius: BorderRadius.circular(8.px))),
               Container(
                   height: 200.px,
-                  width: 190.px,
+                  width: 180.px,
                   decoration: BoxDecoration(
                       color: AppColors.darkGreen,
                       image: const DecorationImage(image: AssetImage('assets/images/cs2.jpeg'), fit: BoxFit.cover),
@@ -346,8 +357,55 @@ class _FullHomeScreenState extends State<FullHomeScreen> {
           SizedBox(height: 12.px),
           div(),
           SizedBox(height: 12.px),
-          appText('Happy faces\nHappy spaces', fontSize: 20.px, fontWeight: FontWeight.bold),
-          SizedBox(height: 20.px),
+          appText('Our promises', fontSize: 20.px, fontWeight: FontWeight.bold),
+          SizedBox(height: 10.px),
+          SizedBox(
+            height: 320.px,
+            child: GridView.builder(
+              itemCount: 4,
+              shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2, crossAxisSpacing: 14, mainAxisSpacing: 14, mainAxisExtent: 130.px),
+              itemBuilder: (context, index) {
+                return Container(
+                  width: 120.px,
+                  decoration:
+                      BoxDecoration(color: AppColors.grey300.withOpacity(0.3), borderRadius: BorderRadius.circular(10)),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Image.asset(
+                        images[index],
+                        height: 55.px,
+                      ),
+                      SizedBox(height: 20.px),
+                      appText(title[index], textAlign: TextAlign.center)
+                    ],
+                  ),
+                );
+              },
+            ),
+          ),
+          SizedBox(height: 30.px),
+          Table(
+            border: TableBorder.all(),
+            columnWidths: const {
+              0: FlexColumnWidth(2),
+              1: FlexColumnWidth(3),
+              2: FlexColumnWidth(3),
+            },
+            children: [
+              commonRow(' ', 'UC power saver', 'Local servicing', isHeader: true),
+              commonRow('Energy savings', 'High', 'Low'),
+              commonRow('Savings report', '✔', '✖'),
+              commonRow('Technique', 'Foam-jet technology', 'Manual'),
+              commonRow('Service warranty', '30 days', '✖'),
+            ],
+          ),
+          SizedBox(height: 30.px),
+          appText('Our painting process', fontSize: 20.px, fontWeight: FontWeight.bold),
+          SizedBox(height: 30.px),
           SizedBox(
             height: 300.px,
             child: ListView.builder(

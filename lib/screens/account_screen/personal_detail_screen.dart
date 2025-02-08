@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
+import '../../components/custom_text.dart';
+import '../../components/round_button.dart';
 import '../../constants/colors.dart';
-import '../../widgets/custom_text.dart';
-import '../../widgets/round_button.dart';
-import '../google_map/current_location.dart';
+import '../google_map/google_map_screen.dart';
 
 class PersonalDetailScreen extends StatefulWidget {
   const PersonalDetailScreen({super.key});
@@ -104,7 +104,7 @@ class _PersonalDetailScreenState extends State<PersonalDetailScreen> {
             const Spacer(),
             roundButton(
                 onTap: () {
-                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const GoogleMapScreen()));
+                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => GoogleMapScreen()));
                 },
                 title: 'Done'),
             const SizedBox(height: 10)

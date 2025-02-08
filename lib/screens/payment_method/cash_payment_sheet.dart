@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../../widgets/custom_snackbar.dart';
-import '../../widgets/custom_text.dart';
-import '../../widgets/round_button.dart';
+import '../../components/custom_snackbar.dart';
+import '../../components/custom_text.dart';
+import '../../components/round_button.dart';
 import '../bookings/accepted_booking_detail_screen.dart';
 
 void showCashPaymentBottomSheet(BuildContext context) {

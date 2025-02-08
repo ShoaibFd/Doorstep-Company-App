@@ -1,9 +1,11 @@
 import 'dart:async';
 
+import 'package:doorstep_company_app/components/custom_text.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../constants/colors.dart';
-import '../auth/authentication_screen.dart';
 import '../language/language_screen.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -14,19 +16,24 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  Timer? _timer;
+
   @override
   void initState() {
     super.initState();
-    Timer(const Duration(seconds: 3), () {
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => const LanguageScreen()),
-      );
+    _timer = Timer(const Duration(seconds: 2), () {
+      Get.off( LanguageScreen(onChecked: false));
     });
   }
 
   @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    double height = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: AppColors.splashPurple,
       body: Padding(
@@ -38,55 +45,23 @@ class _SplashScreenState extends State<SplashScreen> {
             children: [
               Center(
                 child: Container(
-                    height: height * 0.1,
-                    width: height * 0.25,
-                    decoration: BoxDecoration(
-                      color: AppColors.blackColor,
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(height * 0.24),
-                        topRight: Radius.circular(height * 0.24),
-                        bottomLeft: Radius.circular(height * 0.24),
-                        bottomRight: Radius.circular(height * 0.24),
+                    height: 90.px,
+                    width: 200.px,
+                    decoration: BoxDecoration(color: AppColors.blackColor, borderRadius: BorderRadius.circular(40.px)),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          appText('DOORSTEP',
+                              fontSize: 22.sp, fontWeight: FontWeight.bold, color: AppColors.whiteTheme),
+                          Align(
+                              alignment: Alignment.bottomRight,
+                              child: appText('Company',
+                                  fontSize: 20.sp, fontWeight: FontWeight.bold, color: AppColors.lowPurple)),
+                        ],
                       ),
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        RichText(
-                          text: const TextSpan(
-                            children: [
-                              TextSpan(
-                                text: "DOORSTEP\n",
-                                style: TextStyle(
-                                  fontStyle: FontStyle.italic,
-                                  color: AppColors.whiteTheme,
-                                  fontSize: 32,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              TextSpan(
-                                text: "        Company",
-                                style: TextStyle(
-                                  fontStyle: FontStyle.italic,
-                                  color: AppColors.lowPurple,
-                                  fontSize: 25,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              TextSpan(
-                                text: ".",
-                                style: TextStyle(
-                                  fontStyle: FontStyle.italic,
-                                  color: AppColors.whiteTheme,
-                                  fontSize: 25,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ],
-                          ),
-                        )
-                      ],
                     )),
               )
             ],

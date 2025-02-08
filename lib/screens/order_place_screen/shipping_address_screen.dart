@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
+import '../../components/custom_container.dart';
+import '../../components/custom_text.dart';
 import '../../constants/colors.dart';
-import '../../widgets/custom_container.dart';
-import '../../widgets/custom_text.dart';
 import 'shipping_address_summary.dart';
 import 'widgets/address_widget.dart';
 
@@ -122,28 +122,6 @@ class _ShippingAddressScreenState extends State<ShippingAddressScreen> {
                       icon: Icons.place_outlined,
                     ),
                     SizedBox(height: 30.px),
-                    CustomContainer(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const ShippingAddressSummaryScreen(),
-                          ),
-                        );
-                      },
-                      margin: EdgeInsets.symmetric(horizontal: 14.px),
-                      height: 55.px,
-                      color: AppColors.blueColor,
-                      borderRadius: 40.px,
-                      child: Center(
-                        child: appText(
-                          'Continue',
-                          color: AppColors.whiteTheme,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18.px,
-                        ),
-                      ),
-                    ),
                     SizedBox(height: 20.px),
                   ],
                 ),
@@ -153,6 +131,34 @@ class _ShippingAddressScreenState extends State<ShippingAddressScreen> {
         ],
       ),
       resizeToAvoidBottomInset: true,
+      bottomNavigationBar: Container(
+        color: AppColors.whiteTheme,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 10),
+          child: CustomContainer(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const ShippingAddressSummaryScreen(),
+                ),
+              );
+            },
+            margin: EdgeInsets.symmetric(horizontal: 14.px),
+            height: 55.px,
+            color: AppColors.blueColor,
+            borderRadius: 40.px,
+            child: Center(
+              child: appText(
+                'Continue',
+                color: AppColors.whiteTheme,
+                fontWeight: FontWeight.bold,
+                fontSize: 18.px,
+              ),
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

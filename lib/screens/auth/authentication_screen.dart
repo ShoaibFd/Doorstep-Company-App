@@ -2,11 +2,11 @@ import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
+import '../../components/custom_text.dart';
+import '../../components/round_button.dart';
 import '../../constants/colors.dart';
-import '../../widgets/custom_text.dart';
-import '../../widgets/round_button.dart';
 import '../account_screen/personal_detail_screen.dart';
-import '../google_map/current_location.dart';
+import '../google_map/google_map_screen.dart';
 import 'sent_code_screen.dart';
 
 class AuthenticationScreen extends StatefulWidget {
@@ -37,7 +37,7 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
       floatingActionButton: FloatingActionButton(
           backgroundColor: AppColors.floatingButtonColor,
           onPressed: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => const GoogleMapScreen()));
+            Navigator.push(context, MaterialPageRoute(builder: (context) => GoogleMapScreen()));
           },
           child: appText('Skip')),
       body: Stack(

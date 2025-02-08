@@ -2,15 +2,15 @@ import 'package:doorstep_company_app/screens/bookings/user_detail_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
-import '../../../widgets/divider.dart';
+import '../../components/custom_container.dart';
+import '../../components/custom_text.dart';
+import '../../components/divider.dart';
 import '../../constants/colors.dart';
-import '../../widgets/custom_container.dart';
-import '../../widgets/custom_text.dart';
 import '../cart_screen/summary_screen.dart';
 import '../chat/chat_screen.dart';
 import 'cancel_booking/cancel_booking_reason_screen.dart';
 import 'cancel_booking/cancel_button.dart';
-import 'widgets/reschedule_button.dart';
+import 'components/reschedule_button.dart';
 
 class BookingDetailScreen extends StatefulWidget {
   const BookingDetailScreen({super.key});
@@ -208,7 +208,7 @@ class _BookingDetailScreenState extends State<BookingDetailScreen> {
                   ),
                   SizedBox(height: 20.px),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       CustomContainer(
                           width: 100.px,
@@ -225,32 +225,44 @@ class _BookingDetailScreenState extends State<BookingDetailScreen> {
                               ],
                             ),
                           )),
-                      Row(
-                        spacing: 20.px,
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          GestureDetector(
-                              onTap: () {
-                                Navigator.push(context, MaterialPageRoute(builder: (context) => const ChatScreen()));
-                              },
-                              child: CircleAvatar(
-                                  backgroundColor: AppColors.grey300.withOpacity(0.5),
-                                  child: Image.asset('assets/images/chat.png',
-                                      height: 22.px, color: AppColors.blueColor))),
-                          GestureDetector(
-                              onTap: () {},
-                              child: CircleAvatar(
-                                  backgroundColor: AppColors.grey300.withOpacity(0.5),
-                                  child: const Icon(Icons.call, color: AppColors.blueColor))),
-                          GestureDetector(
-                              onTap: () {},
-                              child: CircleAvatar(
-                                  backgroundColor: AppColors.grey300.withOpacity(0.5),
-                                  child: const Icon(Icons.place_outlined, color: AppColors.blueColor))),
-                        ],
-                      )
+                      const Spacer(),
+                      GestureDetector(
+                          onTap: () {
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => const ChatScreen()));
+                          },
+                          child: CircleAvatar(
+                              backgroundColor: AppColors.grey300.withOpacity(0.5),
+                              child: Image.asset('assets/images/chat.png', height: 22.px, color: AppColors.blueColor))),
+                      SizedBox(width: 10.px),
+                      GestureDetector(
+                          onTap: () {},
+                          child: CircleAvatar(
+                              backgroundColor: AppColors.grey300.withOpacity(0.5),
+                              child: const Icon(Icons.call, color: AppColors.blueColor))),
                     ],
-                  )
+                  ),
+                  SizedBox(height: 20.px),
+                  CustomContainer(
+                    width: 170.px,
+                    height: 40.px,
+                    borderRadius: 4,
+                    color: AppColors.blueColor,
+                    child: Padding(
+                      padding: const EdgeInsets.all(3.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        spacing: 10,
+                        children: [
+                          InkWell(
+                              onTap: () {},
+                              child: appText('Track professional',
+                                  color: AppColors.whiteTheme, fontWeight: FontWeight.bold, fontSize: 15.px)),
+                          GestureDetector(
+                              onTap: () {}, child: const Icon(Icons.place_outlined, color: AppColors.whiteTheme)),
+                        ],
+                      ),
+                    ),
+                  ),
                 ],
               ),
               SizedBox(height: 20.px),

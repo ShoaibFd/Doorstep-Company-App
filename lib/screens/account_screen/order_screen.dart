@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../widgets/custom_text.dart';
+import '../../components/custom_text.dart';
 
 class OrderScreen extends StatefulWidget {
   const OrderScreen({super.key});

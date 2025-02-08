@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../constants/colors.dart';
-import '../../widgets/custom_container.dart';
-import '../../widgets/custom_text.dart';
+import '../../components/custom_container.dart';
+import '../../components/custom_text.dart';
 import '../payment_process/address_bottom_sheet.dart';
 import 'checkout_screen.dart';
 
@@ -126,17 +126,20 @@ class _ShippingAddressSummaryScreenState extends State<ShippingAddressSummaryScr
           ),
         ],
       ),
-      bottomSheet: CustomContainer(
-          onTap: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => const CheckoutScreen()));
-          },
-          margin: EdgeInsets.symmetric(horizontal: 14.px, vertical: 10.px),
-          height: 55.px,
-          color: AppColors.blueColor,
-          borderRadius: 40.px,
-          child: Center(
-            child: appText('Continue', color: AppColors.whiteTheme, fontWeight: FontWeight.bold, fontSize: 18.px),
-          )),
+      bottomSheet: Container(
+        color: AppColors.whiteTheme,
+        child: CustomContainer(
+            onTap: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) => const CheckoutScreen()));
+            },
+            margin: EdgeInsets.symmetric(horizontal: 14.px, vertical: 10.px),
+            height: 55.px,
+            color: AppColors.blueColor,
+            borderRadius: 40.px,
+            child: Center(
+              child: appText('Continue', color: AppColors.whiteTheme, fontWeight: FontWeight.bold, fontSize: 18.px),
+            )),
+      ),
     );
   }
 }

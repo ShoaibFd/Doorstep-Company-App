@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 import '../../constants/colors.dart';
-import '../../widgets/custom_text.dart';
-import '../../widgets/round_button.dart';
+import '../../components/custom_text.dart';
+import '../../components/round_button.dart';
 import '../painting_wall_screen/full_home_painting.dart';
 
 class PaintSummaryScreen extends StatefulWidget {
