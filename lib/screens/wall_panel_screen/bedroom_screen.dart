@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../components/custom_text.dart';
+import '../../components/app_text.dart';
 import '../../components/round_button.dart';
 import '../../constants/colors.dart';
 import '../auth/authentication_screen.dart';

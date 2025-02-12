@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../constants/colors.dart';
 import '../../components/custom_container.dart';
-import '../../components/custom_text.dart';
+import '../../components/app_text.dart';
 import '../bookings/quote_screen.dart';
 
 class NotificationScreen extends StatelessWidget {

@@ -4,7 +4,7 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../app_controllers/booking_controller.dart';
 import '../../components/custom_container.dart';
-import '../../components/custom_text.dart';
+import '../../components/app_text.dart';
 import '../../constants/colors.dart';
 import 'cancel_booking/cancel_booking_screen.dart';
 import 'claim_screens/claim_screen.dart';

@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../app_controllers/edit_profile_controller.dart';
-import '../../components/custom_text.dart';
+import '../../components/app_text.dart';
 import '../../constants/colors.dart';
 
 class EditProfileScreen extends StatelessWidget {

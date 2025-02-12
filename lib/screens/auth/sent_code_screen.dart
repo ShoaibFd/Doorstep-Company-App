@@ -6,22 +6,20 @@ import 'package:otp_text_field/otp_field.dart';
 import 'package:otp_text_field/style.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
-import '../../components/custom_text.dart';
+import '../../components/app_text.dart';
 import '../../components/round_button.dart';
 import '../../constants/colors.dart';
 import 'create_account_screen.dart';
 
-class CodeSentScreen extends StatefulWidget {
-  const CodeSentScreen({super.key});
+class CodeSentScreen extends StatelessWidget {
+  CodeSentScreen({super.key});
 
-  @override
-  State<CodeSentScreen> createState() => _CodeSentScreenState();
-}
-
-class _CodeSentScreenState extends State<CodeSentScreen> {
   final formKey = GlobalKey<FormState>();
+
   TextEditingController otpController = TextEditingController();
-  late var textStyle = const TextStyle(color: AppColors.transparentColor); // Text color initially transparent
+
+  late var textStyle = const TextStyle(color: AppColors.transparentColor);
+
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;

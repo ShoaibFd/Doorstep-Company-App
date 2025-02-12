@@ -3,7 +3,7 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../../constants/colors.dart';
 import '../../../components/bottom_sheet/review_bottom_sheet.dart';
-import '../../../components/custom_text.dart';
+import '../../../components/app_text.dart';
 import '../../../components/dotted_line_widget.dart';
 
 class RatingRowSection extends StatelessWidget {

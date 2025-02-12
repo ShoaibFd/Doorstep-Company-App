@@ -6,7 +6,7 @@ import 'package:video_player/video_player.dart';
 import '../../../constants/colors.dart';
 import '../../../components/bottom_sheet/review_bottom_sheet.dart';
 import '../../../components/custom_container.dart';
-import '../../../components/custom_text.dart';
+import '../../../components/app_text.dart';
 import '../../../components/divider.dart';
 import '../../home_screen/components/carousel_slider.dart';
 import '../../order_place_screen/order_screen.dart';

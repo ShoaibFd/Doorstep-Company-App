@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../constants/colors.dart';
-import '../../components/custom_text.dart';
+import '../../components/app_text.dart';
 
 void explorePaintingSheet(BuildContext context) {
   double height = MediaQuery.of(context).size.height; // Fixed the MediaQuery method

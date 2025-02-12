@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../../Constants/colors.dart';
-import '../../../components/custom_text.dart';
+import '../../../components/app_text.dart';
 import '../../ac_screens/components/ac_appliance_bottom_sheet.dart';
 import '../../cleaning & pest control/cleaning_and_pest_sheet.dart';
 import '../../mens salon & massage/mens_salon/men_saloon_bottom_sheet.dart';
@@ -11,8 +12,6 @@ import '../../wall_panel_screen/wall_panel_screen.dart';
 import '../women_category_screen.dart';
 
 Widget categoryWidget(BuildContext context) {
-  //
-
   navigateToServiceDetail(int index) {
     switch (index) {
       case 0:
@@ -41,11 +40,11 @@ Widget categoryWidget(BuildContext context) {
         break;
 
       case 8:
-        Navigator.push(context, MaterialPageRoute(builder: (context) => const WallPanelScreen()));
+        Get.to(() => const WallPanelScreen());
         break;
 
       case 7:
-        Navigator.push(context, MaterialPageRoute(builder: (context) => const PaintingWaterproofingScreen()));
+        Get.to(() => const PaintingWaterproofingScreen());
       default:
         break;
     }

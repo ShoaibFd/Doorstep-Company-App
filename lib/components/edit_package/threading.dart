@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../constants/colors.dart';
-import '../custom_text.dart';
+import '../app_text.dart';
 
 class ThreadingRow extends StatefulWidget {
   final String title;

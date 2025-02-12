@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
-import 'custom_text.dart';
+import 'app_text.dart';
 
 Widget roundButton({
   VoidCallback? onTap,

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../screens/salon_for_women/components/waxingBottomsheet.dart';
-import '../custom_text.dart';
+import '../app_text.dart';
 
 class WaxingRow extends StatefulWidget {
   final String title;

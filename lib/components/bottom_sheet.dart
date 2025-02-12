@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../constants/colors.dart'; // Ensure this exists
-import 'custom_text.dart'; // Ensure this exists
+import 'app_text.dart'; // Ensure this exists
 
 class FilterRatingBottomSheet extends StatelessWidget {
   final RatingFilterController controller = Get.put(RatingFilterController());

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../constants/colors.dart';
-import '../../../components/custom_text.dart';
+import '../../../components/app_text.dart';
 
 class OffersContainers extends StatelessWidget {
   final String? title;

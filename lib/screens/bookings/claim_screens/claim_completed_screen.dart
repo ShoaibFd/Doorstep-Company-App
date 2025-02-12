@@ -4,7 +4,7 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../../utils/bottom_navigation_screen.dart';
 import '../../../components/custom_container.dart';
-import '../../../components/custom_text.dart';
+import '../../../components/app_text.dart';
 
 class ClaimCompletedScreen extends StatelessWidget {
   const ClaimCompletedScreen({super.key});

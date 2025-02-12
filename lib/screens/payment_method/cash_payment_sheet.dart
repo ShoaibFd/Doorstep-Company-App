@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../components/custom_snackbar.dart';
-import '../../components/custom_text.dart';
+import '../../components/app_text.dart';
 import '../../components/round_button.dart';
 import '../bookings/accepted_booking_detail_screen.dart';
 

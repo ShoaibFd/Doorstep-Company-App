@@ -2,7 +2,7 @@ import 'package:doorstep_company_app/screens/mens%20salon%20&%20massage/mens_sal
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
-import '../../../components/custom_text.dart';
+import '../../../components/app_text.dart';
 import '../../../constants/colors.dart';
 import '../components/mens_massage_category_screen.dart';
 

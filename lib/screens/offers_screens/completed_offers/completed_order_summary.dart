@@ -3,7 +3,7 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../../constants/colors.dart';
 import '../../../components/custom_container.dart';
-import '../../../components/custom_text.dart';
+import '../../../components/app_text.dart';
 import '../../../components/divider.dart';
 import '../../home_screen/professional_rating_bottom_sheet.dart';
 import 'offer_status_screen.dart';

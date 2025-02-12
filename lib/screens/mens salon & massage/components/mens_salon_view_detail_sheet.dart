@@ -7,7 +7,7 @@ import '../../../components/bottom_sheet/dc_verified_quotes.dart';
 import '../../../components/bottom_sheet/no_question_asked_bottom_sheet.dart';
 import '../../../components/bottom_sheet/review_bottom_sheet.dart';
 import '../../../components/custom_container.dart';
-import '../../../components/custom_text.dart';
+import '../../../components/app_text.dart';
 import '../../../components/divider.dart';
 import '../../../components/round_button.dart';
 import '../../../constants/colors.dart';

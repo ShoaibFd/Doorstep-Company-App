@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../constants/colors.dart';
 import '../custom_snackbar.dart';
-import '../custom_text.dart';
+import '../app_text.dart';
 import 'threading.dart';
 import 'waxing.dart';
 import 'waxing_row_widget.dart';

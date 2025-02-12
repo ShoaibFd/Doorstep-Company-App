@@ -4,7 +4,7 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import '../../constants/colors.dart';
 import '../../utils/bottom_navigation_screen.dart';
 import '../../components/custom_container.dart';
-import '../../components/custom_text.dart';
+import '../../components/app_text.dart';
 
 class OrderPlacedScreen extends StatelessWidget {
   const OrderPlacedScreen({super.key});

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../constants/colors.dart';
-import '../../../components/custom_text.dart';
+import '../../../components/app_text.dart';
 import '../../bookings/completed_bookings/complete_booking_detail_screen.dart';
 
 class HistorySection extends StatelessWidget {

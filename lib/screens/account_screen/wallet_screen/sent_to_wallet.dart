@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../constants/colors.dart';
-import '../../../components/custom_text.dart';
+import '../../../components/app_text.dart';
 import '../../wallet/wallet_screen.dart';
 
 class SentToWalletSection extends StatelessWidget {

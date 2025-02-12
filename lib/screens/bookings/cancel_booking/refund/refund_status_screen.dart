@@ -4,7 +4,7 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../../../constants/colors.dart';
 import '../../../../components/custom_container.dart';
-import '../../../../components/custom_text.dart';
+import '../../../../components/app_text.dart';
 import 'refund_history_screen.dart';
 import 'refund_status_summary_screen.dart';
 

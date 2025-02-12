@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../components/custom_text.dart';
+import '../../components/app_text.dart';
 
 class AboutUsScreen extends StatefulWidget {
   const AboutUsScreen({super.key});

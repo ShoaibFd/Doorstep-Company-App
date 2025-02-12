@@ -1,8 +1,9 @@
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
-import '../../components/custom_text.dart';
+import '../../components/app_text.dart';
 import '../../components/round_button.dart';
 import '../../constants/colors.dart';
 import '../account_screen/personal_detail_screen.dart';
@@ -13,20 +14,26 @@ class AuthenticationScreen extends StatefulWidget {
   const AuthenticationScreen({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _AuthenticationScreenState createState() => _AuthenticationScreenState();
 }
 
 class _AuthenticationScreenState extends State<AuthenticationScreen> {
   final phoneController = TextEditingController();
+  final authenticationController = Get.put(AuthenticationController());
   final _formKey = GlobalKey<FormState>();
-  String countryCode = '+92';
-  String initialSelection = 'PK';
-  bool isEnabled = false;
 
   @override
   void dispose() {
     phoneController.dispose();
     super.dispose();
+  }
+
+  // Verify OTP Function
+  void verifyOTP() {
+    if (_formKey.currentState!.validate()) {
+      Get.to( CodeSentScreen());
+    }
   }
 
   @override
@@ -67,7 +74,7 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
                         Expanded(
                           flex: 3,
                           child: Container(
-                            height: 53.px,
+                            height: 55.px,
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10.px),
                                 border: Border.all(color: AppColors.grey300)),
@@ -75,19 +82,17 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
                               padding: EdgeInsets.all(8.px),
                               child: CountryCodePicker(
                                 onChanged: (code) {
-                                  setState(() {
-                                    countryCode = code.dialCode!;
-                                    initialSelection = code.code!;
-                                  });
+                                  authenticationController.setCountryCode(code.dialCode!);
+                                  authenticationController.setInitialSelection(code.code!);
                                 },
-                                initialSelection: initialSelection,
+                                initialSelection: authenticationController.initialSelection.value,
                                 showCountryOnly: false,
                                 showOnlyCountryWhenClosed: false,
                                 showFlag: true,
                                 hideMainText: true,
                                 favorite: const ['+92', '+1'],
                                 flagDecoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(4.px),
+                                  borderRadius: BorderRadius.circular(10.px)
                                 ),
                                 builder: (countryCode) {
                                   return Row(
@@ -107,8 +112,7 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
                           flex: 8,
                           child: TextFormField(
                             onTap: () {
-                              isEnabled = true;
-                              setState(() {});
+                              authenticationController.isEnabled.value;
                             },
                             controller: phoneController,
                             keyboardType: TextInputType.phone,
@@ -133,21 +137,9 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
                       ],
                     ),
                     SizedBox(height: height * 0.020),
-                    // Row(
-                    //   mainAxisAlignment: MainAxisAlignment.center,
-                    //   children: [
-                    //     Image.asset('assets/images/search.png', height: 24),
-                    //     SizedBox(width: width * 0.10),
-                    //     Image.asset('assets/images/facebook.png', height: 24),
-                    //   ],
-                    // ),
                     SizedBox(height: height * 0.030),
                     roundButton(
-                        onTap: () {
-                          if (_formKey.currentState!.validate()) {
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => const CodeSentScreen()));
-                          }
-                        },
+                        onTap: () => verifyOTP(),
                         textColor: AppColors.greyColor,
                         color: AppColors.grey300,
                         title: 'Get Verification code'),
@@ -160,8 +152,7 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
                       children: [
                         IconButton(
                             onPressed: () {
-                              Navigator.push(
-                                  context, MaterialPageRoute(builder: (context) => const PersonalDetailScreen()));
+                              Get.to(const PersonalDetailScreen());
                             },
                             icon: Image.asset('assets/images/google.png', height: 30.px)),
                         IconButton(
@@ -181,5 +172,23 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
         ],
       ),
     );
+  }
+}
+
+class AuthenticationController extends GetxController {
+  RxBool isEnabled = false.obs;
+  var countryCode = '+92'.obs;
+  var initialSelection = 'PK'.obs;
+
+  void setEnabled(bool value) {
+    isEnabled.value = value;
+  }
+
+  void setCountryCode(String value) {
+    countryCode.value = value;
+  }
+
+  void setInitialSelection(String value) {
+    initialSelection.value = value;
   }
 }

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../constants/colors.dart';
-import 'custom_text.dart';
+import 'app_text.dart';
 
 class DescriptionWidget extends StatefulWidget {
   final String discount;

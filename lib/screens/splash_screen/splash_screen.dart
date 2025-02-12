@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:doorstep_company_app/components/custom_text.dart';
+import 'package:doorstep_company_app/components/app_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';

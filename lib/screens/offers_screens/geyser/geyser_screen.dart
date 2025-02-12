@@ -3,7 +3,7 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../../constants/colors.dart';
 import '../../../components/custom_container.dart';
-import '../../../components/custom_text.dart';
+import '../../../components/app_text.dart';
 import '../ac/ac_detail_screen.dart';
 
 class GeyserScreen extends StatefulWidget {

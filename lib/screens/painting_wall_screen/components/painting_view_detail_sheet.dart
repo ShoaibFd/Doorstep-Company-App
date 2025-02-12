@@ -3,7 +3,7 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:share_plus/share_plus.dart';
 
 import '../../../constants/colors.dart';
-import '../../../components/custom_text.dart';
+import '../../../components/app_text.dart';
 import '../../../components/divider.dart';
 import '../../salon_for_women/spa_for_women/spa_view_detail_sheet.dart';
 import 'frequently_asked_questions_widget.dart';

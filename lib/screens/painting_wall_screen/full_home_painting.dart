@@ -3,7 +3,7 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:video_player/video_player.dart';
 
 import '../../constants/colors.dart';
-import '../../components/custom_text.dart';
+import '../../components/app_text.dart';
 import '../../components/divider.dart';
 import '../../components/round_button.dart';
 import '../subcategory_screens/Widgets/topbar_widget.dart';

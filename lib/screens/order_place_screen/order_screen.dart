@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../components/custom_container.dart';
-import '../../components/custom_text.dart';
+import '../../components/app_text.dart';
 import '../../constants/colors.dart';
 import '../auth/app_textfield.dart';
 import 'shipping_address_screen.dart';

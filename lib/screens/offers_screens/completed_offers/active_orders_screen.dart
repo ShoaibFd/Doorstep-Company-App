@@ -3,7 +3,7 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../../constants/colors.dart';
 import '../../../components/custom_container.dart';
-import '../../../components/custom_text.dart';
+import '../../../components/app_text.dart';
 import '../../../components/divider.dart';
 import '../../account_screen/address_screen.dart';
 import 'completed_order_summary.dart';

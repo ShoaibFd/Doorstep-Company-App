@@ -5,7 +5,7 @@ import '../../components/bottom_sheet/30_day_warranty.dart';
 import '../../components/bottom_sheet/claim_order.dart';
 import '../../components/bottom_sheet/dc_verified_quotes.dart';
 import '../../components/bottom_sheet/no_question_asked_bottom_sheet.dart';
-import '../../components/custom_text.dart';
+import '../../components/app_text.dart';
 import 'dc_container.dart';
 
 class UcCoverScreen extends StatefulWidget {

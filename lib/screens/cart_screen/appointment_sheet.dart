@@ -2,7 +2,7 @@ import 'package:doorstep_company_app/components/custom_container.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
-import '../../components/custom_text.dart';
+import '../../components/app_text.dart';
 import '../../components/round_button.dart';
 import '../../constants/colors.dart';
 import '../payment_method/payment_method_screen.dart';

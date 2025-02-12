@@ -3,7 +3,7 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:video_player/video_player.dart';
 
 import '../../constants/colors.dart';
-import '../../components/custom_text.dart';
+import '../../components/app_text.dart';
 import '../home_screen/components/carousel_slider.dart';
 import 'ac/ac_detail_screen.dart';
 import 'ac/ac_screen.dart';

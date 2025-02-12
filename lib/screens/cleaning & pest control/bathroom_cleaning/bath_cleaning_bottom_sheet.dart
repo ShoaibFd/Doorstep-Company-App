@@ -4,7 +4,7 @@ import 'package:share_plus/share_plus.dart';
 
 import '../../../constants/colors.dart';
 import '../../../components/custom_container.dart';
-import '../../../components/custom_text.dart';
+import '../../../components/app_text.dart';
 import '../../../components/divider.dart';
 import '../../home_screen/components/carousel_slider.dart';
 import '../../painting_wall_screen/components/add_button.dart';

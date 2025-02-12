@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../../constants/colors.dart';
-import '../../../components/custom_text.dart';
+import '../../../components/app_text.dart';
 
 class AddButton extends StatefulWidget {
   final Function() onIncrement;

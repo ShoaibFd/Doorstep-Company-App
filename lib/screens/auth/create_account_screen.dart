@@ -6,7 +6,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart' as google_maps;
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../app_controllers/create_account_controller.dart';
-import '../../components/custom_text.dart';
+import '../../components/app_text.dart';
 import '../../components/round_button.dart';
 import '../../constants/colors.dart';
 import '../../utils/bottom_navigation_screen.dart';
@@ -123,9 +123,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: appText('Create Account', fontSize: 20, fontWeight: FontWeight.w400),
-      ),
+      appBar: AppBar(title: appText('Create Account', fontSize: 20, fontWeight: FontWeight.w400)),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -141,7 +139,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                     controller: nameController,
                     prefixIcon: Icons.person_2,
                     validator: (value) {
-                      if (value == null || value.isEmpty) return 'Name is required';
+                      if (value == null) return 'Name is required';
                       return null;
                     },
                     keyboardType: TextInputType.name,
@@ -170,7 +168,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                     hint: 'Select Gender',
                     controller: genderController,
                     validator: (value) {
-                      if (value == null || value.isEmpty) return 'Gender is required';
+                      if (value == null) return 'Gender is required';
                       return null;
                     },
                     prefixIcon: Icons.face,
@@ -188,7 +186,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                       onPressed: pickDate,
                     ),
                     validator: (value) {
-                      if (value == null || value.isEmpty) {
+                      if (value == null) {
                         return 'Date of Birth is required';
                       }
                       return null;
@@ -201,7 +199,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                     controller: houseController,
                     prefixIcon: Icons.home_filled,
                     validator: (value) {
-                      if (value == null || value.isEmpty) return 'Address is required';
+                      if (value == null) return 'Address is required';
                       return null;
                     },
                   ),
@@ -247,7 +245,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                         hint: 'Confirm Password',
                         controller: confirmPasswordController,
                         validator: (value) {
-                          if (value == null || value.isEmpty) return 'Password is required';
+                          if (value == null) return 'Password is required';
                           if (value != passwordController.text) return 'Passwords do not match';
                           return null;
                         },
@@ -269,9 +267,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                           )),
                       Expanded(
                         child: GestureDetector(
-                          onTap: () {
-                            Get.to(() => const TermsAndConditionsScreen());
-                          },
+                          onTap: () => Get.to(() => const TermsAndConditionsScreen()),
                           child: Row(
                             children: [
                               appText('I agree with the '),
@@ -305,16 +301,16 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                     ),
                   ),
                   const SizedBox(height: 10),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      appText("Already have an account? "),
-                      GestureDetector(
-                        onTap: () {},
-                        child: appText("Login", color: AppColors.blueColor, fontSize: 16, fontWeight: FontWeight.bold),
-                      ),
-                    ],
-                  ),
+                  // Row(
+                  //   mainAxisAlignment: MainAxisAlignment.center,
+                  //   children: [
+                  //     appText("Already have an account? "),
+                  //     GestureDetector(
+                  //       onTap: () {},
+                  //       child: appText("Login", color: AppColors.blueColor, fontSize: 16, fontWeight: FontWeight.bold),
+                  //     ),
+                  //   ],
+                  // ),
                   SizedBox(height: 10.px),
                 ],
               ),

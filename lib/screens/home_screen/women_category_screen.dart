@@ -2,7 +2,7 @@ import 'package:doorstep_company_app/screens/salon_for_women/hair_studio/hair_st
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
-import '../../components/custom_text.dart';
+import '../../components/app_text.dart';
 import '../../constants/colors.dart';
 import '../salon_for_women/hair_studio/hair_studio_screen.dart';
 import '../salon_for_women/hair_studio/salon_category_screen.dart';

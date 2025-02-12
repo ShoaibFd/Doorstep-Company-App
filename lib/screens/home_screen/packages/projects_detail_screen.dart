@@ -10,7 +10,7 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import '../../../constants/colors.dart';
 import '../../../components/bottom_sheet/review_bottom_sheet.dart';
 import '../../../components/custom_container.dart';
-import '../../../components/custom_text.dart';
+import '../../../components/app_text.dart';
 import '../../../components/divider.dart';
 import '../../../components/round_button.dart';
 import '../../ac_screens/components/ac_view_detail_sheet.dart';

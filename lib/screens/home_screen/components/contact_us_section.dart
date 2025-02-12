@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
-import '../../../components/custom_text.dart';
+import '../../../components/app_text.dart';
 
 Widget contactUsSection(BuildContext context) {
   return Padding(

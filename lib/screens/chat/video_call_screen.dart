@@ -4,7 +4,7 @@ import 'package:permission_handler/permission_handler.dart';
 
 import '../../constants/colors.dart';
 import '../../components/custom_snackbar.dart';
-import '../../components/custom_text.dart';
+import '../../components/app_text.dart';
 
 class VideoCallScreen extends StatefulWidget {
   final String channelName;

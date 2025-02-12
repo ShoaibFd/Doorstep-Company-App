@@ -3,7 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../constants/colors.dart';
-import '../custom_text.dart';
+import '../app_text.dart';
 
 void showWarrantyBottomSheet(BuildContext context) {
   showModalBottomSheet(

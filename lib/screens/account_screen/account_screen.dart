@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 
 import '../../Constants/colors.dart';
 import '../../components/custom_snackbar.dart';
-import '../../components/custom_text.dart';
+import '../../components/app_text.dart';
 import '../bookings/cancel_booking/refund/refund_status_screen.dart';
 import '../cart_screen/benefits_screen.dart';
 import '../notification_screen/notification_screen.dart';

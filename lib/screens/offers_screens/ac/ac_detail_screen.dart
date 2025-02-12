@@ -6,7 +6,7 @@ import '../../../constants/colors.dart';
 import '../../../components/bottom_sheet/review_bottom_sheet.dart';
 import '../../../components/custom_container.dart';
 import '../../../components/custom_snackbar.dart';
-import '../../../components/custom_text.dart';
+import '../../../components/app_text.dart';
 import '../../../components/divider.dart';
 import '../../chat/chat_screen.dart';
 import '../../cleaning & pest control/bathroom_cleaning/bath_cleaning_bottom_sheet.dart';

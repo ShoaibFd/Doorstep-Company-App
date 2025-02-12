@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../../constants/colors.dart';
-import '../../../components/custom_text.dart';
+import '../../../components/app_text.dart';
 import '../packages/packages_detail_screen.dart';
 
 Widget packagesAndProjects(BuildContext context) {

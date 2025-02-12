@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../constants/colors.dart';
-import '../../components/custom_text.dart';
+import '../../components/app_text.dart';
 
 class SavedLocationScreen extends StatelessWidget {
   const SavedLocationScreen({super.key});

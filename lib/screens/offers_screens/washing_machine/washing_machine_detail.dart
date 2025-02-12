@@ -4,7 +4,7 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import '../../../constants/colors.dart';
 import '../../../components/bottom_sheet/review_bottom_sheet.dart';
 import '../../../components/custom_snackbar.dart';
-import '../../../components/custom_text.dart';
+import '../../../components/app_text.dart';
 import '../../../components/divider.dart';
 import '../../home_screen/components/carousel_slider.dart';
 import '../ac/custom_app_bar.dart';

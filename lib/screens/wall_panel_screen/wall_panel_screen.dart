@@ -3,7 +3,7 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 import '../../constants/colors.dart';
 import '../../components/custom_container.dart';
-import '../../components/custom_text.dart';
+import '../../components/app_text.dart';
 import '../../components/round_button.dart';
 import '../cart_screen/summary_screen.dart';
 import '../cleaning & pest control/bathroom_cleaning/bath_cleaning_bottom_sheet.dart';

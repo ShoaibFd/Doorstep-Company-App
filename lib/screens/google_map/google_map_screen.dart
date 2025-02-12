@@ -5,7 +5,7 @@ import 'package:lottie/lottie.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../app_controllers/google_map_controller.dart';
-import '../../components/custom_text.dart';
+import '../../components/app_text.dart';
 import '../../components/round_button.dart';
 import '../../constants/colors.dart';
 import 'add_location.dart';
@@ -37,7 +37,8 @@ class GoogleMapScreen extends StatelessWidget {
                       Container(
                           height: 34.px,
                           width: 34.px,
-                          decoration: const BoxDecoration(shape: BoxShape.circle, color: AppColors.lowPurple)),
+                          decoration: const BoxDecoration(shape: BoxShape.circle, color: AppColors.lowPurple),
+                          child: Center(child: CircleAvatar(backgroundColor: AppColors.whiteTheme, radius: 6.px))),
                       Container(height: 36.px, width: 2.px, color: AppColors.lowPurple)
                     ],
                   ),

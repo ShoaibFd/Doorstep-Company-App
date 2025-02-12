@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../custom_text.dart';
+import '../app_text.dart';
 
 class RowWidget extends StatefulWidget {
   final String text;

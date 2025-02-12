@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../components/custom_text.dart';
+import '../../components/app_text.dart';
 
 class TermsAndConditionsScreen extends StatefulWidget {
   const TermsAndConditionsScreen({super.key});
