@@ -1,9 +1,9 @@
 import 'package:doorstep_company_app/components/round_button.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:responsive_sizer/responsive_sizer.dart';
 
-import '../constants/colors.dart'; // Ensure this exists
+import '../theme/colors.dart'; // Ensure this exists
 import 'app_text.dart'; // Ensure this exists
 
 class FilterRatingBottomSheet extends StatelessWidget {
@@ -18,23 +18,23 @@ class FilterRatingBottomSheet extends StatelessWidget {
       children: [
         SingleChildScrollView(
           child: Padding(
-            padding: EdgeInsets.all(8.px),
+            padding: EdgeInsets.all(8.w),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(height: 8.px),
+                SizedBox(height: 8.h),
                 Row(
                   children: [
                     const Icon(Icons.star),
-                    SizedBox(width: 8.px),
-                    appText('Filters', fontSize: 22.px, fontWeight: FontWeight.bold),
+                    SizedBox(width: 8.w),
+                    appText('Filters', fontSize: 22.sp, fontWeight: FontWeight.bold),
                   ],
                 ),
-                SizedBox(height: 20.px),
+                SizedBox(height: 20.h),
                 appText('Rating', fontSize: 17.sp),
                 const SizedBox(height: 4),
-                Container(height: 2, width: 45.px, color: AppColors.blackColor),
-                SizedBox(height: 10.px),
+                Container(height: 2, width: 45.w, color: AppColors.blackColor),
+                SizedBox(height: 10.h),
 
                 // ✅ Use Obx() to update UI automatically
                 Obx(() => Column(
@@ -55,16 +55,16 @@ class FilterRatingBottomSheet extends StatelessWidget {
                     GestureDetector(
                       onTap: () => controller.resetFilters(),
                       child: Container(
-                        height: 45.px,
-                        width: 180.px,
+                        height: 45.h,
+                        width: 180.w,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(8),
                           border: Border.all(color: AppColors.grey300),
                         ),
-                        child: Center(child: appText('Reset', color: AppColors.lowPurple, fontSize: 16)),
+                        child: Center(child: appText('Reset', color: AppColors.lowPurple, fontSize: 16.sp)),
                       ),
                     ),
-                    roundButton(height: 45.px, width: 180.px, title: 'Apply')
+                    roundButton(height: 45.h, width: 180.w, title: 'Apply')
                   ],
                 ),
               ],
@@ -72,8 +72,8 @@ class FilterRatingBottomSheet extends StatelessWidget {
           ),
         ),
         Positioned(
-          top: -50.px,
-          right: 16.px,
+          top: -50.h,
+          right: 16.w,
           child: GestureDetector(
             onTap: () => Get.back(),
             child: const CircleAvatar(
@@ -94,7 +94,7 @@ class FilterRatingBottomSheet extends StatelessWidget {
           value: isChecked.value,
           onChanged: (value) => onChanged(value ?? false),
         ),
-        Text(title, style: const TextStyle(fontSize: 18)),
+        Text(title, style: TextStyle(fontSize: 18.sp)),
       ],
     );
   }

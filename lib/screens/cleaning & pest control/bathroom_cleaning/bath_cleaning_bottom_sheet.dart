@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:share_plus/share_plus.dart';
 
-import '../../../constants/colors.dart';
-import '../../../components/custom_container.dart';
 import '../../../components/app_text.dart';
+import '../../../components/custom_container.dart';
 import '../../../components/divider.dart';
+import '../../../theme/colors.dart';
 import '../../home_screen/components/carousel_slider.dart';
 import '../../painting_wall_screen/components/add_button.dart';
 import '../../painting_wall_screen/components/frequently_asked_questions_widget.dart';
@@ -218,7 +218,23 @@ class _BathCleaningDetailBottomSheetState extends State<BathCleaningDetailBottom
                   SizedBox(height: 20.px),
                   div(),
                   SizedBox(height: 20.px),
-                  const FrequentlyAskedQuestionsWidget(),
+                  // const FrequentlyAskedQuestionsWidget(),
+                  ListView.builder(
+                    itemCount: 5,
+                    shrinkWrap: true,
+                    physics: const BouncingScrollPhysics(),
+                    itemBuilder: (context, index) {
+                      return const Column(
+                        children: [
+                          FAQsComponent(
+                            question: 'Hello! dear, What is your name?',
+                            answer: 'Hey there! My name is Muhammad Shoaib. What is your name?',
+                          ),
+                          Divider(),
+                        ],
+                      );
+                    },
+                  ),
                   SizedBox(height: 20.px),
                   shareBtn(context, () {
                     Share.share('Check out the Flutter website: $urlToShare');

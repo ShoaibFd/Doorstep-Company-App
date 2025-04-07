@@ -1,10 +1,12 @@
 import 'dart:developer';
 
+import 'package:doorstep_company_app/api/controllers/user/user_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_places_flutter/google_places_flutter.dart';
 
-import '../../constants/colors.dart';
+import '../../theme/colors.dart';
 import '../../utils/bottom_navigation_screen.dart';
 
 class AddLocationScreen extends StatefulWidget {
@@ -22,18 +24,21 @@ class AddLocationScreen extends StatefulWidget {
 
 class _AddLocationScreenState extends State<AddLocationScreen> {
   final searchController = TextEditingController();
+  final UserController userController = Get.put(UserController());
   GoogleMapController? mapController;
   LatLng? selectedLocation;
   final String googleApiKey = "AIzaSyClwNhuYxVRorDGtuXSgH8bU7AaTDeJzH0";
 
-  void _navigateToNextScreen(double latitude, double longitude) {
+  void _navigateToNextScreen(double latitude, double longitude) async {
+    await userController.postUserLocation(longitude, latitude, context);
     Navigator.push(
       context,
       MaterialPageRoute(
-          builder: (context) => BottomNavigationScreen(
-                latitude: latitude,
-                longitude: longitude,
-              )),
+        builder: (context) => BottomNavigationScreen(
+          latitude: latitude,
+          longitude: longitude,
+        ),
+      ),
     );
   }
 

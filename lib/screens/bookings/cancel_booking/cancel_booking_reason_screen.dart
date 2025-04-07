@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
-import '../../../constants/colors.dart';
+import '../../../components/app_text.dart';
 import '../../../components/custom_container.dart';
 import '../../../components/custom_snackbar.dart';
-import '../../../components/app_text.dart';
+import '../../../theme/colors.dart';
 import '../components/reschedule_button.dart';
 import 'cancel_button.dart';
 
@@ -113,7 +113,7 @@ class _CancelBookingReasonScreenState extends State<CancelBookingReasonScreen> {
                 children: [
                   cancelButton(textColor: AppColors.whiteTheme, color: AppColors.redColor, context, onTap: () {
                     if (isRadio == 6 && reasonController.text.isEmpty) {
-                      showErrorSnackbar(context, 'Please enter a reason!');
+                      showInfoSnackbar(context, 'Please enter a reason!');
                       return;
                     }
 

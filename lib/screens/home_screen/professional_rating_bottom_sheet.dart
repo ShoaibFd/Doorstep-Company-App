@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
+import '../../components/app_text.dart';
 import '../../components/custom_container.dart';
 import '../../components/custom_snackbar.dart';
-import '../../components/app_text.dart';
 import '../../components/round_button.dart';
-import '../../constants/colors.dart';
+import '../../theme/colors.dart';
 
 class ProfessionalRatingBottomSheet extends StatefulWidget {
   const ProfessionalRatingBottomSheet({super.key});
@@ -60,7 +60,7 @@ class _ProfessionalRatingBottomSheetState extends State<ProfessionalRatingBottom
         });
       }
     } catch (e) {
-      showErrorSnackbar(context, 'Failed to pick image');
+      showInfoSnackbar(context, 'Failed to pick image');
       print('Error: $e');
     }
   }
@@ -302,7 +302,7 @@ class _ProfessionalRatingBottomSheetState extends State<ProfessionalRatingBottom
                     Navigator.pop(context);
                     showSuccessSnackbar(context, 'Review submitted successfully, thanks for your time!');
                   } else {
-                    showErrorSnackbar(context, 'Please select a rating.');
+                    showInfoSnackbar(context, 'Please select a rating.');
                   }
                 },
                 title: 'Submit',

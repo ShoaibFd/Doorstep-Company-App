@@ -3,10 +3,10 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
-import '../../../constants/colors.dart';
+import '../../../components/app_text.dart';
 import '../../../components/custom_container.dart';
 import '../../../components/custom_snackbar.dart';
-import '../../../components/app_text.dart';
+import '../../../theme/colors.dart';
 
 class CustomerRatingDialog extends StatefulWidget {
   const CustomerRatingDialog({super.key});
@@ -120,7 +120,7 @@ class _CustomerRatingDialogState extends State<CustomerRatingDialog> {
                 Navigator.pop(context);
                 showSuccessSnackbar(context, 'Review submitted successfully, thanks for your time!');
               } else {
-                showErrorSnackbar(context, 'Please select a rating.');
+                showInfoSnackbar(context, 'Please select a rating.');
               }
             },
             height: 34.px,

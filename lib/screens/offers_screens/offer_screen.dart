@@ -1,15 +1,18 @@
+import 'package:doorstep_company_app/api/controllers/products/products_controller.dart';
 import 'package:flutter/material.dart';
-import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:video_player/video_player.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 
-import '../../constants/colors.dart';
+import '../../api/controllers/banner/banners_controller.dart';
 import '../../components/app_text.dart';
+import '../../components/show_loading.dart';
+import '../../theme/colors.dart';
+import '../../utils/enum/banner_enums.dart';
+import '../../utils/enum/reel_enum.dart';
 import '../home_screen/components/carousel_slider.dart';
-import 'ac/ac_detail_screen.dart';
-import 'ac/ac_screen.dart';
-import 'fridge/fridge_screen.dart';
-import 'geyser/geyser_screen.dart';
-import 'washing_machine/washing_machine_screen.dart';
+import '../home_screen/components/video_player_section.dart';
+import 'products/products_screen.dart';
+import 'products/products_detail_screen.dart';
 
 class OfferScreen extends StatefulWidget {
   const OfferScreen({super.key});
@@ -19,209 +22,92 @@ class OfferScreen extends StatefulWidget {
 }
 
 class _OfferScreenState extends State<OfferScreen> {
-  List images = [
-    'https://pngimg.com/d/air_conditioner_PNG24.png',
-    'https://www.pngarts.com/files/18/Geyser-PNG-Photo-HQ.png',
-    'https://freepngimg.com/save/19053-refrigerator-png-file/1500x1500',
-    'https://pngimg.com/d/washing_machine_PNG15589.png',
-  ];
-
-  List<String> carouselImages = [
-    'assets/images/cs.jpeg',
-    'assets/images/cs2.jpeg',
-    'assets/images/a.jpeg',
-    'assets/images/aa.jpeg',
-    'assets/images/aaa.jpeg',
-    'assets/images/aaaa.jpeg',
-    'assets/images/aaaaa.jpeg',
-    'assets/images/aaaaaa.jpeg',
-  ];
-  List<String> text = ["AC", "Geyser", "Fridge", "Washing Machine"];
-  final List<String> videoUrls = [
-    'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4',
-    'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4',
-    'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4',
-  ];
-
-  final List<VideoPlayerController> _controllers = [];
-
-  @override
-  void initState() {
-    super.initState();
-    // Initialize controllers for each video
-    for (var url in videoUrls) {
-      _controllers.add(VideoPlayerController.network(url)
-        ..initialize().then((_) {
-          setState(() {});
-        }));
-    }
-  }
-
-  @override
-  void dispose() {
-    for (var controller in _controllers) {
-      controller.dispose();
-    }
-    super.dispose();
-  }
-
-// Search controller
+  // Controllers
+  final ProductsController productsController = Get.put(ProductsController());
+  final bannersController = Get.put(BannersController(BannerType.offers));
   final searchController = TextEditingController();
   @override
   Widget build(BuildContext context) {
+    double height = MediaQuery.sizeOf(context).height;
+    productsController.fetchProductsType();
     return Scaffold(
       body: Column(
         children: [
-          const SizedBox(height: 10),
+          SizedBox(height: 10.h),
           Padding(
-              padding: EdgeInsets.symmetric(horizontal: 12.px),
+              padding: EdgeInsets.symmetric(horizontal: 12.sp),
               child: TextFormField(
                   controller: searchController,
                   decoration: InputDecoration(
                       isDense: true,
                       focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: AppColors.grey300), borderRadius: BorderRadius.circular(10.px)),
+                          borderSide: BorderSide(color: AppColors.grey300), borderRadius: BorderRadius.circular(10.r)),
                       enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: AppColors.grey300), borderRadius: BorderRadius.circular(10.px)),
+                          borderSide: BorderSide(color: AppColors.grey300), borderRadius: BorderRadius.circular(10.r)),
                       hintText: 'Search For Service',
-                      prefixIcon: Icon(Icons.search_rounded, color: AppColors.hintGrey, size: 24.px)))),
-          SizedBox(height: 20.px),
+                      prefixIcon: Icon(Icons.search_rounded, color: AppColors.hintGrey, size: 24.sp)))),
+          SizedBox(height: 20.h),
           Expanded(
             child: SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  CarouselSliderWidget(
-                    height: 240.px,
-                    images: const [
-                      'assets/images/cs.jpeg',
-                      'assets/images/cs2.jpeg',
-                      'assets/images/a.jpeg',
-                      'assets/images/aa.jpeg',
-                      'assets/images/aaa.jpeg',
-                      'assets/images/aaaa.jpeg',
-                      'assets/images/aaaaa.jpeg',
-                      'assets/images/aaaaaa.jpeg',
-                    ],
-                  ),
-                  SizedBox(height: 20.px),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 16.px),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        appText('Shop by category', fontSize: 20.px, fontWeight: FontWeight.bold),
-                        SizedBox(height: 30.px),
-                        GridView.builder(
-                          itemCount: images.length,
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 3,
-                              crossAxisSpacing: 10.px,
-                              mainAxisSpacing: 10.px,
-                              mainAxisExtent: 145.px),
-                          itemBuilder: (context, index) {
-                            return Column(
-                              children: [
-                                GestureDetector(
-                                  onTap: () {
-                                    if (index == 0) {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => const ACScreen(),
-                                        ),
-                                      );
-                                    } else if (index == 1) {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => const GeyserScreen(),
-                                        ),
-                                      );
-                                    } else if (index == 2) {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => const FridgesScreen(),
-                                        ),
-                                      );
-                                    } else {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => const WashingMachineScreen(),
-                                        ),
-                                      );
-                                    }
-                                  },
-                                  child: Container(
-                                    margin: EdgeInsets.only(bottom: 6.px, right: 6.px),
-                                    height: 110.px,
-                                    width: 110.px,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(8.px),
-                                      color: AppColors.whiteTheme,
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: AppColors.grey300,
-                                          offset: const Offset(0, 1),
-                                          blurRadius: 3,
-                                          spreadRadius: 2,
-                                        ),
-                                      ],
-                                    ),
-                                    child: Column(
-                                      spacing: 10.px,
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      crossAxisAlignment: CrossAxisAlignment.center,
-                                      children: [
-                                        Image.network(
-                                          images[index],
-                                          height: 80.px,
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(height: 3.px),
-                                appText('Air-conditioner', fontWeight: FontWeight.bold)
-                              ],
-                            );
-                          },
-                        ),
-                        SizedBox(height: 10.px),
-                        const Divider(),
-                        SizedBox(height: 20.px),
-                        appText('Top Selling', fontSize: 20.px, fontWeight: FontWeight.bold),
-                        SizedBox(height: 20.px),
-                        SizedBox(
-                          height: 210.px,
-                          width: double.maxFinite,
-                          child: ListView.builder(
-                            itemCount: 4,
+                  Obx(() {
+                    if (bannersController.isLoading.value) {
+                      return Center(child: showLoading());
+                    }
+                    if (bannersController.bannerImages.isEmpty) {
+                      return const SizedBox();
+                    }
+                    return CarouselSliderWidget(
+                      height: height * .3,
+                      images: bannersController.bannerImages,
+                    );
+                  }),
+                  SizedBox(height: 20.h),
+                  Obx(() {
+                    if (productsController.isLoading.value) {
+                      return Center(child: showLoading());
+                    }
+                    final products = productsController.productsTypeModel.value?.data;
+                    if (productsController.productsTypeModel.value?.data == null) {
+                      return const SizedBox();
+                    }
+                    return Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 16.w),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          appText('Shop by category', fontSize: 18.sp, fontWeight: FontWeight.bold),
+                          SizedBox(height: 30.h),
+                          GridView.builder(
+                            itemCount: products?.length,
                             shrinkWrap: true,
-                            scrollDirection: Axis.horizontal,
-                            physics: const BouncingScrollPhysics(),
+                            physics: const NeverScrollableScrollPhysics(),
+                            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 3,
+                                crossAxisSpacing: 10.w,
+                                mainAxisSpacing: 10.h,
+                                mainAxisExtent: 145.h),
                             itemBuilder: (context, index) {
+                              final detailId = productsController.productsDetailsModel.value?.productDetailId;
+                              final product = products?[index];
+                              // final filterId =
+                              //     productsController.productsFiltersModel.value?.data?.categories?[index].id;
                               return Column(
                                 children: [
                                   GestureDetector(
-                                    onTap: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => const AcDetailScreen(),
-                                        ),
-                                      );
+                                    onTap: () async {
+                                      Get.to(() => ProductsScreen(id: product?.id));
+                                      await productsController.fetchProductsFilters(typeId: product?.id);
+                                      await productsController.fetchProductsSummary(typeId: product?.id);
                                     },
                                     child: Container(
-                                      margin: EdgeInsets.only(right: 10.px, left: 6.px, top: 2.px),
-                                      height: 110.px,
-                                      width: 110.px,
+                                      margin: EdgeInsets.only(bottom: 6.h, right: 6.h),
+                                      height: 110.h,
+                                      width: 110.w,
                                       decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(8.px),
+                                        borderRadius: BorderRadius.circular(8.r),
                                         color: AppColors.whiteTheme,
                                         boxShadow: [
                                           BoxShadow(
@@ -233,94 +119,108 @@ class _OfferScreenState extends State<OfferScreen> {
                                         ],
                                       ),
                                       child: Column(
+                                        spacing: 10.h,
                                         mainAxisAlignment: MainAxisAlignment.center,
                                         crossAxisAlignment: CrossAxisAlignment.center,
                                         children: [
                                           Image.network(
-                                            'https://pngimg.com/d/air_conditioner_PNG24.png',
-                                            height: 80.px,
+                                            product?.productImage ?? "",
+                                            height: 80.h,
                                           ),
                                         ],
                                       ),
                                     ),
                                   ),
-                                  SizedBox(height: 10.px),
-                                  Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      appText('Air Conditioner', fontWeight: FontWeight.bold),
-                                      SizedBox(height: 4.px),
-                                      Row(
-                                        children: [
-                                          Icon(Icons.star, size: 14.px, color: AppColors.hintGrey),
-                                          SizedBox(width: 4.px),
-                                          appText('4.88 (491K)', color: AppColors.hintGrey)
-                                        ],
-                                      ),
-                                      SizedBox(height: 4.px),
-                                      appText('Rs.300',
-                                          decoration: TextDecoration.lineThrough, color: AppColors.hintGrey),
-                                      SizedBox(height: 4.px),
-                                      appText('Rs.200', color: AppColors.greenColor, fontWeight: FontWeight.bold),
-                                    ],
-                                  )
+                                  SizedBox(height: 3.h),
+                                  appText(product?.productTitle ?? "", fontWeight: FontWeight.bold)
                                 ],
                               );
                             },
                           ),
-                        ),
-                        SizedBox(height: 10.px),
-                        const Divider(),
-                        SizedBox(height: 16.px),
-                        appText('Learn more with Doorstep', fontSize: 20.px, fontWeight: FontWeight.bold),
-                        SizedBox(height: 20.px),
-                        SizedBox(
-                          height: 100.px,
-                          child: ListView.builder(
-                            itemCount: videoUrls.length,
-                            physics: const BouncingScrollPhysics(),
-                            shrinkWrap: true,
-                            scrollDirection: Axis.horizontal,
-                            itemBuilder: (context, index) {
-                              final controller = _controllers[index];
-                              return Container(
-                                width: 150.px,
-                                margin: EdgeInsets.only(right: 6.px),
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(8),
-                                  child: Stack(
-                                    children: [
-                                      Positioned.fill(
-                                        child: controller.value.isInitialized
-                                            ? VideoPlayer(controller)
-                                            : const Center(child: CircularProgressIndicator()),
-                                      ),
-                                      Align(
-                                        alignment: Alignment.center,
-                                        child: IconButton(
-                                          icon: Icon(
-                                            controller.value.isPlaying ? Icons.pause : Icons.play_arrow,
-                                            color: AppColors.whiteTheme,
-                                            size: 30.px,
-                                          ),
-                                          onPressed: () {
-                                            setState(() {
-                                              controller.value.isPlaying ? controller.pause() : controller.play();
-                                            });
-                                          },
+                          SizedBox(height: 10.h),
+                          const Divider(),
+                          SizedBox(height: 20.h),
+                          appText('Top Selling', fontSize: 18.sp, fontWeight: FontWeight.bold),
+                          SizedBox(height: 20.h),
+                          SizedBox(
+                            height: 210.h,
+                            width: double.maxFinite,
+                            child: ListView.builder(
+                              itemCount: 4,
+                              shrinkWrap: true,
+                              scrollDirection: Axis.horizontal,
+                              physics: const BouncingScrollPhysics(),
+                              itemBuilder: (context, index) {
+                                return Column(
+                                  children: [
+                                    GestureDetector(
+                                      onTap: () {
+                                        Get.to(() => const ProductsDetailScreen());
+                                      },
+                                      child: Container(
+                                        margin: EdgeInsets.only(right: 10.w, left: 6.w, top: 2.h),
+                                        height: 110.h,
+                                        width: 110.w,
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(8.r),
+                                          color: AppColors.whiteTheme,
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color: AppColors.grey300,
+                                              offset: const Offset(0, 1),
+                                              blurRadius: 3,
+                                              spreadRadius: 2,
+                                            ),
+                                          ],
+                                        ),
+                                        child: Column(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                          children: [
+                                            Image.network(
+                                              'https://pngimg.com/d/air_conditioner_PNG24.png',
+                                              height: 80.h,
+                                            ),
+                                          ],
                                         ),
                                       ),
-                                    ],
-                                  ),
-                                ),
-                              );
-                            },
+                                    ),
+                                    SizedBox(height: 10.h),
+                                    Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        appText('Air Conditioner', fontWeight: FontWeight.bold),
+                                        SizedBox(height: 4.h),
+                                        Row(
+                                          children: [
+                                            Icon(Icons.star, size: 14.sp, color: AppColors.hintGrey),
+                                            SizedBox(width: 4.w),
+                                            appText('4.88 (491K)', color: AppColors.hintGrey)
+                                          ],
+                                        ),
+                                        SizedBox(height: 4.h),
+                                        appText('Rs.300',
+                                            decoration: TextDecoration.lineThrough, color: AppColors.hintGrey),
+                                        SizedBox(height: 4.h),
+                                        appText('Rs.200', color: AppColors.greenColor, fontWeight: FontWeight.bold),
+                                      ],
+                                    )
+                                  ],
+                                );
+                              },
+                            ),
                           ),
-                        ),
-                        SizedBox(height: 40.px),
-                      ],
-                    ),
-                  ),
+                          SizedBox(height: 10.h),
+                          const Divider(),
+                          SizedBox(height: 16.h),
+                          appText('Learn more with Doorstep', fontSize: 18.sp, fontWeight: FontWeight.bold),
+                          SizedBox(height: 20.h),
+                          VideoPlayerSection(height: 80.h, width: 400.w, reelType: ReelType.offers),
+                          SizedBox(height: 40.h),
+                        ],
+                      ),
+                    );
+                  }),
                 ],
               ),
             ),

@@ -1,141 +1,81 @@
 import 'package:flutter/material.dart';
-import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 
-import '../../../constants/colors.dart';
-import '../../../components/custom_container.dart';
 import '../../../components/app_text.dart';
+import '../../../components/custom_container.dart';
+import '../../../theme/colors.dart';
 import 'active_orders_screen.dart';
 import 'completed_offers.dart';
 
-class CategoriesScreen extends StatefulWidget {
+class CategoriesScreen extends StatelessWidget {
   const CategoriesScreen({super.key});
 
   @override
-  State<CategoriesScreen> createState() => _CategoriesScreenState();
-}
-
-class _CategoriesScreenState extends State<CategoriesScreen> {
-  bool isAll = true;
-  bool isActive = false;
-  bool isCompleted = false;
-  bool isCancelled = false;
-
-  @override
   Widget build(BuildContext context) {
+    final controller = Get.put(CategoriesController());
     return Scaffold(
       body: SafeArea(
         child: Column(
           children: [
             Padding(
-              padding: EdgeInsets.symmetric(vertical: 8.px),
+              padding: EdgeInsets.symmetric(vertical: 8.h),
               child: SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    SizedBox(width: 8.px),
-                    CustomContainer(
-                      onTap: () {
-                        setState(() {
-                          isAll = true;
-                          isActive = false;
-                          isCompleted = false;
-                          isCancelled = false;
-                        });
-                      },
-                      color: isAll ? AppColors.blueColor : AppColors.transparentColor,
-                      borderRadius: 30.px,
-                      borderColor: isAll ? AppColors.transparentColor : AppColors.grey300,
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 16.px, vertical: 8.px),
-                        child: Center(
-                          child: appText(
-                            'All Orders',
-                            color: isAll ? AppColors.whiteTheme : AppColors.blackColor,
-                          ),
-                        ),
-                      ),
-                    ),
-                    SizedBox(width: 8.px),
-                    CustomContainer(
-                      onTap: () {
-                        setState(() {
-                          isAll = false;
-                          isActive = true;
-                          isCompleted = false;
-                          isCancelled = false;
-                        });
-                      },
-                      color: isActive ? AppColors.blueColor : AppColors.transparentColor,
-                      borderRadius: 30.px,
-                      borderColor: isActive ? AppColors.transparentColor : AppColors.grey300,
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 16.px, vertical: 8.px),
-                        child: Center(
-                          child: appText(
-                            'Active',
-                            color: isActive ? AppColors.whiteTheme : AppColors.blackColor,
-                          ),
-                        ),
-                      ),
-                    ),
-                    SizedBox(width: 8.px),
-                    CustomContainer(
-                      onTap: () {
-                        setState(() {
-                          isAll = false;
-                          isActive = false;
-                          isCompleted = true;
-                          isCancelled = false;
-                        });
-                      },
-                      color: isCompleted ? AppColors.blueColor : AppColors.transparentColor,
-                      borderRadius: 30.px,
-                      borderColor: isCompleted ? AppColors.transparentColor : AppColors.grey300,
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 16.px, vertical: 8.px),
-                        child: Center(
-                          child: appText(
-                            'Completed',
-                            color: isCompleted ? AppColors.whiteTheme : AppColors.blackColor,
-                          ),
-                        ),
-                      ),
-                    ),
-                    SizedBox(width: 8.px),
-                    CustomContainer(
-                      onTap: () {
-                        setState(() {
-                          isAll = false;
-                          isActive = false;
-                          isCompleted = false;
-                          isCancelled = true;
-                        });
-                      },
-                      color: isCancelled ? AppColors.blueColor : AppColors.transparentColor,
-                      borderRadius: 30.px,
-                      borderColor: isCancelled ? AppColors.transparentColor : AppColors.grey300,
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 16.px, vertical: 8.px),
-                        child: Center(
-                          child: appText(
-                            'Cancelled',
-                            color: isCancelled ? AppColors.whiteTheme : AppColors.blackColor,
-                          ),
-                        ),
-                      ),
-                    ),
-                    SizedBox(width: 8.px),
+                    SizedBox(width: 8.w),
+                    categoryButton(controller, 'All Orders'),
+                    categoryButton(controller, 'Active'),
+                    categoryButton(controller, 'Completed'),
+                    categoryButton(controller, 'Cancelled'),
+                    SizedBox(width: 8.w),
                   ],
                 ),
               ),
             ),
             Expanded(
-              child: isActive ? const ActiveOrdersScreen() : const CompletedOffers(),
+              child: Obx(() {
+                return controller.selectedCategory.value == 'Active'
+                    ? const ActiveOrdersScreen()
+                    : const CompletedOffers();
+              }),
             ),
           ],
         ),
       ),
     );
+  }
+
+  Widget categoryButton(CategoriesController controller, String category) {
+    return Obx(() {
+      bool isSelected = controller.selectedCategory.value == category;
+
+      return CustomContainer(
+        margin: EdgeInsets.only(right: 2.w),
+        onTap: () => controller.selectCategory(category),
+        color: isSelected ? AppColors.blueColor : AppColors.transparentColor,
+        borderRadius: 30.r,
+        borderColor: isSelected ? AppColors.transparentColor : AppColors.grey300,
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+          child: Center(
+            child: appText(
+              category,
+              color: isSelected ? AppColors.whiteTheme : AppColors.blackColor,
+            ),
+          ),
+        ),
+      );
+    });
+  }
+}
+
+class CategoriesController extends GetxController {
+  var selectedCategory = 'All Orders'.obs; 
+
+  void selectCategory(String category) {
+    selectedCategory.value = category;
   }
 }

@@ -2,9 +2,9 @@ import 'package:agora_rtc_engine/agora_rtc_engine.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-import '../../constants/colors.dart';
-import '../../components/custom_snackbar.dart';
 import '../../components/app_text.dart';
+import '../../components/custom_snackbar.dart';
+import '../../theme/colors.dart';
 
 class VideoCallScreen extends StatefulWidget {
   final String channelName;
@@ -51,7 +51,7 @@ class _VideoCallScreenState extends State<VideoCallScreen> {
 
       if (denied) {
         if (mounted) {
-          showErrorSnackbar(context, 'Camera and microphone permissions are required');
+          showInfoSnackbar(context, 'Camera and microphone permissions are required');
           Navigator.pop(context);
         }
         return;
@@ -83,7 +83,7 @@ class _VideoCallScreenState extends State<VideoCallScreen> {
           },
           onError: (err, msg) {
             if (mounted) {
-              showErrorSnackbar(context, 'Error: $msg');
+              showInfoSnackbar(context, 'Error: $msg');
             }
           },
         ),
@@ -106,7 +106,7 @@ class _VideoCallScreenState extends State<VideoCallScreen> {
       }
     } catch (e) {
       if (mounted) {
-        showErrorSnackbar(context, 'Failed to initialize: $e');
+        showInfoSnackbar(context, 'Failed to initialize: $e');
         Navigator.pop(context);
       }
     }

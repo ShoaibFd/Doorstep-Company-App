@@ -24,7 +24,7 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import '../../components/app_text.dart';
 import '../../../components/dc_cover_button.dart';
 import '../../../components/divider.dart';
-import '../../../constants/colors.dart';
+import '../../theme/colors.dart';
 import '../../app_controllers/price_controller.dart';
 import '../subcategory_screens/Widgets/app_bar_search_button.dart';
 import '../subcategory_screens/Widgets/app_bar_share_button.dart';

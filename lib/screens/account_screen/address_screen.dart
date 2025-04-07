@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../constants/colors.dart';
+import '../../theme/colors.dart';
 import '../../components/app_text.dart';
 
 class AddressScreen extends StatefulWidget {

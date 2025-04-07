@@ -1,9 +1,11 @@
-import 'package:flutter/material.dart';
-import 'package:responsive_sizer/responsive_sizer.dart';
+// ignore_for_file: library_private_types_in_public_api
 
-import '../../../../constants/colors.dart';
-import '../../../../components/custom_container.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 import '../../../../components/app_text.dart';
+import '../../../../components/custom_container.dart';
+import '../../../../theme/colors.dart';
 
 class RefundStatusSummaryScreen extends StatefulWidget {
   const RefundStatusSummaryScreen({super.key});
@@ -18,45 +20,43 @@ class _RefundStatusSummaryScreenState extends State<RefundStatusSummaryScreen> {
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
         body: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
+            padding: EdgeInsets.symmetric(horizontal: 16.w),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const SizedBox(height: 20),
+                SizedBox(height: 20.h),
                 SizedBox(
-                  height: 80,
-                  child: Expanded(
-                    child: ListView.builder(
-                      shrinkWrap: true,
-                      physics: const BouncingScrollPhysics(),
-                      itemCount: 1,
-                      itemBuilder: (context, index) {
-                        return CustomContainer(
-                            color: AppColors.transparentColor,
-                            borderColor: AppColors.lowPurple,
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  appText('Your refund is', fontWeight: FontWeight.bold),
-                                  CustomContainer(
-                                      height: 30.px,
-                                      width: 100.px,
-                                      borderColor: AppColors.lowPurple,
-                                      borderRadius: 40.px,
-                                      color: AppColors.lowPurple.withOpacity(0.1),
-                                      child: Center(
-                                          child: appText('In Progress',
-                                              color: AppColors.lowPurple, fontWeight: FontWeight.bold)))
-                                ],
-                              ),
-                            ));
-                      },
-                    ),
+                  height: 80.h,
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    physics: const BouncingScrollPhysics(),
+                    itemCount: 1,
+                    itemBuilder: (context, index) {
+                      return CustomContainer(
+                          color: AppColors.transparentColor,
+                          borderColor: AppColors.lowPurple,
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 6.h),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                appText('Your refund is', fontWeight: FontWeight.bold),
+                                CustomContainer(
+                                    height: 30.h,
+                                    width: 100.w,
+                                    borderColor: AppColors.lowPurple,
+                                    borderRadius: 40.r,
+                                    color: AppColors.lowPurple.withOpacity(0.1),
+                                    child: Center(
+                                        child: appText('In Progress',
+                                            color: AppColors.lowPurple, fontWeight: FontWeight.bold)))
+                              ],
+                            ),
+                          ));
+                    },
                   ),
                 ),
-                appText('History', fontSize: 18.px, fontWeight: FontWeight.bold),
+                appText('History', fontSize: 16.sp, fontWeight: FontWeight.bold),
                 Expanded(
                     child: ListView.builder(
                   itemCount: 2,
@@ -64,19 +64,20 @@ class _RefundStatusSummaryScreenState extends State<RefundStatusSummaryScreen> {
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const SizedBox(height: 10),
+                        SizedBox(height: 10.h),
                         Padding(
-                          padding: const EdgeInsets.only(left: 8),
+                          padding: EdgeInsets.only(left: 8.w),
                           child: appText('25 Feb, 2025'),
                         ),
-                        const SizedBox(height: 6),
+                        SizedBox(height: 6.h),
                         Container(
-                            margin: const EdgeInsets.only(bottom: 8),
+                            margin: EdgeInsets.only(bottom: 8.h),
                             width: width,
                             decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(8), border: Border.all(color: AppColors.lowPurple)),
+                                borderRadius: BorderRadius.circular(8.r),
+                                border: Border.all(color: AppColors.lowPurple)),
                             child: Padding(
-                                padding: const EdgeInsets.all(10.0),
+                                padding: EdgeInsets.all(10.r),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -86,38 +87,39 @@ class _RefundStatusSummaryScreenState extends State<RefundStatusSummaryScreen> {
                                         appText('Refund ID#'),
                                         appText(' 5646756473'),
                                         CustomContainer(
-                                            height: 30.px,
-                                            width: 100.px,
+                                            height: 30.h,
+                                            width: 100.w,
                                             borderColor: AppColors.darkGreen,
-                                            borderRadius: 40.px,
+                                            borderRadius: 40.r,
                                             color: AppColors.darkGreen,
                                             child: Center(
                                                 child: appText('Completed',
                                                     color: AppColors.whiteTheme, fontWeight: FontWeight.bold))),
                                       ],
                                     ),
-                                    const SizedBox(height: 10),
+                                    SizedBox(height: 10.h),
                                     Row(
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
-                                        appText('Amount claimed for refund', fontSize: 15, fontWeight: FontWeight.bold),
+                                        appText('Amount claimed for refund',
+                                            fontSize: 14.sp, fontWeight: FontWeight.bold),
                                         appText('Rs. 500', fontWeight: FontWeight.bold)
                                       ],
                                     ),
-                                    const SizedBox(height: 6),
+                                    SizedBox(height: 6.h),
                                     Row(
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
-                                        appText('Deductions', fontSize: 15, fontWeight: FontWeight.bold),
+                                        appText('Deductions', fontSize: 14.sp, fontWeight: FontWeight.bold),
                                         appText('Rs. 100', fontWeight: FontWeight.bold)
                                       ],
                                     ),
                                     const Divider(),
-                                    const SizedBox(height: 6),
+                                    SizedBox(height: 6.h),
                                     Row(
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
-                                        appText('Amount Refunded', fontSize: 15, fontWeight: FontWeight.bold),
+                                        appText('Amount Refunded', fontSize: 14.sp, fontWeight: FontWeight.bold),
                                         appText('Rs. 450', fontWeight: FontWeight.bold)
                                       ],
                                     )

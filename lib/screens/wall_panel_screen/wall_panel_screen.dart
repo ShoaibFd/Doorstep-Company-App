@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
-import '../../constants/colors.dart';
-import '../../components/custom_container.dart';
 import '../../components/app_text.dart';
+import '../../components/custom_container.dart';
 import '../../components/round_button.dart';
+import '../../theme/colors.dart';
 import '../cart_screen/summary_screen.dart';
 import '../cleaning & pest control/bathroom_cleaning/bath_cleaning_bottom_sheet.dart';
 import '../home_screen/components/carousel_slider.dart';
@@ -13,7 +13,8 @@ import '../painting_wall_screen/components/reviews_widget.dart';
 import 'bedroom_screen.dart';
 
 class WallPanelScreen extends StatefulWidget {
-  const WallPanelScreen({super.key});
+  const WallPanelScreen({super.key, this.id});
+  final int? id;
 
   @override
   State<WallPanelScreen> createState() => _WallPanelScreenState();
@@ -463,7 +464,23 @@ class _WallPanelScreenState extends State<WallPanelScreen> {
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Column(
                   children: [
-                    const FrequentlyAskedQuestionsWidget(),
+                    // const FrequentlyAskedQuestionsWidget(),
+                    ListView.builder(
+                      itemCount: 5,
+                      shrinkWrap: true,
+                      physics: const BouncingScrollPhysics(),
+                      itemBuilder: (context, index) {
+                        return const Column(
+                          children: [
+                            FAQsComponent(
+                              question: 'Hello! dear, What is your name?',
+                              answer: 'Hey there! My name is Muhammad Shoaib. What is your name?',
+                            ),
+                            Divider(),
+                          ],
+                        );
+                      },
+                    ),
                     Divider(thickness: 8, color: AppColors.grey300),
                     const SizedBox(height: 30),
                     appText('Share this service with your loved ones', color: AppColors.hintGrey, fontSize: 18),

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../../constants/colors.dart';
-import '../../../../components/custom_container.dart';
 import '../../../../components/app_text.dart';
+import '../../../../components/custom_container.dart';
+import '../../../../theme/colors.dart';
 
 class RefundHistoryScreen extends StatelessWidget {
   const RefundHistoryScreen({super.key});
@@ -12,11 +12,11 @@ class RefundHistoryScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 16.px),
+        padding: EdgeInsets.symmetric(horizontal: 16.w),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const SizedBox(height: 20),
+            SizedBox(height: 20.h),
             ListView.builder(
               itemCount: 2,
               shrinkWrap: true,
@@ -26,12 +26,12 @@ class RefundHistoryScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(left: 6),
+                      padding: EdgeInsets.only(left: 6.w),
                       child: appText('25 Jan 2023', fontWeight: FontWeight.bold),
                     ),
-                    const SizedBox(height: 8),
+                    SizedBox(height: 8.h),
                     CustomContainer(
-                        margin: const EdgeInsets.only(bottom: 10),
+                        margin: EdgeInsets.only(bottom: 10.h),
                         color: AppColors.transparentColor,
                         borderColor: AppColors.lowPurple,
                         child: Column(
@@ -52,48 +52,48 @@ class RefundHistoryScreen extends StatelessWidget {
                                 ),
                               ),
                             ),
-                            const SizedBox(height: 14),
+                            SizedBox(height: 14.h),
                             Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 6),
+                              padding: EdgeInsets.symmetric(horizontal: 6.w),
                               child: Column(
                                 children: [
                                   Row(
                                     children: [
                                       appText('UBL Bosan Road\nBranch Multan\n'),
-                                      SizedBox(width: 14.px),
+                                      SizedBox(width: 14.w),
                                       appText('#68576678'),
-                                      SizedBox(width: 80.px),
+                                      SizedBox(width: 80.w),
                                       appText('Rs.450', fontWeight: FontWeight.bold, color: AppColors.darkGreen),
                                     ],
                                   ),
-                                  SizedBox(height: 20.px),
+                                  SizedBox(height: 20.h),
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
                                       appText('Account title:', fontWeight: FontWeight.bold),
                                       appText(
-                                        'Talha Ashraf:',
+                                        'Talha Ashraf',
                                       ),
                                     ],
                                   ),
-                                  const SizedBox(height: 8),
+                                  SizedBox(height: 8.h),
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
                                       appText('Account No#:', fontWeight: FontWeight.bold),
                                       appText(
-                                        '568736482826:',
+                                        '568736482826',
                                       ),
                                     ],
                                   ),
-                                  const SizedBox(height: 8),
+                                  SizedBox(height: 8.h),
                                 ],
                               ),
                             )
                           ],
                         )),
-                    const SizedBox(
-                      height: 20,
+                    SizedBox(
+                      height: 20.h,
                     )
                   ],
                 );

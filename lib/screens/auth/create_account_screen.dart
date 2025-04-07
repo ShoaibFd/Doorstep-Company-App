@@ -1,4 +1,5 @@
-import 'package:doorstep_company_app/components/custom_snackbar.dart';
+import 'package:doorstep_company_app/api/controllers/user/user_controller.dart';
+import 'package:doorstep_company_app/utils/shared_prefs.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
@@ -8,7 +9,7 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import '../../app_controllers/create_account_controller.dart';
 import '../../components/app_text.dart';
 import '../../components/round_button.dart';
-import '../../constants/colors.dart';
+import '../../theme/colors.dart';
 import '../../utils/bottom_navigation_screen.dart';
 import '../account_screen/terms_and_conditions_screen.dart';
 import 'app_textfield.dart';
@@ -25,12 +26,20 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
   google_maps.LatLng? selectedLocation;
   google_maps.LatLng? currentLocation;
 
+  final SharedPrefs sharedPrefs = SharedPrefs();
   @override
   void initState() {
     super.initState();
     _getCurrentLocation();
+    Future.delayed(Duration.zero, () async {
+      final phone = await sharedPrefs.getPhone();
+      setState(() {
+        phoneController.text = phone ?? '';
+      });
+    });
   }
 
+  final UserController userController = Get.put(UserController());
   final CreateAccountController createAccountController = Get.put(CreateAccountController());
 
   Future<void> _getCurrentLocation() async {
@@ -58,7 +67,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
   final TextEditingController phoneController = TextEditingController();
   final TextEditingController genderController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  final TextEditingController houseController = TextEditingController();
+  final TextEditingController locationController = TextEditingController();
   final TextEditingController confirmPasswordController = TextEditingController();
   final TextEditingController dobController = TextEditingController();
 
@@ -91,35 +100,6 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
     }
   }
 
-  String? validateEmail(String? value) {
-    if (value != null && value.isNotEmpty) {
-      if (!GetUtils.isEmail(value)) {
-        return 'Please enter a valid email address';
-      }
-    }
-    return null;
-  }
-
-  String? validatePhone(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Phone number is required';
-    }
-    if (!GetUtils.isPhoneNumber(value)) {
-      return 'Please enter a valid phone number';
-    }
-    return null;
-  }
-
-  String? validatePassword(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Password is required';
-    }
-    if (value.length < 6) {
-      return 'Password must be at least 6 characters long';
-    }
-    return null;
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -139,7 +119,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                     controller: nameController,
                     prefixIcon: Icons.person_2,
                     validator: (value) {
-                      if (value == null) return 'Name is required';
+                      if (value!.isEmpty) return 'Name is required';
                       return null;
                     },
                     keyboardType: TextInputType.name,
@@ -168,7 +148,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                     hint: 'Select Gender',
                     controller: genderController,
                     validator: (value) {
-                      if (value == null) return 'Gender is required';
+                      if (value!.isEmpty) return 'Gender is required';
                       return null;
                     },
                     prefixIcon: Icons.face,
@@ -186,7 +166,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                       onPressed: pickDate,
                     ),
                     validator: (value) {
-                      if (value == null) {
+                      if (value!.isEmpty) {
                         return 'Date of Birth is required';
                       }
                       return null;
@@ -196,10 +176,12 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                   appText('Address', fontWeight: FontWeight.bold),
                   appTextField(
                     hint: 'Your Address',
-                    controller: houseController,
+                    controller: locationController,
                     prefixIcon: Icons.home_filled,
                     validator: (value) {
-                      if (value == null) return 'Address is required';
+                      if (value!.isEmpty) {
+                        return 'Address is required';
+                      }
                       return null;
                     },
                   ),
@@ -209,16 +191,21 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                     hint: 'Email (Optional)',
                     controller: emailController,
                     prefixIcon: Icons.email,
-                    validator: validateEmail,
                     keyboardType: TextInputType.emailAddress,
                   ),
                   SizedBox(height: 10.px),
                   appText('Phone Number:', fontWeight: FontWeight.bold),
                   appTextField(
-                    hint: 'Mobile Number',
+                    hint: sharedPrefs.getPhone().toString(),
+                    readOnly: true,
                     controller: phoneController,
                     prefixIcon: Icons.phone,
-                    validator: validatePhone,
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Please enter phone';
+                      }
+                      return null;
+                    },
                     keyboardType: TextInputType.phone,
                   ),
                   SizedBox(height: 10.px),
@@ -226,9 +213,8 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                   Obx(() => appTextField(
                         obsecure: createAccountController.isHidden.value,
                         hint: 'Set Password',
-                        maxLength: 1,
                         controller: passwordController,
-                        validator: validatePassword,
+                        maxLength: 1,
                         prefixIcon: Icons.lock_outline_rounded,
                         suffixIcon: IconButton(
                           onPressed: () => createAccountController.showPassword(),
@@ -240,15 +226,10 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                   SizedBox(height: 10.px),
                   appText('Confirm Password:', fontWeight: FontWeight.bold),
                   Obx(() => appTextField(
-                        maxLength: 1,
                         obsecure: createAccountController.isHidden1.value,
-                        hint: 'Confirm Password',
+                        hint: 'Confirm password',
+                        maxLength: 1,
                         controller: confirmPasswordController,
-                        validator: (value) {
-                          if (value == null) return 'Password is required';
-                          if (value != passwordController.text) return 'Passwords do not match';
-                          return null;
-                        },
                         prefixIcon: Icons.lock_outline_rounded,
                         suffixIcon: IconButton(
                           onPressed: () => createAccountController.showConfirmPassword(),
@@ -281,36 +262,36 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                       ),
                     ],
                   ),
-                  Center(
-                    child: roundButton(
-                      height: 40.px,
-                      width: 200.px,
-                      onTap: () {
-                        if (!createAccountController.isSelected.value) {
-                          showErrorSnackbar(context, 'Please accept terms and condition!');
-                          return;
-                        }
-                        if (formKey.currentState!.validate()) {
-                          Get.off(() => BottomNavigationScreen(
-                                latitude: currentLocation?.latitude ?? 0,
-                                longitude: currentLocation?.longitude ?? 0,
-                              ));
-                        }
-                      },
-                      title: 'Continue',
-                    ),
-                  ),
+                  Obx(() {
+                    return Center(
+                      child: roundButton(
+                        isLoading: userController.isLoading.value,
+                        height: 40.px,
+                        width: 200.px,
+                        onTap: () async {
+                          if (formKey.currentState!.validate()) {
+                            bool isSuccess = await userController.createAccount(
+                              nameController.text.trim(),
+                              genderController.text.toLowerCase(),
+                              dobController.text.trim(),
+                              locationController.text.trim(),
+                              emailController.text.trim(),
+                              phoneController.text.trim(),
+                              context,
+                            );
+                            if (isSuccess) {
+                              Get.offAll(() => BottomNavigationScreen(
+                                    latitude: currentLocation?.latitude ?? 0,
+                                    longitude: currentLocation?.longitude ?? 0,
+                                  ));
+                            }
+                          }
+                        },
+                        title: 'Continue',
+                      ),
+                    );
+                  }),
                   const SizedBox(height: 10),
-                  // Row(
-                  //   mainAxisAlignment: MainAxisAlignment.center,
-                  //   children: [
-                  //     appText("Already have an account? "),
-                  //     GestureDetector(
-                  //       onTap: () {},
-                  //       child: appText("Login", color: AppColors.blueColor, fontSize: 16, fontWeight: FontWeight.bold),
-                  //     ),
-                  //   ],
-                  // ),
                   SizedBox(height: 10.px),
                 ],
               ),

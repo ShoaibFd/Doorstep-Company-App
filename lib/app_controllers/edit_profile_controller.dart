@@ -7,7 +7,7 @@ import 'package:permission_handler/permission_handler.dart';
 class EditProfileController extends GetxController {
   var selectedCity = 'Multan'.obs;
   var pickedImage = Rx<File?>(null);
-  final List<String> cities = ['Multan', 'Lahore', 'Karachi', 'Islamabad', 'Peshawar'];
+  final List<String> cities = ['Multan', 'Lahore', 'Karachi', 'Islamabad', 'Peshawar', 'Sargodha', 'Faisalabad'];
 
   @override
   void onInit() {
@@ -24,20 +24,11 @@ class EditProfileController extends GetxController {
   }
 
   Future<void> pickImage() async {
-    try {
-      await _checkPermissions();
-      final picker = ImagePicker();
-      final XFile? pickedFile = await picker.pickImage(
-        source: ImageSource.gallery,
-      );
-
-      if (pickedFile != null) {
-        pickedImage.value = File(pickedFile.path);
-      } else {
-        Get.snackbar('Error', 'No image selected', snackPosition: SnackPosition.BOTTOM);
-      }
-    } catch (e) {
-      Get.snackbar('Error', 'Error picking image: $e', snackPosition: SnackPosition.BOTTOM);
+    final pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      pickedImage.value = File(pickedFile.path);
+    } else {
+      pickedImage.value = null;
     }
   }
 }

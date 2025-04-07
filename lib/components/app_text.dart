@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:responsive_sizer/responsive_sizer.dart';
 
-import '../Constants/colors.dart';
+import '../theme/colors.dart';
 
 Widget appText(
   String text, {
@@ -21,7 +20,7 @@ Widget appText(
       style: TextStyle(
         decoration: decoration,
         color: color,
-        height: height ?? 1.2.px,
+        height: height ?? 1.2,
         fontSize: fontSize,
         fontWeight: fontWeight,
       ));

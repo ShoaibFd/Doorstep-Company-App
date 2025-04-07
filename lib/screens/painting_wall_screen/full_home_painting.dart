@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:video_player/video_player.dart';
 
-import '../../constants/colors.dart';
+import '../../theme/colors.dart';
 import '../../components/app_text.dart';
 import '../../components/divider.dart';
 import '../../components/round_button.dart';

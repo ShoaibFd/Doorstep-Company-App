@@ -24,7 +24,7 @@ import '../../../app_controllers/price_controller.dart';
 import '../../../components/app_text.dart';
 import '../../../components/dc_cover_button.dart';
 import '../../../components/divider.dart';
-import '../../../constants/colors.dart';
+import '../../../theme/colors.dart';
 import '../../ac_screens/components/floating_action_button_widget.dart';
 import '../../subcategory_screens/Widgets/app_bar_search_button.dart';
 import '../../subcategory_screens/Widgets/app_bar_share_button.dart';
@@ -176,7 +176,7 @@ class _HairStudioForWomenScreenState extends State<HairStudioForWomenScreen> {
                   const SizedBox(height: 10),
                   TopBarwidget(carouselImages: carouselImages),
                   const SizedBox(height: 20),
-                  appText("AC Repair & Service", fontSize: 22.px, fontWeight: FontWeight.bold),
+                  appText("Hair makeup & styling", fontSize: 22.px, fontWeight: FontWeight.bold),
                   SizedBox(height: 12.px),
                   // Rating Section
                   const RatingRowSection(ratingText: '4.82', bookings: '(1.4M Bookings)'),

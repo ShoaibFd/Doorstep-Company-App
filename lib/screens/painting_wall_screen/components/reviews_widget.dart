@@ -1,11 +1,11 @@
 import 'package:doorstep_company_app/components/bottom_sheet.dart';
 import 'package:flutter/material.dart';
-import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../constants/colors.dart';
-import '../../../components/custom_container.dart';
 import '../../../components/app_text.dart';
+import '../../../components/custom_container.dart';
 import '../../../components/divider.dart';
+import '../../../theme/colors.dart';
 
 class ReviewsWidget extends StatefulWidget {
   const ReviewsWidget({super.key});
@@ -31,20 +31,19 @@ class _ReviewsWidgetState extends State<ReviewsWidget> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 16.px),
+      padding: EdgeInsets.symmetric(horizontal: 16.w),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
-            spacing: 6.px,
             children: [
-              Icon(Icons.star, size: 18.px),
-              appText('4.81', fontSize: 24.px, fontWeight: FontWeight.bold),
+              Icon(Icons.star, size: 18.sp),
+              appText('4.81', fontSize: 24.sp, fontWeight: FontWeight.bold),
             ],
           ),
-          SizedBox(height: 6.px),
-          appText('846 reviews', fontSize: 16.px),
-          SizedBox(height: 12.px),
+          SizedBox(height: 6.h),
+          appText('846 reviews', fontSize: 16.sp),
+          SizedBox(height: 12.h),
           Row(
             children: [
               Expanded(
@@ -54,12 +53,12 @@ class _ReviewsWidgetState extends State<ReviewsWidget> {
                     (index) {
                       int count = [1000, 29000, 13000, 10000, 34000][index];
                       return Padding(
-                        padding: EdgeInsets.symmetric(vertical: 4.px),
+                        padding: EdgeInsets.symmetric(vertical: 4.h),
                         child: Row(
                           children: [
-                            Icon(Icons.star, size: 18.px),
+                            Icon(Icons.star, size: 18.sp),
                             appText('${5 - index}'),
-                            SizedBox(width: 8.px),
+                            SizedBox(width: 8.w),
                             Expanded(
                               child: LinearProgressIndicator(
                                 value: count / 34000,
@@ -67,9 +66,9 @@ class _ReviewsWidgetState extends State<ReviewsWidget> {
                                 color: AppColors.blackColor,
                               ),
                             ),
-                            SizedBox(width: 8.px),
+                            SizedBox(width: 8.w),
                             Padding(
-                              padding: EdgeInsets.only(right: 10.px),
+                              padding: EdgeInsets.only(right: 10.w),
                               child: appText('${(count / 1000).toStringAsFixed(0)}k'),
                             ),
                           ],
@@ -81,13 +80,13 @@ class _ReviewsWidgetState extends State<ReviewsWidget> {
               ),
             ],
           ),
-          SizedBox(height: 10.px),
+          SizedBox(height: 10.h),
           div(),
-          SizedBox(height: 10.px),
-          appText('Customer photos & videos', fontSize: 20.px, fontWeight: FontWeight.bold),
-          SizedBox(height: 20.px),
+          SizedBox(height: 10.h),
+          appText('Customer photos & videos', fontSize: 20.sp, fontWeight: FontWeight.bold),
+          SizedBox(height: 20.h),
           SizedBox(
-              height: 100.px,
+              height: 100.h,
               width: double.maxFinite,
               child: ListView.builder(
                 itemCount: 6,
@@ -96,118 +95,98 @@ class _ReviewsWidgetState extends State<ReviewsWidget> {
                 physics: const BouncingScrollPhysics(),
                 itemBuilder: (context, index) {
                   return Container(
-                      margin: EdgeInsets.only(left: 6.px),
-                      width: 100.px,
+                      margin: EdgeInsets.only(left: 6.w),
+                      width: 100.w,
                       decoration: BoxDecoration(
                           color: AppColors.blackColor,
                           image: const DecorationImage(
                               image: AssetImage('assets/images/fullroom.jpeg'), fit: BoxFit.cover),
-                          borderRadius: BorderRadius.circular(6)));
+                          borderRadius: BorderRadius.circular(6.r)));
                 },
               )),
-          SizedBox(height: 20.px),
+          SizedBox(height: 20.h),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              appText('All Reviews', fontSize: 20.px, fontWeight: FontWeight.bold),
+              appText('All Reviews', fontSize: 20.sp, fontWeight: FontWeight.bold),
               InkWell(
                 onTap: () {
                   showFilterRatingBottomSheet(context);
                 },
-                child: appText("Filter", fontSize: 16.px, color: AppColors.lowPurple, fontWeight: FontWeight.bold),
+                child: appText("Filter", fontSize: 16.sp, color: AppColors.lowPurple, fontWeight: FontWeight.bold),
               ),
             ],
           ),
-          SizedBox(height: 20.px),
+          SizedBox(height: 20.h),
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: Row(
-              children: [
-                SizedBox(
-                  height: 40.px,
-                  child: ListView.builder(
-                    itemCount: categories.length,
-                    shrinkWrap: true,
-                    physics: const BouncingScrollPhysics(),
-                    scrollDirection: Axis.horizontal,
-                    itemBuilder: (context, index) {
-                      final isSelected = selectedFilters[index];
-                      return CustomContainer(
-                          onTap: () => toggleFilter(index),
-                          width: 120.px,
-                          borderRadius: 8.px,
-                          margin: EdgeInsets.only(right: 8.px),
-                          color: isSelected ? AppColors.blueColor : AppColors.transparentColor,
-                          borderColor: isSelected ? AppColors.blueColor : AppColors.hintGrey,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            spacing: 6.px,
-                            children: [
-                              appText(categories[index], color: isSelected ? AppColors.whiteTheme : Colors.black),
-                            ],
-                          ));
-                    },
-                  ),
-                )
-              ],
+              children: List.generate(
+                categories.length,
+                (index) {
+                  final isSelected = selectedFilters[index];
+                  return CustomContainer(
+                      onTap: () => toggleFilter(index),
+                      width: 120.w,
+                      height: 34.h,
+                      borderRadius: 8.r,
+                      margin: EdgeInsets.only(right: 8.w),
+                      color: isSelected ? AppColors.blueColor : AppColors.transparentColor,
+                      borderColor: isSelected ? AppColors.blueColor : AppColors.hintGrey,
+                      child: Center(
+                        child: appText(categories[index], color: isSelected ? AppColors.whiteTheme : Colors.black),
+                      ));
+                },
+              ),
             ),
           ),
+          SizedBox(height: 20.h),
           ListView.builder(
             itemCount: 4,
             shrinkWrap: true,
             physics: const BouncingScrollPhysics(),
             itemBuilder: (context, index) {
               return Padding(
-                padding: EdgeInsets.symmetric(vertical: 8.px),
+                padding: EdgeInsets.symmetric(vertical: 8.h),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        appText('Dishant Sharma', fontSize: 16.px, fontWeight: FontWeight.bold),
-                        SizedBox(height: 10.px),
+                        appText('Dishant Sharma', fontSize: 16.sp, fontWeight: FontWeight.bold),
                         Container(
-                          height: 24.px,
-                          width: 40.px,
+                          height: 24.h,
+                          width: 40.w,
                           decoration:
-                              BoxDecoration(color: AppColors.darkGreen, borderRadius: BorderRadius.circular(4.px)),
+                              BoxDecoration(color: AppColors.darkGreen, borderRadius: BorderRadius.circular(4.r)),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              Icon(Icons.star, size: 14.px, color: AppColors.whiteTheme),
+                              Icon(Icons.star, size: 14.sp, color: AppColors.whiteTheme),
                               appText('5', color: AppColors.whiteTheme),
                             ],
                           ),
                         ),
                       ],
                     ),
+                    SizedBox(height: 6.h),
                     Row(
-                      spacing: 4,
                       children: [
                         appText('Aug 2, 2024', color: AppColors.hintGrey),
-                        Icon(Icons.circle, size: 6, color: AppColors.hintGrey),
+                        Icon(Icons.circle, size: 6.sp, color: AppColors.hintGrey),
                         appText('For split AC, header', color: AppColors.hintGrey)
                       ],
                     ),
-                    SizedBox(height: 10.px),
-                    appText('Gloss wood repaint, Apex exterior emulsion Fresh paint', fontSize: 15.px),
-                    SizedBox(height: 20.px),
+                    SizedBox(height: 10.h),
+                    appText('Gloss wood repaint, Apex exterior emulsion Fresh paint', fontSize: 15.sp),
+                    SizedBox(height: 20.h),
                     const Divider(),
                   ],
                 ),
               );
             },
           ),
-          SizedBox(height: 20.px),
-          CustomContainer(
-              height: 50.px,
-              color: AppColors.transparentColor,
-              borderColor: AppColors.grey300,
-              child: Padding(
-                  padding: EdgeInsets.all(8.px),
-                  child: Center(child: appText('Show more', color: AppColors.lowPurple, fontSize: 18.px)))),
-          SizedBox(height: 20.px),
         ],
       ),
     );

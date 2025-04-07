@@ -5,6 +5,8 @@
 list(APPEND FLUTTER_PLUGIN_LIST
   agora_rtc_engine
   file_selector_windows
+  firebase_auth
+  firebase_core
   geolocator_windows
   iris_method_channel
   media_kit_libs_windows_video

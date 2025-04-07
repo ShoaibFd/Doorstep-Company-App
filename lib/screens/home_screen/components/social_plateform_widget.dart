@@ -1,29 +1,60 @@
+import 'package:doorstep_company_app/api/controllers/social_platforms/social_platforms_controller.dart';
 import 'package:flutter/material.dart';
-import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:url_launcher/url_launcher.dart';
 
-import '../../../constants/colors.dart';
 import '../../../components/app_text.dart';
+import '../../../components/show_loading.dart';
 
-Widget socialPlateformsWidgets() {
+Widget socialPlatformsWidgets() {
+  final platformsController = Get.put(SocialPlatformsController());
+  // platformsController.fetchSocialPlatforms();
   return Padding(
-    padding: const EdgeInsets.all(14.0),
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        appText("Our Social Platforms", fontSize: 20, fontWeight: FontWeight.bold),
-        SizedBox(height: 14.px),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          spacing: 20.px,
-          children: [
-            Icon(Icons.facebook, color: AppColors.blueColor, size: 47.px),
-            Image.asset("assets/images/WhatsApp.png", height: 40),
-            Image.asset("assets/images/titoks.jpg", height: 55.px),
-            Image.asset("assets/images/instagram.png", height: 44.px),
-            Image.asset("assets/images/youtube.webp", height: 50)
-          ],
-        ),
-      ],
-    ),
+    padding: EdgeInsets.all(14.w),
+    child: Obx(() {
+      if (platformsController.isLoading.value) {
+        return Center(child: showLoading());
+      }
+      if (platformsController.platforms.value == null) {
+        return Center(child: appText("No platforms available"));
+      }
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          appText("Our Social Platforms", fontSize: 18.sp, fontWeight: FontWeight.bold),
+          SizedBox(height: 10.h),
+          SizedBox(
+              height: 40.h,
+              width: double.maxFinite,
+              child: ListView.builder(
+                shrinkWrap: true,
+                itemCount: platformsController.platforms.value?.data?.length ?? 0,
+                scrollDirection: Axis.horizontal,
+                itemBuilder: (context, index) {
+                  final platform = platformsController.platforms.value?.data?[index];
+                  final imageUrl = platform?.icon ?? "https://example.com/default-icon.png";
+                  final decodedImageUrl = imageUrl.replaceAll(r'\/', '/');
+                  return GestureDetector(
+                      onTap: () async {
+                        if (platform?.url != null) {
+                          final uri = Uri.parse(platform!.url.trim());
+                          await launchUrl(
+                            uri,
+                            mode: LaunchMode.externalApplication,
+                          );
+                        }
+                      },
+                      child: Container(
+                          margin: EdgeInsets.only(right: 10.w),
+                          height: 40.h,
+                          width: 40.w,
+                          decoration: BoxDecoration(
+                              shape: BoxShape.circle, image: DecorationImage(image: NetworkImage(decodedImageUrl)))));
+                },
+              ))
+        ],
+      );
+    }),
   );
 }

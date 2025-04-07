@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
-import '../../constants/colors.dart';
 import '../../components/app_text.dart';
 import '../../components/round_button.dart';
+import '../../theme/colors.dart';
 import 'address_bottom_sheet.dart';
 
 void savedAddressSheet(BuildContext context) {
@@ -49,18 +49,7 @@ void savedAddressSheet(BuildContext context) {
                         SizedBox(height: 20.px),
                         GestureDetector(
                           onTap: () {
-                            showModalBottomSheet(
-                              context: context,
-                              isScrollControlled: true,
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.vertical(top: Radius.circular(16.px))),
-                              builder: (context) {
-                                return const FractionallySizedBox(
-                                  heightFactor: 0.9,
-                                  child: AddressBottomSheet(),
-                                );
-                              },
-                            );
+                            AddressBottomSheet.show(context);
                           },
                           child: Row(
                             children: [
@@ -136,11 +125,7 @@ void savedAddressSheet(BuildContext context) {
                             alignment: Alignment.bottomCenter,
                             child: roundButton(
                                 onTap: () {
-                                  showModalBottomSheet(
-                                      context: context,
-                                      builder: (context) {
-                                        return const AddressBottomSheet();
-                                      });
+                                  AddressBottomSheet.show(context);
                                 },
                                 title: 'Proceed'))
                       ],

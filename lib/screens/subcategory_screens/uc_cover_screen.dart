@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../constants/colors.dart';
+import '../../theme/colors.dart';
 import '../../components/bottom_sheet/30_day_warranty.dart';
 import '../../components/bottom_sheet/claim_order.dart';
 import '../../components/bottom_sheet/dc_verified_quotes.dart';

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
-import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../components/app_text.dart';
-import '../../constants/colors.dart';
+import '../../theme/colors.dart';
 import '../../utils/bottom_navigation_screen.dart';
 
 class FetchedLocationScreen extends StatefulWidget {
@@ -88,21 +88,21 @@ class _FetchedLocationScreenState extends State<FetchedLocationScreen> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Container(
-            height: 34.px,
-            width: 34.px,
+            height: 34.h,
+            width: 34.w,
             decoration: BoxDecoration(shape: BoxShape.circle, color: AppColors.darkGreen),
             child: isLoading ? const SizedBox() : const Icon(Icons.check, color: AppColors.whiteTheme)),
-        Container(height: 30.px, width: 2.px, color: AppColors.darkGreen),
+        Container(height: 30.h, width: 2.w, color: AppColors.darkGreen),
         appText('Delivering services at', color: AppColors.darkGreen),
-        SizedBox(height: 8.px),
+        SizedBox(height: 8.h),
         isLoading
-            ? appText('Fetching your location! Please wait', fontSize: 16.px)
-            : appText('$city', fontWeight: FontWeight.w600, fontSize: 16),
-        SizedBox(height: 8.px),
+            ? appText('Fetching your location! Please wait', fontSize: 16.sp)
+            : appText('$city', fontWeight: FontWeight.w600, fontSize: 16.sp),
+        SizedBox(height: 8.h),
         Center(
             child: appText(isLoading ? 'Fetching location...' : address ?? 'No address available',
                 maxLines: 2,
-                fontSize: 16.px,
+                fontSize: 16.sp,
                 textOverflow: TextOverflow.ellipsis,
                 fontWeight: FontWeight.w400,
                 color: AppColors.hintGrey)),

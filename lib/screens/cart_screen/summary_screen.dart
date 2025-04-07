@@ -7,7 +7,7 @@ import '../../components/app_text.dart';
 import '../../components/divider.dart';
 import '../../components/edit_package/edit_your_package.dart';
 import '../../components/round_button.dart';
-import '../../constants/colors.dart';
+import '../../theme/colors.dart';
 import '../painting_wall_screen/components/add_button.dart';
 import '../payment_process/saved_address_bottom_sheet.dart';
 import 'benefits_screen.dart';

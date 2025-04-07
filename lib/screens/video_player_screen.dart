@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 
-import '../constants/colors.dart';
+import '../theme/colors.dart';
 
 class VideoSection extends StatefulWidget {
   @override

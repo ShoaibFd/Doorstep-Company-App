@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
-import '../../../constants/colors.dart';
+import '../../../theme/colors.dart';
 import '../../../components/bottom_sheet/review_bottom_sheet.dart';
 import '../../../components/app_text.dart';
 import '../../../components/dotted_line_widget.dart';

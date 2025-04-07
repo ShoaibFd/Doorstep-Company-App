@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 
-import '../../constants/colors.dart';
-import '../../components/custom_container.dart';
 import '../../components/app_text.dart';
+import '../../components/custom_container.dart';
+import '../../theme/colors.dart';
 import '../bookings/quote_screen.dart';
 
 class NotificationScreen extends StatelessWidget {
@@ -12,36 +14,43 @@ class NotificationScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: appText('Notifications', fontSize: 18, fontWeight: FontWeight.w400),
+          title: appText('Notifications', fontSize: 18.sp, fontWeight: FontWeight.w400),
         ),
         body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 14),
+          padding: EdgeInsets.symmetric(horizontal: 14.w),
           child: Column(
             children: [
-              const SizedBox(height: 8),
+              SizedBox(height: 8.h),
               ListView.builder(
                 itemCount: 3,
                 shrinkWrap: true,
                 physics: const BouncingScrollPhysics(),
                 itemBuilder: (context, index) {
                   return Container(
-                    margin: const EdgeInsets.only(bottom: 12),
+                    margin: EdgeInsets.only(bottom: 12.h),
                     width: double.maxFinite,
-                    decoration:
-                        BoxDecoration(color: AppColors.whiteTheme, borderRadius: BorderRadius.circular(6), boxShadow: [
-                      BoxShadow(color: AppColors.grey300, offset: const Offset(1, 1), blurRadius: 1, spreadRadius: 1)
-                    ]),
+                    decoration: BoxDecoration(
+                        color: AppColors.whiteTheme,
+                        borderRadius: BorderRadius.circular(6.r),
+                        boxShadow: [
+                          BoxShadow(
+                              color: AppColors.grey300, offset: const Offset(1, 1), blurRadius: 1, spreadRadius: 1)
+                        ]),
                     child: Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: EdgeInsets.all(8.r),
                       child: ListTile(
                         onTap: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => const QuoteScreen()));
+                          Get.to(() => const QuoteScreen());
                         },
-                        leading: const CustomContainer(
-                            height: 60, width: 60, borderRadius: 6, color: AppColors.blackColor, child: SizedBox()),
-                        title: appText('Notification Title', fontSize: 16, fontWeight: FontWeight.w400),
+                        leading: CustomContainer(
+                            height: 60.h,
+                            width: 60.w,
+                            borderRadius: 6.r,
+                            color: AppColors.blackColor,
+                            child: const SizedBox()),
+                        title: appText('Notification Title', fontSize: 15.sp, fontWeight: FontWeight.w400),
                         subtitle: appText('Partner just completed your job', color: AppColors.hintGrey),
-                        trailing: appText('03:40', color: AppColors.hintGrey, fontSize: 12),
+                        trailing: appText('03:40', color: AppColors.hintGrey, fontSize: 12.sp),
                       ),
                     ),
                   );

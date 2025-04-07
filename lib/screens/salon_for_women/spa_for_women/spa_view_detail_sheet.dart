@@ -10,7 +10,7 @@ import '../../../components/custom_container.dart';
 import '../../../components/app_text.dart';
 import '../../../components/divider.dart';
 import '../../../components/round_button.dart';
-import '../../../constants/colors.dart';
+import '../../../theme/colors.dart';
 import '../../ac_screens/components/ac_view_detail_sheet.dart';
 import '../../home_screen/components/carousel_slider.dart';
 import '../../painting_wall_screen/components/how_it_works_widget.dart';

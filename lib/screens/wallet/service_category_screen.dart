@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
-import '../../components/custom_container.dart';
 import '../../components/app_text.dart';
-import '../../constants/colors.dart';
+import '../../components/custom_container.dart';
+import '../../theme/colors.dart';
+import '../../utils/shared_prefs.dart';
 import '../ac_screens/components/ac_appliance_bottom_sheet.dart';
 
 class ServiceCategoryScreen extends StatelessWidget {
@@ -35,8 +36,9 @@ class ServiceCategoryScreen extends StatelessWidget {
                     shrinkWrap: true,
                     physics: const BouncingScrollPhysics(),
                     itemBuilder: (context, index) {
+                      final sharedPrefs = SharedPrefs();
                       return CustomContainer(
-                          onTap: () {
+                          onTap: () async {
                             acAppliancesBottomSheet(context);
                           },
                           margin: EdgeInsets.only(bottom: 10.px),

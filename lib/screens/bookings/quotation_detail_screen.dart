@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
-import '../../constants/colors.dart';
+import '../../theme/colors.dart';
 import '../../components/app_text.dart';
 import 'bookings_detail_screen.dart';
 

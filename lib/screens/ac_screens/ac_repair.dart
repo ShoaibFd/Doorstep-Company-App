@@ -25,7 +25,7 @@ import '../../app_controllers/price_controller.dart';
 import '../../components/app_text.dart';
 import '../../components/dc_cover_button.dart';
 import '../../components/divider.dart';
-import '../../constants/colors.dart';
+import '../../theme/colors.dart';
 import '../subcategory_screens/Widgets/app_bar_search_button.dart';
 import '../subcategory_screens/Widgets/app_bar_share_button.dart';
 import 'components/floating_action_button_widget.dart';
@@ -168,18 +168,18 @@ class _AcRepairScreenState extends State<AcRepairScreen> {
           SingleChildScrollView(
             controller: _scrollController,
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
+              padding:  EdgeInsets.symmetric(horizontal: 16.px),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const SizedBox(height: 10),
+                   SizedBox(height: 10.px),
                   TopBarwidget(carouselImages: carouselImages),
-                  const SizedBox(height: 20),
+                   SizedBox(height: 20.px),
                   appText("AC Repair & Service", fontSize: 22.px, fontWeight: FontWeight.bold),
                   SizedBox(height: 12.px),
                   // Rating Section
                   const RatingRowSection(ratingText: '4.82', bookings: '(1.4M Bookings)'),
-                  const SizedBox(height: 16),
+                   SizedBox(height: 16.px),
                   // DC Cover Button
                   const DcCoverButton(),
                   const SizedBox(height: 16),
@@ -612,7 +612,7 @@ class _AcRepairScreenState extends State<AcRepairScreen> {
             acServicesController.count.value > 0 ||
             acPackagesController.count.value > 0 ||
             acRepairController.count.value > 0;
-
+        // Price Calculation
         double totalPrice = shouldShowBottomBar ? priceController.totalPrice.value : 0;
         double discount = shouldShowBottomBar ? priceController.savings.value : 0;
 
@@ -632,19 +632,17 @@ class _AcRepairScreenState extends State<AcRepairScreen> {
                       ),
                       if (priceController.showConfetti.value)
                         Align(
-                          alignment: Alignment.center,
-                          child: ConfettiWidget(
-                            confettiController: priceController.confettiController,
-                            blastDirection: -pi / 2,
-                            maxBlastForce: 5,
-                            minBlastForce: 1,
-                            emissionFrequency: 0.06,
-                            numberOfParticles: 20,
-                            gravity: 0.2,
-                          ),
-                        ),
+                            alignment: Alignment.center,
+                            child: ConfettiWidget(
+                                confettiController: priceController.confettiController,
+                                blastDirection: -pi / 2,
+                                maxBlastForce: 5,
+                                minBlastForce: 1,
+                                emissionFrequency: 0.06,
+                                numberOfParticles: 20,
+                                gravity: 0.2)),
                     ],
-                  ),
+                  )
                 ],
               )
             : const SizedBox.shrink();

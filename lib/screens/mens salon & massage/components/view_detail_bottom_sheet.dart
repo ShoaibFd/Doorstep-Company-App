@@ -3,15 +3,15 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:share_plus/share_plus.dart';
 
+import '../../../components/app_text.dart';
 import '../../../components/bottom_sheet/30_day_warranty.dart';
 import '../../../components/bottom_sheet/dc_verified_quotes.dart';
 import '../../../components/bottom_sheet/no_question_asked_bottom_sheet.dart';
 import '../../../components/bottom_sheet/review_bottom_sheet.dart';
 import '../../../components/custom_container.dart';
-import '../../../components/app_text.dart';
 import '../../../components/divider.dart';
 import '../../../components/round_button.dart';
-import '../../../constants/colors.dart';
+import '../../../theme/colors.dart';
 import '../../ac_screens/components/ac_view_detail_sheet.dart';
 import '../../cleaning & pest control/bathroom_cleaning/bath_cleaning_bottom_sheet.dart';
 import '../../home_screen/components/carousel_slider.dart';
@@ -510,7 +510,23 @@ class _MensSalonDetailSheetState extends State<MensSalonDetailSheet> {
                     SizedBox(height: 20.px),
                     div(),
                     SizedBox(height: 20.px),
-                    const FrequentlyAskedQuestionsWidget(),
+                    // const FrequentlyAskedQuestionsWidget(),
+                    ListView.builder(
+                      itemCount: 5,
+                      shrinkWrap: true,
+                      physics: const BouncingScrollPhysics(),
+                      itemBuilder: (context, index) {
+                        return const Column(
+                          children: [
+                            FAQsComponent(
+                              question: 'Hello! dear, What is your name?',
+                              answer: 'Hey there! My name is Muhammad Shoaib. What is your name?',
+                            ),
+                            Divider(),
+                          ],
+                        );
+                      },
+                    ),
                     SizedBox(height: 20.px),
                     shareBtn(context, () {
                       Share.share('Check out the Flutter website: $urlToShare');

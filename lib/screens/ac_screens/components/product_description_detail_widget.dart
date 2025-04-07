@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../components/app_text.dart';
 import '../../../components/dotted_line_widget.dart';
-import '../../../constants/colors.dart';
+import '../../../theme/colors.dart';
 
 class ProductDescriptionDetailWidget extends StatelessWidget {
   const ProductDescriptionDetailWidget(

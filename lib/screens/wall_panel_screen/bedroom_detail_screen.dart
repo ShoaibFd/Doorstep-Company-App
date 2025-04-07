@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
-import '../../constants/colors.dart';
-import '../../components/custom_container.dart';
 import '../../components/app_text.dart';
+import '../../components/custom_container.dart';
 import '../../components/round_button.dart';
-import '../auth/authentication_screen.dart';
+import '../../theme/colors.dart';
+import '../auth/login_screen.dart';
 import 'wall_panel_screen.dart';
 
 class BedroomDetailScreen extends StatelessWidget {
@@ -32,7 +32,7 @@ class BedroomDetailScreen extends StatelessWidget {
                   const Spacer(),
                   IconButton(
                       onPressed: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) =>  AuthenticationScreen()));
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => LoginScreen()));
                       },
                       icon: const Icon(Icons.person_2_outlined)),
                   IconButton(onPressed: () {}, icon: const Icon(Icons.search)),

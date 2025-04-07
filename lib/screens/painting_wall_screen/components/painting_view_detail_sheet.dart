@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:share_plus/share_plus.dart';
 
-import '../../../constants/colors.dart';
 import '../../../components/app_text.dart';
 import '../../../components/divider.dart';
+import '../../../theme/colors.dart';
 import '../../salon_for_women/spa_for_women/spa_view_detail_sheet.dart';
 import 'frequently_asked_questions_widget.dart';
 import 'how_it_works_widget.dart';
@@ -204,7 +204,23 @@ class _PaintingViewDetailBottomSheetScreenState extends State<PaintingViewDetail
                     SizedBox(height: 20.px),
                     div(),
                     SizedBox(height: 20.px),
-                    const FrequentlyAskedQuestionsWidget(),
+                    // const FrequentlyAskedQuestionsWidget(),
+                    ListView.builder(
+                      itemCount: 5,
+                      shrinkWrap: true,
+                      physics: const BouncingScrollPhysics(),
+                      itemBuilder: (context, index) {
+                        return const Column(
+                          children: [
+                            FAQsComponent(
+                              question: 'Hello! dear, What is your name?',
+                              answer: 'Hey there! My name is Muhammad Shoaib. What is your name?',
+                            ),
+                            Divider(),
+                          ],
+                        );
+                      },
+                    ),
                     div(),
                     SizedBox(height: 20.px),
                     shareBtn(context, () {

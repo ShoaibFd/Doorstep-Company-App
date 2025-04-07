@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../constants/colors.dart';
+import '../theme/colors.dart';
 
 class CustomItemWidget extends StatelessWidget {
   final VoidCallback onTap;

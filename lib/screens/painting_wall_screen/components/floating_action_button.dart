@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../../components/app_text.dart';
-import '../../../constants/colors.dart';
+import '../../../theme/colors.dart';
 
 class PaintingFloatingButtonController extends GetxController {
   var showButton = false.obs;

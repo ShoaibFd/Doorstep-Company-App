@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
-import '../../constants/colors.dart';
+import '../../theme/colors.dart';
 import 'completed_offers/categories_screen.dart';
 import 'offer_screen.dart';
 

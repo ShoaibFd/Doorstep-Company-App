@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../app_controllers/bottom_nav_bar_controller.dart';
-import '../constants/colors.dart';
+import '../theme/colors.dart';
 import '../screens/account_screen/account_screen.dart';
 import '../screens/bookings/booking_summary_screen.dart';
 import '../screens/chat/chat_screen.dart';
@@ -27,8 +27,8 @@ class BottomNavigationScreen extends StatelessWidget {
       HomeScreen(latitude: latitude ?? 0.0, longitude: longitude ?? 0.0),
       const BookingSummaryScreen(),
       const ChatScreen(),
-      const OffersTabbarScreen(),
-      const AccountScreen(),
+       OffersTabbarScreen(),
+       AccountScreen(),
     ];
 
     return Scaffold(

@@ -2,7 +2,7 @@ import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
-import '../../../constants/colors.dart';
+import '../../../theme/colors.dart';
 import '../../../components/custom_container.dart';
 import '../../../components/app_text.dart';
 import '../../../components/divider.dart';

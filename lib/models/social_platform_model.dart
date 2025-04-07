@@ -1,44 +1,44 @@
 class SocialPlatformModel {
-  int? status;
-  List<SocialPlatformData>? data;
+  final bool success;
+  final List<PlatformData>? data;
+  final String message;
 
-  SocialPlatformModel({this.status, this.data});
+  SocialPlatformModel({required this.success, this.data, required this.message});
 
-  SocialPlatformModel.fromJson(Map<String, dynamic> json) {
-    status = json['status'];
-    if (json['data'] != null) {
-      data = <SocialPlatformData>[];
-      json['data'].forEach((v) {
-        data!.add(SocialPlatformData.fromJson(v));
-      });
-    }
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = {};
-    data['status'] = this.status;
-    if (this.data != null) {
-      data['data'] = this.data!.map((v) => v.toJson()).toList();
-    }
-    return data;
+  factory SocialPlatformModel.fromJson(Map<String, dynamic> json) {
+    return SocialPlatformModel(
+      success: json['success'],
+      data: json['data'] is List ? (json['data'] as List).map((i) => PlatformData.fromJson(i)).toList() : null,
+      message: json['message'],
+    );
   }
 }
 
-class SocialPlatformData {
-  String? name;
-  String? iconImage;
+class PlatformData {
+  final int id;
+  final String name;
+  final String icon;
+  final String url;
+  final String createdAt;
+  final String updatedAt;
 
-  SocialPlatformData({this.name, this.iconImage});
+  PlatformData({
+    required this.id,
+    required this.name,
+    required this.icon,
+    required this.url,
+    required this.createdAt,
+    required this.updatedAt,
+  });
 
-  SocialPlatformData.fromJson(Map<String, dynamic> json) {
-    name = json['name'];
-    iconImage = json['icon_image'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = {};
-    data['name'] = this.name;
-    data['icon_image'] = this.iconImage;
-    return data;
+  factory PlatformData.fromJson(Map<String, dynamic> json) {
+    return PlatformData(
+      id: json['id'],
+      name: json['name'],
+      icon: json['icon'],
+      url: json['url'],
+      createdAt: json['created_at'],
+      updatedAt: json['updated_at'],
+    );
   }
 }

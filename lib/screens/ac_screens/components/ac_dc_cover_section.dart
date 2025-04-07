@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
-import '../../../constants/colors.dart';
+import '../../../theme/colors.dart';
 import '../../../components/bottom_sheet/30_day_warranty.dart';
 import '../../../components/bottom_sheet/dc_verified_quotes.dart';
 import '../../../components/bottom_sheet/no_question_asked_bottom_sheet.dart';

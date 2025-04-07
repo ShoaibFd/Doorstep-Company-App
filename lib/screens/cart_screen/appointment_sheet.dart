@@ -4,7 +4,7 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../components/app_text.dart';
 import '../../components/round_button.dart';
-import '../../constants/colors.dart';
+import '../../theme/colors.dart';
 import '../payment_method/payment_method_screen.dart';
 import 'components/professional_section.dart';
 

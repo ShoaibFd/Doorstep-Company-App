@@ -2,7 +2,7 @@ import 'package:doorstep_company_app/components/app_text.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
-import '../constants/colors.dart';
+import '../theme/colors.dart';
 import '../screens/mens salon & massage/components/learn_how_bottom_sheet.dart';
 
 class LearnHowButton extends StatelessWidget {

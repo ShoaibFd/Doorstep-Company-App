@@ -1,156 +1,174 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
-import '../../constants/colors.dart';
-import '../../components/custom_container.dart';
-import '../../components/custom_snackbar.dart';
+import '../../api/controllers/products/products_controller.dart';
 import '../../components/app_text.dart';
+import '../../components/custom_snackbar.dart';
 import '../../components/round_button.dart';
-import '../cart_screen/appointment_sheet.dart';
-// Import other screens here
+import '../../theme/colors.dart';
 
-class AddressBottomSheet extends StatefulWidget {
-  const AddressBottomSheet({
-    super.key,
-  });
-
-  @override
-  State<AddressBottomSheet> createState() => _AddressBottomSheetState();
-}
-
-class _AddressBottomSheetState extends State<AddressBottomSheet> {
-  bool isContainer1 = true;
-  bool isContainer2 = false;
-  bool isContainer3 = false;
-  bool isContainer4 = false;
+class AddressController extends GetxController {
+  var selectedAddress = 'Home'.obs;
   final cityController = TextEditingController();
   final areaController = TextEditingController();
   final streetController = TextEditingController();
   final villaController = TextEditingController();
+
   @override
-  Widget build(BuildContext context) {
-    double height = MediaQuery.of(context).size.height;
-    double width = MediaQuery.of(context).size.width;
-    return Container(
-      height: height * 0.9,
-      width: width,
-      color: AppColors.transparentColor,
-      child: Stack(
+  void onClose() {
+    cityController.dispose();
+    areaController.dispose();
+    streetController.dispose();
+    villaController.dispose();
+    super.onClose();
+  }
+}
+
+class AddressBottomSheet {
+  static void show(BuildContext context) { // Accept context
+    final addressController = Get.put(AddressController());
+    final productsController = Get.put(ProductsController());
+
+    void submitAddress() {
+      if (addressController.cityController.text.isEmpty ||
+          addressController.areaController.text.isEmpty ||
+          addressController.streetController.text.isEmpty ||
+          addressController.villaController.text.isEmpty) {
+        showErrorSnackbar(context, 'Please fill in all fields.'); // Use passed context
+        return;
+      }
+
+      productsController.updateShippingAddress(
+        context: context, // Use passed context
+        city: addressController.cityController.text,
+        area: addressController.areaController.text,
+        streetName: addressController.streetController.text,
+        appartment: addressController.villaController.text,
+        addressType: addressController.selectedAddress.value,
+      );
+
+      Get.back();
+    }
+
+    Get.bottomSheet(
+      Stack(
         clipBehavior: Clip.none,
+        alignment: Alignment.bottomCenter,
         children: [
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16.px, vertical: 10.px),
-            child: Column(
-              children: [
-                SizedBox(height: 20.px),
-                appText('Enter Address Details', fontSize: 20.px, fontWeight: FontWeight.bold),
-                SizedBox(height: 20.px),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          Container(
+            padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+            decoration: BoxDecoration(
+              color: AppColors.whiteTheme,
+              borderRadius: BorderRadius.vertical(top: Radius.circular(20.px)),
+            ),
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16.px, vertical: 10.px),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
                   children: [
-                    CustomContainer(
-                        onTap: () {
-                          setState(() {
-                            isContainer1 = true;
-                            isContainer2 = false;
-                            isContainer3 = false;
-                          });
-                        },
-                        height: 34.px,
-                        width: 80.px,
-                        borderRadius: 30.px,
-                        color: isContainer1 ? AppColors.blueColor : AppColors.transparentColor,
-                        borderColor: isContainer1 ? AppColors.transparentColor : AppColors.grey300,
-                        child: Center(
-                            child: appText('Home',
-                                fontSize: 16.px,
-                                fontWeight: FontWeight.bold,
-                                color: isContainer1 ? AppColors.whiteTheme : AppColors.blackColor))),
-                    CustomContainer(
-                        onTap: () {
-                          setState(() {
-                            isContainer1 = false;
-                            isContainer2 = true;
-                            isContainer3 = false;
-                          });
-                        },
-                        height: 34.px,
-                        width: 80.px,
-                        borderRadius: 30.px,
-                        color: isContainer2 ? AppColors.blueColor : AppColors.transparentColor,
-                        borderColor: isContainer2 ? AppColors.transparentColor : AppColors.grey300,
-                        child: Center(
-                            child: appText('Office',
-                                fontSize: 16.px,
-                                fontWeight: FontWeight.bold,
-                                color: isContainer2 ? AppColors.whiteTheme : AppColors.blackColor))),
-                    CustomContainer(
-                        onTap: () {
-                          setState(() {
-                            isContainer1 = false;
-                            isContainer2 = false;
-                            isContainer3 = true;
-                          });
-                        },
-                        height: 34.px,
-                        width: 80.px,
-                        borderRadius: 30.px,
-                        color: isContainer3 ? AppColors.blueColor : AppColors.transparentColor,
-                        borderColor: isContainer3 ? AppColors.transparentColor : AppColors.grey300,
-                        child: Center(
-                            child: appText('Other',
-                                fontSize: 16.px,
-                                fontWeight: FontWeight.bold,
-                                color: isContainer3 ? AppColors.whiteTheme : AppColors.blackColor)))
-                  ],
-                ),
-                SizedBox(height: 10.px),
-                TextFormField(
-                    controller: cityController,
-                    cursorColor: AppColors.blueColor,
-                    decoration: InputDecoration(
+                    SizedBox(height: 20.px),
+                    appText('Enter Address Details', fontSize: 20.px, fontWeight: FontWeight.bold),
+                    SizedBox(height: 20.px),
+
+                    // Address Type Selection
+                    Obx(() => Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: ['Home', 'Office', 'Other'].map((type) {
+                            return GestureDetector(
+                              onTap: () => addressController.selectedAddress.value = type,
+                              child: Container(
+                                height: 34.px,
+                                width: 80.px,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(30.px),
+                                  color: addressController.selectedAddress.value == type
+                                      ? AppColors.blueColor
+                                      : AppColors.transparentColor,
+                                  border: Border.all(
+                                    color: addressController.selectedAddress.value == type
+                                        ? AppColors.transparentColor
+                                        : AppColors.grey300,
+                                  ),
+                                ),
+                                alignment: Alignment.center,
+                                child: appText(type,
+                                    fontSize: 16.px,
+                                    fontWeight: FontWeight.bold,
+                                    color: addressController.selectedAddress.value == type
+                                        ? AppColors.whiteTheme
+                                        : AppColors.blackColor),
+                              ),
+                            );
+                          }).toList(),
+                        )),
+                    SizedBox(height: 20.px),
+
+                    TextFormField(
+                      controller: addressController.cityController,
+                      cursorColor: AppColors.blueColor,
+                      decoration: InputDecoration(
                         label: appText('City', fontSize: 16.px),
                         hintText: 'Dubai',
-                        hintStyle: TextStyle(color: AppColors.hintGrey))),
-                TextFormField(
-                    controller: areaController,
-                    cursorColor: AppColors.blueColor,
-                    decoration: InputDecoration(
+                        hintStyle: TextStyle(color: AppColors.hintGrey),
+                      ),
+                    ),
+                    SizedBox(height: 10.px),
+
+                    TextFormField(
+                      controller: addressController.areaController,
+                      cursorColor: AppColors.blueColor,
+                      decoration: InputDecoration(
                         label: appText('Area', fontSize: 16.px),
                         hintText: 'Select Area',
-                        hintStyle: TextStyle(color: AppColors.hintGrey))),
-                TextFormField(
-                    controller: streetController,
-                    cursorColor: AppColors.blueColor,
-                    decoration: InputDecoration(
+                        hintStyle: TextStyle(color: AppColors.hintGrey),
+                      ),
+                    ),
+                    SizedBox(height: 10.px),
+
+                    TextFormField(
+                      controller: addressController.streetController,
+                      cursorColor: AppColors.blueColor,
+                      decoration: InputDecoration(
                         label: appText('Building/Street Name', fontSize: 16.px),
                         hintText: 'Building/Street Name',
-                        hintStyle: TextStyle(color: AppColors.hintGrey))),
-                TextFormField(
-                    controller: areaController,
-                    cursorColor: AppColors.blueColor,
-                    decoration: InputDecoration(
-                        label: appText('Appartment/Villa Number', fontSize: 16.px),
-                        hintText: 'Appartment/Villa Number',
-                        hintStyle: TextStyle(color: AppColors.hintGrey))),
-                SizedBox(height: 20.px),
-                roundButton(
-                    onTap: () {
-                      Navigator.pop(context);
-                      showSuccessSnackbar(context, 'Address added successfully!');
-                      showAppointmentBottomSheet(context);
-                    },
-                    title: 'Save')
-              ],
+                        hintStyle: TextStyle(color: AppColors.hintGrey),
+                      ),
+                    ),
+                    SizedBox(height: 10.px),
+
+                    TextFormField(
+                      controller: addressController.villaController,
+                      cursorColor: AppColors.blueColor,
+                      decoration: InputDecoration(
+                        label: appText('Apartment/Villa Number', fontSize: 16.px),
+                        hintText: 'Apartment/Villa Number',
+                        hintStyle: TextStyle(color: AppColors.hintGrey),
+                      ),
+                    ),
+                    SizedBox(height: 20.px),
+
+                    // Save Button
+                    Obx(() {
+                      return roundButton(
+                        isLoading: productsController.isLoading.value,
+                        onTap: () => submitAddress(),
+                        title: 'Save',
+                      );
+                    }),
+                    SizedBox(height: 10.px),
+                  ],
+                ),
+              ),
             ),
           ),
+
           Positioned(
             top: -50.px,
             right: 16.px,
             child: GestureDetector(
-              onTap: () {
-                Navigator.pop(context);
-              },
+              onTap: () => Get.back(),
               child: const CircleAvatar(
                 backgroundColor: AppColors.whiteTheme,
                 child: Icon(Icons.close),
@@ -159,6 +177,10 @@ class _AddressBottomSheetState extends State<AddressBottomSheet> {
           ),
         ],
       ),
+      isDismissible: true,
+      enableDrag: false,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
     );
   }
 }

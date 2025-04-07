@@ -5,33 +5,21 @@ import 'package:get/get.dart';
 import '../../ac_screens/components/ac_appliance_bottom_sheet.dart';
 import '../../mens salon & massage/mens_salon/men_saloon_bottom_sheet.dart';
 import '../../painting_wall_screen/painting_wall_screen.dart';
-import '../women_category_screen.dart';
+import '../women_salon_and_spa_bottom_sheet.dart.dart';
 
 class NavigateToServiceDetailSheet extends StatelessWidget {
   const NavigateToServiceDetailSheet({super.key});
 
-  void navigateTo(int index, BuildContext context) {
+  void navigateTo(int index, BuildContext context) async {
     switch (index) {
       case 2:
         acAppliancesBottomSheet(context);
         break;
       case 0:
-        showModalBottomSheet(
-          context: context,
-          isScrollControlled: true,
-          builder: (BuildContext context) {
-            return const WomenCategoryScreen();
-          },
-        );
+        womenSalonAndSpaBottomSheet();
         break;
       case 1:
-        showModalBottomSheet(
-          context: context,
-          isScrollControlled: true,
-          builder: (BuildContext context) {
-            return const MenSaloonBottomSheet();
-          },
-        );
+        showMenSaloonBottomSheet();
         break;
       case 7:
         Get.to(const PaintingWaterproofingScreen());

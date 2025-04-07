@@ -2,12 +2,13 @@ import 'package:doorstep_company_app/screens/painting_wall_screen/rooms_wall_pai
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
-import '../../constants/colors.dart';
 import '../../components/app_text.dart';
+import '../../theme/colors.dart';
 import 'full_home_painting.dart';
 
 class PaintingWaterproofingScreen extends StatefulWidget {
-  const PaintingWaterproofingScreen({super.key});
+  const PaintingWaterproofingScreen({super.key, this.id});
+  final int? id;
 
   @override
   State<PaintingWaterproofingScreen> createState() => _PaintingWaterproofingScreenState();
@@ -38,7 +39,7 @@ class _PaintingWaterproofingScreenState extends State<PaintingWaterproofingScree
                     Navigator.push(context, MaterialPageRoute(builder: (context) => const FullHomeScreen()));
                   },
                   child: Container(
-                    child: PaintingWidget(
+                    child: const PaintingWidget(
                         title: 'Full home painting',
                         subTitle: '1/2/3/4 BHK & above',
                         image: 'assets/images/fullroom.jpeg'),
@@ -50,7 +51,7 @@ class _PaintingWaterproofingScreenState extends State<PaintingWaterproofingScree
                     Navigator.push(context, MaterialPageRoute(builder: (context) => const RoomsWallPaintingScreen()));
                   },
                   child: Container(
-                    child: PaintingWidget(
+                    child: const PaintingWidget(
                         title: 'Rooms/walls painting',
                         subTitle: '1/2/3 rooms or individual',
                         image: 'assets/images/fullroom.jpeg'),

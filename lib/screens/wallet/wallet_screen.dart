@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../constants/colors.dart';
+import '../../theme/colors.dart';
 import '../../components/custom_container.dart';
 import '../../components/app_text.dart';
 import '../account_screen/wallet_screen/coin_screen.dart';

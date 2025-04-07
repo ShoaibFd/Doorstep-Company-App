@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
-import '../../constants/colors.dart';
+import '../../components/app_text.dart';
 import '../../components/custom_container.dart';
 import '../../components/custom_snackbar.dart';
-import '../../components/app_text.dart';
+import '../../theme/colors.dart';
 import 'payment_methods/debit_or_credit_cart_method.dart';
 import 'payment_methods/easypay_method.dart';
 import 'payment_methods/jazzcash_method.dart';
 import 'payment_methods/online_bank_transfer_method.dart';
 
 class CheckoutScreen extends StatefulWidget {
-  const CheckoutScreen({super.key});
+  const CheckoutScreen({super.key, required this.selectedAddress});
+    final Map<String, dynamic> selectedAddress;
+
 
   @override
   State<CheckoutScreen> createState() => _CheckoutScreenState();
@@ -271,7 +273,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
               CustomContainer(
                 onTap: () {
                   if (selectedPaymentMethod.isEmpty) {
-                    showErrorSnackbar(context, 'Please select a payment method');
+                    showInfoSnackbar(context, 'Please select a payment method');
                   } else {
                     switch (selectedPaymentMethod) {
                       case 'card':
@@ -305,7 +307,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                         // );
                         break;
                       default:
-                        showErrorSnackbar(context, 'Invalid payment method selected');
+                        showInfoSnackbar(context, 'Invalid payment method selected');
                         break;
                     }
                   }

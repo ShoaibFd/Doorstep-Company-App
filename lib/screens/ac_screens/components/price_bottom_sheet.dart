@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
-import '../../../constants/colors.dart';
 import '../../../components/app_text.dart';
+import '../../../theme/colors.dart';
 
 class PriceBottomSheet extends StatelessWidget {
   final String price;
@@ -16,10 +16,10 @@ class PriceBottomSheet extends StatelessWidget {
     return Column(
       children: [
         Container(
-          height: 20,
+          height: 20.px,
           color: AppColors.darkGreen,
           child: Row(
-            spacing: 6,
+            spacing: 6.px,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Icon(Icons.local_offer, color: AppColors.whiteTheme, size: 14.px),
@@ -36,7 +36,7 @@ class PriceBottomSheet extends StatelessWidget {
                 color: Colors.black.withOpacity(0.2),
                 spreadRadius: 1,
                 blurRadius: 5,
-                offset: Offset(0, -3),
+                offset: const Offset(0, -3),
               ),
             ],
           ),
@@ -44,10 +44,10 @@ class PriceBottomSheet extends StatelessWidget {
             padding: EdgeInsets.symmetric(horizontal: 16.px),
             child: Row(
               children: [
-                appText(price, fontSize: 18.px, fontWeight: FontWeight.bold),
-                SizedBox(width: 10),
+                appText(price, fontSize: 18.sp, fontWeight: FontWeight.bold),
+                SizedBox(width: 10.px),
                 appText(discount, color: AppColors.hintGrey, decoration: TextDecoration.lineThrough),
-                Spacer(),
+                const Spacer(),
                 GestureDetector(
                   onTap: onViewCartTap,
                   child: Container(

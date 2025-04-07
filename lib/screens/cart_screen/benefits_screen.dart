@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
-import '../../components/custom_container.dart';
 import '../../components/app_text.dart';
+import '../../components/custom_container.dart';
 import '../../components/divider.dart';
-import '../../constants/colors.dart';
+import '../../theme/colors.dart';
 import '../painting_wall_screen/components/add_button.dart';
 import '../painting_wall_screen/components/frequently_asked_questions_widget.dart';
 import 'components/add_and_remove_button.dart';
@@ -217,7 +217,23 @@ class BenefitsScreen extends StatelessWidget {
                   SizedBox(height: 30.px),
                   div(),
                   SizedBox(height: 30.px),
-                  const FrequentlyAskedQuestionsWidget(),
+                  // const FrequentlyAskedQuestionsWidget(),
+                  ListView.builder(
+                    itemCount: 5,
+                    shrinkWrap: true,
+                    physics: const BouncingScrollPhysics(),
+                    itemBuilder: (context, index) {
+                      return const Column(
+                        children: [
+                          FAQsComponent(
+                            question: 'Hello! dear, What is your name?',
+                            answer: 'Hey there! My name is Muhammad Shoaib. What is your name?',
+                          ),
+                          Divider(),
+                        ],
+                      );
+                    },
+                  ),
 
                   // Reviews section
                   SizedBox(height: 30.px),

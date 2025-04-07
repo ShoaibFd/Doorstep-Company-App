@@ -3,7 +3,7 @@ import 'package:doorstep_company_app/screens/subcategory_screens/Widgets/app_bar
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
-import '../../../constants/colors.dart';
+import '../../../theme/colors.dart';
 import '../carousel+widget.dart';
 
 class TopBarwidget extends StatelessWidget {

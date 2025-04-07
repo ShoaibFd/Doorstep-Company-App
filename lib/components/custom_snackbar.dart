@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
-import '../constants/colors.dart';
+import '../theme/colors.dart';
 
 class TopSnackbar extends StatefulWidget {
   final String message;
@@ -16,6 +16,7 @@ class TopSnackbar extends StatefulWidget {
   });
 
   @override
+  // ignore: library_private_types_in_public_api
   _TopSnackbarState createState() => _TopSnackbarState();
 }
 
@@ -27,18 +28,10 @@ class _TopSnackbarState extends State<TopSnackbar> with SingleTickerProviderStat
   void initState() {
     super.initState();
 
-    _controller = AnimationController(
-      duration: const Duration(milliseconds: 500),
-      vsync: this,
-    );
+    _controller = AnimationController(duration: const Duration(milliseconds: 500), vsync: this);
 
-    _offsetAnimation = Tween<Offset>(
-      begin: const Offset(0, -1),
-      end: Offset.zero,
-    ).animate(CurvedAnimation(
-      parent: _controller,
-      curve: Curves.easeOut,
-    ));
+    _offsetAnimation = Tween<Offset>(begin: const Offset(0, -1), end: Offset.zero)
+        .animate(CurvedAnimation(parent: _controller, curve: Curves.easeOut));
 
     _showSnackbar();
   }
@@ -90,12 +83,12 @@ void showSuccessSnackbar(BuildContext context, String message) {
 
 // Function to show an error snackbar
 void showErrorSnackbar(BuildContext context, String message) {
-  showTopSnackbar(
-    context,
-    message,
-    color: AppColors.redColor,
-    icon: Icons.error,
-  );
+  showTopSnackbar(context, message, color: AppColors.redColor, icon: Icons.error);
+}
+
+// Function to show an info snackbar
+void showInfoSnackbar(BuildContext context, String message) {
+  showTopSnackbar(context, message, color: AppColors.orangeColor, icon: Icons.info);
 }
 
 // Helper function to insert snackbar into overlay

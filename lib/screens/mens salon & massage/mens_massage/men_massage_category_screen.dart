@@ -5,7 +5,7 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import '../../../components/custom_container.dart';
 import '../../../components/app_text.dart';
 import '../../../components/divider.dart';
-import '../../../constants/colors.dart';
+import '../../../theme/colors.dart';
 
 class MenMassageCategoryScreen extends StatelessWidget {
   const MenMassageCategoryScreen({super.key});

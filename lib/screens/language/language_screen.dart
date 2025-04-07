@@ -1,13 +1,13 @@
-import 'package:doorstep_company_app/Constants/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart' as google_maps;
-import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../components/app_text.dart';
 import '../../components/round_button.dart';
-import '../auth/authentication_screen.dart';
+import '../../theme/colors.dart';
+import '../auth/login_screen.dart';
 
 class LanguageScreen extends StatefulWidget {
   final bool onChecked;
@@ -47,36 +47,36 @@ class _LanguageScreenState extends State<LanguageScreen> {
     return SafeArea(
       child: Scaffold(
         body: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16.px),
+          padding: EdgeInsets.symmetric(horizontal: 16.w),
           child: Column(
             children: [
-              SizedBox(height: 30.px),
-              Center(child: appText('Welcome to ', fontSize: 30.px, fontWeight: FontWeight.bold)),
-              SizedBox(height: 20.px),
+              SizedBox(height: 30.h),
+              Center(child: appText('Welcome to ', fontSize: 28.sp, fontWeight: FontWeight.bold)),
+              SizedBox(height: 10.h),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Container(
-                    height: 45.px,
-                    width: 50.px,
+                    height: 45.h,
+                    width: 50.w,
                     decoration: BoxDecoration(color: AppColors.blackColor, borderRadius: BorderRadius.circular(4)),
                     child: Center(
-                      child: appText('DC', fontSize: 27.px, color: AppColors.whiteTheme, fontWeight: FontWeight.bold),
+                      child: appText('DC', fontSize: 27.sp, color: AppColors.whiteTheme, fontWeight: FontWeight.bold),
                     ),
                   ),
-                  SizedBox(width: 10.px),
+                  SizedBox(width: 10.w),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      appText('Doorstep ', fontSize: 22.px, fontWeight: FontWeight.bold),
-                      appText('Company', fontSize: 18.px, fontWeight: FontWeight.bold),
+                      appText('Doorstep ', fontSize: 22.sp, fontWeight: FontWeight.bold),
+                      appText('Company', fontSize: 18.sp, fontWeight: FontWeight.bold),
                     ],
                   ),
                 ],
               ),
-              SizedBox(height: 20.px),
-              appText('Choose your language to get started', fontSize: 18.px),
-              SizedBox(height: 20.px),
+              SizedBox(height: 20.h),
+              appText('Choose your language to get started', fontSize: 16.sp),
+              SizedBox(height: 20.h),
 
               // Language Selection
               Column(
@@ -94,8 +94,8 @@ class _LanguageScreenState extends State<LanguageScreen> {
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              appText('English', fontSize: 16.px),
-                              appText("(device's language)", fontSize: 16.px, color: AppColors.hintGrey),
+                              appText('English', fontSize: 15.sp),
+                              appText("(device's language)", fontSize: 15.sp, color: AppColors.hintGrey),
                             ],
                           ),
                         ],
@@ -113,8 +113,8 @@ class _LanguageScreenState extends State<LanguageScreen> {
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              appText('اردو', fontSize: 16.px),
-                              appText('Urdu', fontSize: 16.px, color: AppColors.hintGrey),
+                              appText('اردو', fontSize: 15.sp),
+                              appText('Urdu', fontSize: 15.sp, color: AppColors.hintGrey),
                             ],
                           ),
                         ],
@@ -132,8 +132,8 @@ class _LanguageScreenState extends State<LanguageScreen> {
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              appText('Unglish', fontSize: 16.px),
-                              appText('(Chat language)', fontSize: 16.px, color: AppColors.hintGrey),
+                              appText('Unglish', fontSize: 15.sp),
+                              appText('(Chat language)', fontSize: 15.sp, color: AppColors.hintGrey),
                             ],
                           ),
                         ],
@@ -148,12 +148,12 @@ class _LanguageScreenState extends State<LanguageScreen> {
                       ? Navigator.pop(context)
                       : Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => const AuthenticationScreen()),
+                          MaterialPageRoute(builder: (context) => const LoginScreen()),
                         );
                 },
                 title: 'Save and continue',
               ),
-              SizedBox(height: 10.px),
+              SizedBox(height: 10.h),
             ],
           ),
         ),

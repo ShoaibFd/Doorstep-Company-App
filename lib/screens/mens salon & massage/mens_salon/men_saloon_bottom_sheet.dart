@@ -1,100 +1,106 @@
-import 'package:doorstep_company_app/screens/mens%20salon%20&%20massage/mens_salon/salon_category_screen.dart';
+import 'package:doorstep_company_app/components/show_loading.dart';
 import 'package:flutter/material.dart';
-import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 
+import '../../../api/controllers/categories/sub_category_controller.dart';
 import '../../../components/app_text.dart';
-import '../../../constants/colors.dart';
+import '../../../theme/colors.dart';
 import '../components/mens_massage_category_screen.dart';
+import 'salon_category_screen.dart';
 
-class MenSaloonBottomSheet extends StatelessWidget {
-  const MenSaloonBottomSheet({
-    super.key,
-  });
+void showMenSaloonBottomSheet() {
+  final subcategoryController = Get.find<SubCategoryController>();
 
-  @override
-  Widget build(BuildContext context) {
-    double height = MediaQuery.sizeOf(context).height;
-    double width = MediaQuery.sizeOf(context).width;
-    return SizedBox(
-      height: height * .24,
-      width: width,
-      child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 14.px, vertical: 10.px),
-        child: Stack(
-          clipBehavior: Clip.none,
-          children: [
-            Container(
-              margin: EdgeInsets.only(top: 20.px),
-              child: appText("Men's Salon & Massage",
-                  fontSize: 20.px, fontWeight: FontWeight.bold, textAlign: TextAlign.center),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+  Get.bottomSheet(
+    Obx(() {
+      if (subcategoryController.isLoading.value) {
+        return Center(child: showLoading());
+      }
+      return AnimatedPadding(
+        duration: const Duration(milliseconds: 100),
+        padding: EdgeInsets.only(bottom: Get.mediaQuery.viewInsets.bottom),
+        child: Container(
+          height: 0.24.sh,
+          width: 1.sw,
+          decoration: BoxDecoration(
+            color: AppColors.whiteTheme,
+            borderRadius: BorderRadius.only(topLeft: Radius.circular(18.r), topRight: Radius.circular(18.r)),
+          ),
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 10.h),
+            child: Stack(
+              clipBehavior: Clip.none,
               children: [
-                GestureDetector(
-                    onTap: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => const SalonCategoryScreen()));
-                    },
-                    child: Container(
-                        height: 66.px,
-                        width: width * .42,
-                        margin: EdgeInsets.only(top: 80.px),
-                        decoration: BoxDecoration(
-                          color: AppColors.grey300.withOpacity(0.4),
-                          borderRadius: BorderRadius.circular(8.px),
-                        ),
-                        child: Padding(
-                            padding: EdgeInsets.all(8.px),
+                Container(
+                  margin: EdgeInsets.only(top: 20.h),
+                  child: appText(
+                    subcategoryController.subCategories.value?.data?.categoryname ?? '',
+                    fontSize: 20.sp,
+                    fontWeight: FontWeight.bold,
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+                SizedBox(
+                  height: 120.h,
+                  width: double.infinity,
+                  child: ListView.builder(
+                    itemCount: subcategoryController.subCategories.value?.data?.subcategories?.length ?? 0,
+                    shrinkWrap: true,
+                    scrollDirection: Axis.horizontal,
+                    itemBuilder: (context, index) {
+                      final subcategory = subcategoryController.subCategories.value?.data?.subcategories?[index];
+                      return GestureDetector(
+                        onTap: () {
+                          Get.to(index == 0 ? const SalonCategoryScreen() : const MensMassageCategoryScreen());
+                        },
+                        child: Container(
+                          height: 60.h,
+                          width: 170.w,
+                          margin: EdgeInsets.only(top: 60.h, right: 6.h),
+                          decoration: BoxDecoration(
+                            color: AppColors.grey300.withOpacity(0.4),
+                            borderRadius: BorderRadius.circular(8.r),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8),
                             child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
-                                appText('Salon for Kids\n& Men'),
-                                SizedBox(width: 6.px),
-                                Image.asset('assets/images/men.png', height: 50.px)
+                                SizedBox(width: 100.h, child: appText(subcategory?.subCategoryName ?? '')),
+                                SizedBox(width: 0.5.w),
+                                Image.network(subcategory?.subCategoryImage ?? '', height: 40.h),
                               ],
-                            )))),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => const MensMassageCategoryScreen()));
-                  },
-                  child: Container(
-                    height: 66.px,
-                    width: width * .42,
-                    margin: EdgeInsets.only(top: 80.px),
-                    decoration: BoxDecoration(
-                      color: AppColors.grey300.withOpacity(0.4),
-                      borderRadius: BorderRadius.circular(8.px),
-                    ),
-                    child: Padding(
-                      padding: EdgeInsets.all(8.px),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          appText('Massage for\nMen'),
-                          SizedBox(width: 6.px),
-                          Image.asset('assets/images/men.png', height: 50.px)
-                        ],
-                      ),
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+                Positioned(
+                  top: -60.h,
+                  right: 10.w,
+                  child: GestureDetector(
+                    onTap: () {
+                      Get.back();
+                    },
+                    child: CircleAvatar(
+                      radius: 18.r,
+                      backgroundColor: AppColors.whiteTheme,
+                      child: Icon(Icons.close, color: AppColors.blackColor, size: 18.sp),
                     ),
                   ),
-                )
+                ),
               ],
             ),
-            Positioned(
-                top: -60.px,
-                right: 10.px,
-                child: GestureDetector(
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                  child: const CircleAvatar(
-                    backgroundColor: AppColors.whiteTheme,
-                    child: Icon(Icons.close),
-                  ),
-                )),
-          ],
+          ),
         ),
-      ),
-    );
-  }
+      );
+    }),
+    backgroundColor: Colors.white,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.vertical(top: Radius.circular(18.r)),
+    ),
+  );
 }

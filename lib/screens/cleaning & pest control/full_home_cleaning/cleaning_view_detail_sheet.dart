@@ -6,7 +6,7 @@ import 'package:share_plus/share_plus.dart';
 import '../../../components/custom_container.dart';
 import '../../../components/app_text.dart';
 import '../../../components/divider.dart';
-import '../../../constants/colors.dart';
+import '../../../theme/colors.dart';
 import '../../painting_wall_screen/components/reviews_widget.dart';
 import '../../painting_wall_screen/components/share_btn.dart';
 import '../../salon_for_women/spa_for_women/spa_view_detail_sheet.dart';

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
-import '../constants/colors.dart';
+import '../theme/colors.dart';
 import '../screens/subcategory_screens/uc_cover_screen.dart';
 import 'custom_container.dart';
 

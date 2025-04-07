@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
-import '../../../constants/colors.dart';
 import '../../../components/app_text.dart';
+import '../../../components/divider.dart';
+import '../../../theme/colors.dart';
 
 Widget mostBookedServices(BuildContext context) {
   double height = MediaQuery.sizeOf(context).height;
@@ -26,10 +27,11 @@ Widget mostBookedServices(BuildContext context) {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          SizedBox(height: 20.px),
           appText('Most Booked Services', fontSize: 20.px, fontWeight: FontWeight.bold),
           SizedBox(height: 30.px),
           SizedBox(
-            height: height * 0.32,
+            height: height * 0.25,
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
               shrinkWrap: true,
@@ -69,6 +71,9 @@ Widget mostBookedServices(BuildContext context) {
               },
             ),
           ),
+          SizedBox(height: 20.px),
+          div(),
+          SizedBox(height: 20.px),
         ],
       ),
     ),

@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:share_plus/share_plus.dart';
 
+import '../../../components/app_text.dart';
 import '../../../components/bottom_sheet/review_bottom_sheet.dart';
 import '../../../components/custom_container.dart';
-import '../../../components/app_text.dart';
 import '../../../components/divider.dart';
-import '../../../constants/colors.dart';
+import '../../../theme/colors.dart';
 import '../../home_screen/components/carousel_slider.dart';
 import '../../painting_wall_screen/components/frequently_asked_questions_widget.dart';
 import '../../painting_wall_screen/components/how_it_works_widget.dart';
@@ -16,7 +16,7 @@ import '../../painting_wall_screen/components/share_btn.dart';
 
 void showHairStudioBottomSheet(BuildContext context) {
   const String urlToShare = 'https://flutter.dev';
-   final steps = [
+  final steps = [
     ProcessStep(
       title: 'Pre-service check',
       subtitle: 'Detailed inspection including gas check to identify repair',
@@ -134,10 +134,10 @@ void showHairStudioBottomSheet(BuildContext context) {
                     ),
                     SizedBox(height: 20.px),
                     div(),
-                       ProcessTimeline(
-                          steps: steps,
-                          title: 'About the process',
-                        ),
+                    ProcessTimeline(
+                      steps: steps,
+                      title: 'About the process',
+                    ),
                     SizedBox(height: 20.px),
                     div(),
                     SizedBox(height: 30.px),
@@ -305,11 +305,28 @@ void showHairStudioBottomSheet(BuildContext context) {
                         commonRow('Service warranty', '30 days', '✖'),
                       ],
                     ),
-                
+
                     SizedBox(height: 20.px),
                     div(),
                     SizedBox(height: 20.px),
-                    const FrequentlyAskedQuestionsWidget(),
+                    // Frequently Asked Question Component
+                    ListView.builder(
+                      itemCount: 5,
+                      shrinkWrap: true,
+                      physics: const BouncingScrollPhysics(),
+                      itemBuilder: (context, index) {
+                        return const Column(
+                          children: [
+                            FAQsComponent(
+                              question: 'Hello! dear, What is your name?',
+                              answer: 'Hey there! My name is Muhammad Shoaib. What is your name?',
+                            ),
+                            Divider(),
+                          ],
+                        );
+                      },
+                    ),
+                    // const FrequentlyAskedQuestionsWidget(),
                     div(),
                     SizedBox(height: 20.px),
                     shareBtn(context, () {

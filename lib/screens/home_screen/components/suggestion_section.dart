@@ -1,13 +1,17 @@
+import 'package:doorstep_company_app/api/controllers/suggestion/suggestion_controller.dart';
+import 'package:doorstep_company_app/components/show_loading.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
-import '../../../constants/colors.dart';
+import '../../../components/app_text.dart';
 import '../../../components/custom_container.dart';
 import '../../../components/custom_snackbar.dart';
-import '../../../components/app_text.dart';
+import '../../../theme/colors.dart';
 
 Widget suggestionSection(BuildContext context) {
   final suggestionController = TextEditingController();
+  final SuggestionController controller = Get.put(SuggestionController());
   return Padding(
     padding: EdgeInsets.symmetric(horizontal: 16.px),
     child: Column(
@@ -31,24 +35,28 @@ Widget suggestionSection(BuildContext context) {
                   borderSide: BorderSide(color: AppColors.grey300, width: 1.2))),
         ),
         SizedBox(height: 20.px),
-        Center(
-          child: CustomContainer(
-              onTap: () {
-                if (suggestionController.text.isEmpty) {
-                  return showErrorSnackbar(context, 'Please enter some suggestion first');
-                } else {
-                  suggestionController.clear();
-                  return showSuccessSnackbar(context, 'Suggestion submitted successfully!');
-                }
-              },
-              height: 34.px,
-              width: 90.px,
-              borderColor: AppColors.lowPurple,
-              color: AppColors.lowPurple.withOpacity(0.03),
-              child: Center(
-                child: appText('Submit', color: AppColors.lowPurple, fontSize: 16.px, fontWeight: FontWeight.bold),
-              )),
-        )
+        Obx(() {
+          return Center(
+            child: CustomContainer(
+                onTap: () {
+                  if (suggestionController.text.isEmpty) {
+                    return showInfoSnackbar(context, 'Please enter some suggestion first');
+                  } else {
+                    controller.postSuggestion(suggestionController.text, context);
+                    suggestionController.clear();
+                  }
+                },
+                height: 34.px,
+                width: 90.px,
+                borderColor: AppColors.lowPurple,
+                color: AppColors.lowPurple.withOpacity(0.03),
+                child: Center(
+                  child: controller.isLoading.value
+                      ? showLoading()
+                      : appText('Submit', color: AppColors.lowPurple, fontSize: 16.px, fontWeight: FontWeight.bold),
+                )),
+          );
+        })
       ],
     ),
   );

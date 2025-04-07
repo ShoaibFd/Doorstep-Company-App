@@ -1,139 +1,184 @@
+import 'package:doorstep_company_app/components/show_loading.dart';
 import 'package:flutter/material.dart';
-import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 
+import '../../api/controllers/categories/sub_category_controller.dart';
 import '../../components/app_text.dart';
-import '../../constants/colors.dart';
+import '../../theme/colors.dart';
 import 'bathroom_cleaning/bathroom_cleaning_screen.dart';
 import 'full_home_cleaning/home_cleaning_screen.dart';
 
-void showCleaningAndPestSheet(BuildContext context) {
+void showCleaningAndPestSheet(BuildContext context, {int? id}) {
+  final subCategoryController = Get.put(SubCategoryController());
   List<String> services = [
     'Bathroom Cleaning',
     'Kitchen Cleaning',
     'Full Home Cleaning',
     'Sofa & Carpet Cleaning',
   ];
-  List images = [
-    'https://pngimg.com/d/toilet_PNG17748.png',
-    'https://cdn-icons-png.freepik.com/512/17828/17828044.png',
-    'https://image.similarpng.com/file/similarpng/very-thumbnail/2022/01/House-icon-illustration-on-transparent-background-PNG.png',
-    'https://images.vexels.com/media/users/3/148279/isolated/preview/25a144393fe1fd9eb8e10b69dbcd2772-sofa-armchair-icon.png'
-  ];
+
   showModalBottomSheet(
-    constraints: const BoxConstraints(),
     isScrollControlled: true,
     context: context,
+    backgroundColor: Colors.transparent,
     builder: (BuildContext context) {
-      return Stack(clipBehavior: Clip.none, children: [
-        Container(
-          height: 500.px,
-          width: double.maxFinite,
-          decoration: BoxDecoration(
+      return Stack(
+        clipBehavior: Clip.none,
+        children: [
+          Container(
+            height: 0.4.sh,
+            width: double.infinity,
+            decoration: BoxDecoration(
               color: AppColors.whiteTheme,
-              borderRadius: BorderRadius.only(topLeft: Radius.circular(16.px), topRight: Radius.circular(16.px))),
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 14.px, vertical: 8.px),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              spacing: 10.px,
-              children: [
-                SizedBox(height: 10.px),
-                appText('Cleaning & Pest Control', fontSize: 22.px, fontWeight: FontWeight.bold),
-                SizedBox(height: 20.px),
-                appText('Cleaning', fontSize: 20.px, fontWeight: FontWeight.bold),
-                SizedBox(
-                  height: 140.px,
-                  child: ListView.builder(
-                    itemCount: 4,
-                    shrinkWrap: true,
-                    scrollDirection: Axis.horizontal,
-                    physics: const BouncingScrollPhysics(),
-                    itemBuilder: (context, index) {
-                      return Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          GestureDetector(
-                            onTap: () {
-                              index == 0
-                                  ? Navigator.push(
-                                      context, MaterialPageRoute(builder: (context) => const BathroomCleaningScreen()))
-                                  : Navigator.push(
-                                      context, MaterialPageRoute(builder: (context) => const HomeCleaningScreen()));
-                            },
-                            child: Container(
-                              margin: const EdgeInsets.all(10),
-                              height: 70.px,
-                              width: 70.px,
-                              decoration: BoxDecoration(
-                                color: AppColors.grey300.withOpacity(0.4),
-                                borderRadius: BorderRadius.circular(8.px),
-                              ),
-                              child: Center(child: Image.network(images[index], height: 55.px)),
-                            ),
-                          ),
-                          SizedBox(
-                              height: 50.px,
-                              width: 70.px,
-                              child: appText(services[index].toString(), textAlign: TextAlign.center))
-                        ],
-                      );
-                    },
-                  ),
-                ),
-                SizedBox(height: 20.px),
-                appText('Pest Control', fontSize: 20.px, fontWeight: FontWeight.bold),
-                SizedBox(
-                  height: 140.px,
-                  child: ListView.builder(
-                    itemCount: 4,
-                    shrinkWrap: true,
-                    scrollDirection: Axis.horizontal,
-                    physics: const BouncingScrollPhysics(),
-                    itemBuilder: (context, index) {
-                      return Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          GestureDetector(
-                            onTap: () {
-                              index == 0
-                                  ? Navigator.push(
-                                      context, MaterialPageRoute(builder: (context) => const BathroomCleaningScreen()))
-                                  : Navigator.push(
-                                      context, MaterialPageRoute(builder: (context) => const HomeCleaningScreen()));
-                            },
-                            child: Container(
-                              margin: const EdgeInsets.all(10),
-                              height: 70.px,
-                              width: 70.px,
-                              decoration: BoxDecoration(
-                                color: AppColors.grey300.withOpacity(0.4),
-                                borderRadius: BorderRadius.circular(8.px),
-                              ),
-                              child: Center(child: Image.network(images[index], height: 55.px)),
-                            ),
-                          ),
-                          SizedBox(
-                              height: 50.px,
-                              width: 70.px,
-                              child: appText(services[index].toString(), textAlign: TextAlign.center))
-                        ],
-                      );
-                    },
-                  ),
-                ),
-              ],
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(16.r),
+                topRight: Radius.circular(16.r),
+              ),
+            ),
+            child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 8.h),
+                child: Obx(() {
+                  if (subCategoryController.isLoading.value) {
+                    return Center(child: showLoading());
+                  }
+                  if (subCategoryController.subCategories.value == null) {
+                    return Center(child: appText('No subcategory found!'));
+                  }
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(height: 10.h),
+                      appText('Cleaning & Pest Control', fontSize: 20.sp, fontWeight: FontWeight.bold),
+                      SizedBox(height: 20.h),
+                      appText('Cleaning', fontSize: 18.sp, fontWeight: FontWeight.bold),
+                      SizedBox(
+                        height: 140.h,
+                        child: ListView.builder(
+                          itemCount: services.length,
+                          shrinkWrap: true,
+                          scrollDirection: Axis.horizontal,
+                          physics: const BouncingScrollPhysics(),
+                          itemBuilder: (context, index) {
+                            final subcategory = subCategoryController.subCategories.value?.data?.subcategories?[index];
+                            return Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    if (index == 0) {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(builder: (context) => const BathroomCleaningScreen()),
+                                      );
+                                    } else {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(builder: (context) => const HomeCleaningScreen()),
+                                      );
+                                    }
+                                  },
+                                  child: Container(
+                                    margin: EdgeInsets.all(10.r),
+                                    height: 70.h,
+                                    width: 70.w,
+                                    decoration: BoxDecoration(
+                                      color: AppColors.grey300.withOpacity(0.4),
+                                      borderRadius: BorderRadius.circular(8.r),
+                                    ),
+                                    child: Center(
+                                      child: Image.network(subcategory?.subCategoryImage ?? '', height: 45.h),
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 50.h,
+                                  width: 70.w,
+                                  child: appText(
+                                    subcategory?.subCategoryName ?? '',
+                                    textAlign: TextAlign.center,
+                                    fontSize: 14.sp,
+                                  ),
+                                ),
+                              ],
+                            );
+                          },
+                        ),
+                      ),
+                      SizedBox(height: 20.h),
+                      appText('Pest Control', fontSize: 18.sp, fontWeight: FontWeight.bold),
+                      SizedBox(
+                        height: 140.h,
+                        child: ListView.builder(
+                          itemCount: services.length,
+                          shrinkWrap: true,
+                          scrollDirection: Axis.horizontal,
+                          physics: const BouncingScrollPhysics(),
+                          itemBuilder: (context, index) {
+                            final subcategory = subCategoryController.subCategories.value?.data?.subcategories?[index];
+                            return Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    if (index == 0) {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(builder: (context) => const BathroomCleaningScreen()),
+                                      );
+                                    } else {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(builder: (context) => const HomeCleaningScreen()),
+                                      );
+                                    }
+                                  },
+                                  child: Container(
+                                    margin: EdgeInsets.all(10.r),
+                                    height: 70.h,
+                                    width: 70.w,
+                                    decoration: BoxDecoration(
+                                      color: AppColors.grey300.withOpacity(0.4),
+                                      borderRadius: BorderRadius.circular(8.r),
+                                    ),
+                                    child: Center(
+                                      child: Image.network(subcategory?.subCategoryImage ?? '', height: 45.h),
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 50.h,
+                                  width: 70.w,
+                                  child: appText(
+                                    subcategory?.subCategoryName ?? '',
+                                    textAlign: TextAlign.center,
+                                    fontSize: 14.sp,
+                                  ),
+                                ),
+                              ],
+                            );
+                          },
+                        ),
+                      ),
+                    ],
+                  );
+                })),
+          ),
+          Positioned(
+            top: -50.h,
+            right: 16.w,
+            child: GestureDetector(
+              onTap: () {
+                Navigator.pop(context);
+              },
+              child: const CircleAvatar(
+                backgroundColor: Colors.white,
+                child: Icon(Icons.close),
+              ),
             ),
           ),
-        ),
-        Positioned(
-            top: -50.px,
-            right: 16.px,
-            child: GestureDetector(
-                onTap: () {
-                  Navigator.pop(context);
-                },
-                child: const CircleAvatar(backgroundColor: Colors.white, child: Icon(Icons.close))))
-      ]);
+        ],
+      );
     },
   );
 }

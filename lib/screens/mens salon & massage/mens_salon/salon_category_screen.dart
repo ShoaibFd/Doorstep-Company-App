@@ -3,7 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../../components/app_text.dart';
-import '../../../constants/colors.dart';
+import '../../../theme/colors.dart';
 import 'salon_prime_screen.dart';
 import 'salon_royal_screen.dart';
 

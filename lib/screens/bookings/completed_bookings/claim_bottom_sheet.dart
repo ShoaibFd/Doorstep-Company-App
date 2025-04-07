@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
-import '../../../constants/colors.dart';
+import '../../../theme/colors.dart';
 import '../../../components/custom_snackbar.dart';
 import '../../../components/round_button.dart';
 import '../claim_screens/claim_completed_screen.dart';
